@@ -1,0 +1,61 @@
+/*
+* Adds
+*/
+
+._p-tp, ._p-ft {
+  display: none;
+}
+
+/*
+* Sizes
+*/
+
+@media screen and (max-width: 1200px) {
+    #topbar#topbar, #main#main, .fullw.fullw {
+        min-width: 1024px;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 1200px) {
+    #topbar#topbar, #main#main, .fullw.fullw {
+        min-width: 1128px;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #topbar#topbar, #main#main, .fullw.fullw {
+        min-width: 1280px;
+        width: 100%;
+    }
+}
+
+/*
+* Brand
+ */
+
+#brand-menu#brand-menu {
+  background: #e6720e;
+  border: unset;
+}
+
+#brand-menu a span {
+  color: white;
+}
+
+/*
+* Twitter
+*/
+
+.embed.twitter.embed.twitter {
+  margin-left: unset;
+  margin-right: unset;
+  text-align: unset;
+}
+
+/*
+* Homepage
+ */
+#index #content {
+  min-height: calc(100vh - 177px);
+}

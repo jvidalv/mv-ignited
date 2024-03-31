@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+
+  "name": "mv-ignited Extension",
+  "description": "THE Mediavida web extension",
+  "version": "0.1.0",
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "19": "icons/icon19.png",
+    "32": "icons/icon32.png",
+    "38": "icons/icon38.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": [
+        "https://www.mediavida.com/*"
+      ],
+      "js": ["vendor.js", "mediavida-extension.js"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://www.mediavida.com/*"
+      ],
+      "resources": ["styles/mediavida.css"]
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
+    "webNavigation",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "https://www.mediavida.com/*"
+  ]
+}
