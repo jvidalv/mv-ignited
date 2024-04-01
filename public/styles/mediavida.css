@@ -2,32 +2,48 @@
 * Adds
 */
 
-._p-tp, ._p-ft {
+._p-tp,
+._p-ft {
   display: none;
 }
+
+/*
+* All
+*/
+
+body {
+  opacity: 0 !important;
+}
+
 
 /*
 * Sizes
 */
 
 @media screen and (max-width: 1200px) {
-    #topbar#topbar, #main#main, .fullw.fullw {
-        min-width: 1024px;
-        width: 100%;
-    }
+  #topbar#topbar,
+  #main#main,
+  .fullw.fullw {
+    min-width: 1024px;
+    width: 100%;
+  }
 }
 @media screen and (min-width: 1200px) {
-    #topbar#topbar, #main#main, .fullw.fullw {
-        min-width: 1128px;
-        width: 100%;
-    }
+  #topbar#topbar,
+  #main#main,
+  .fullw.fullw {
+    min-width: 1128px;
+    width: 100%;
+  }
 }
 
 @media screen and (min-width: 1400px) {
-    #topbar#topbar, #main#main, .fullw.fullw {
-        min-width: 1280px;
-        width: 100%;
-    }
+  #topbar#topbar,
+  #main#main,
+  .fullw.fullw {
+    min-width: 1280px;
+    width: 100%;
+  }
 }
 
 /*

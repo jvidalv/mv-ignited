@@ -1,6 +1,4 @@
-import { mvstore } from "../utils/json";
 import { createRoot } from "react-dom/client";
-import { UserIgnoredInThread, UserActionsInThread } from "../react/site/thread";
 import React from "react";
 import {
   getFavorites,

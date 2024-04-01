@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Threads from "../components/threads";
 import { Thread } from "../../../types/site-types";
 import { getIconClassBySlug } from "../utils/forums";
-import { mvstore } from "../../../utils/json";
+import { mvIgniteStore } from "../../../utils/store";
 import { getUsername } from "../../../injected/utils/data";
 
 function Home({
@@ -18,7 +18,7 @@ function Home({
   lastNews: Thread[];
   userLastPosts: Thread[];
 }) {
-  const forumsLastVisited = mvstore.get().forumsLastVisited;
+  const forumsLastVisited = mvIgniteStore.get().forumsLastVisited;
 
   return (
     <div className={clsx("py-2")}>

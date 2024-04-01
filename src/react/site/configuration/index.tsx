@@ -1,16 +1,18 @@
-import { mvstore } from "../../../utils/json";
-import React, { useEffect, useRef, useState } from "react";
-import { createRoot, Root } from "react-dom/client";
+import { mvIgniteStore } from "../../../utils/store";
+import React, { useState } from "react";
+import { loadFont } from "../../../utils/fonts";
 
 export const ConfigurationMenu = () => {
-  const ignoredUsers = mvstore.get().ignoredUsers ?? [];
-  console.log(ignoredUsers);
+  const [customFont, setCustomFont] = useState<string>();
+
+  const store = mvIgniteStore.get();
+  const ignoredUsers = store.ignoredUsers ?? [];
 
   const onUnIgnoreUserClick = (username: string) => {
     if (
       confirm("Estas seguro de que quieres dejar de ignorar a este usuario?")
     ) {
-      mvstore.set(
+      mvIgniteStore.set(
         "ignoredUsers",
         ignoredUsers.filter((i) => i !== username),
       );
@@ -21,6 +23,15 @@ export const ConfigurationMenu = () => {
     }
   };
 
+  const onSelectFont = async () => {
+    if (!customFont) {
+      return alert("No es una font valida de Google Fonts!");
+    }
+
+    await loadFont(customFont);
+    mvIgniteStore.set("customFont", customFont);
+  };
+
   return (
     <div className="float-right w-1/3 -mt-[2px] min-h-screen bg-surface-high shadow-lg">
       <div className="bg-surface px-4 py-1 shadow">
@@ -28,6 +39,21 @@ export const ConfigurationMenu = () => {
       </div>
       <div className="mt-2 px-4">
         <div className="grid grid-cols-1 gap-2">
+          <label className="font-bold text-base">Custom font</label>
+          <div className="grid grid-cols-2 gap-2">
+            <input
+              type="text"
+              className="px-2 h-full text-black rounded"
+              placeholder="Google font"
+              defaultValue={store.customFont ?? ""}
+              onChange={(e) => setCustomFont(e.target.value)}
+            />
+            <button className="bg-surface px-2 rounded" onClick={onSelectFont}>
+              Inject font
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 mt-4">
           <label className="font-bold text-base">Usarios ignorados</label>
           <div className="flex flex-wrap gap-2">
             {!ignoredUsers?.length && (

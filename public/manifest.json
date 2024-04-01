@@ -2,7 +2,7 @@
   "manifest_version": 3,
 
   "name": "MV-Ignited",
-  "description": "A Mediavida forum web extension",
+  "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
   "version": "0.1.0",
 
   "action": {

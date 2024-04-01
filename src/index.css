@@ -1,14 +1,13 @@
 :root {
-    --surface: 243 242 242;
-    --surface-high: 237 237 237;
+  --surface: 243 242 242;
+  --surface-high: 237 237 237;
 }
 
 .dark {
-    --surface: 39 39 42;
-    --surface-high: 51 51 54;
+  --surface: 39 39 42;
+  --surface-high: 51 51 54;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-

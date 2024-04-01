@@ -1,4 +1,4 @@
-import { mvstore } from "../utils/json";
+import { mvIgniteStore } from "../utils/store";
 import { createRoot } from "react-dom/client";
 import { UserIgnoredInThread, UserActionsInThread } from "../react/site/thread";
 import React from "react";
@@ -40,7 +40,7 @@ export const injectThread = () => {
       const username = post.getAttribute("data-autor");
       const postNum = post.getAttribute("data-num");
 
-      const ignoredUsers = mvstore.get().ignoredUsers;
+      const ignoredUsers = mvIgniteStore.get().ignoredUsers;
       if (!ignoredUsers) {
         return;
       }
