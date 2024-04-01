@@ -1,9 +1,19 @@
+import { mvIgniteStore } from "../../utils/store";
+import { loadFont } from "../../utils/fonts";
+
 export const injectBrand = () => {
-  const logoUrl = "https://imgur.com/vvQHVpd.png";
   const logo = document.getElementById("logo");
   if (logo) {
-    logo.id = "logo-mv-ignited";
-    logo.setAttribute("style", "float: left;margin-right:-16px");
-    logo.innerHTML = `<img alt='logo' src='${logoUrl}' style="height: 29px;margin-top: 6px"></img>`;
+    logo.setAttribute("style", "position: relative;");
+    logo.innerHTML = `${logo.innerHTML}<span style="position:absolute; font-size:20px; right: -16px;">🔥</span>`;
+  }
+};
+
+export const injectFont = async (): Promise<string | void> => {
+  const customFont = mvIgniteStore.get()?.customFont;
+
+  if (customFont) {
+    await loadFont(customFont);
+    return customFont;
   }
 };

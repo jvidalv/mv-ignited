@@ -1,14 +1,18 @@
-import { mvstore } from "../../utils/json";
+import { mvIgniteStore } from "../../utils/store";
 
 export const trackForumVisits = () => {
   const splitUrl = window.location.href.split("/");
 
-  if (splitUrl[3] === "foro" && !!splitUrl[4]) {
+  if (
+    splitUrl[3] === "foro" &&
+    !!splitUrl[4] &&
+    !["spy", "top", "unread", "featured", "new"].includes(splitUrl[4])
+  ) {
     const lastVisited = [
       splitUrl[4],
-      ...(mvstore.get().forumsLastVisited ?? []),
+      ...(mvIgniteStore.get().forumsLastVisited ?? []),
     ];
 
-    mvstore.set("forumsLastVisited", [...new Set(lastVisited)]);
+    mvIgniteStore.set("forumsLastVisited", [...new Set(lastVisited)]);
   }
 };

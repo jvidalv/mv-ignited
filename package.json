@@ -19,12 +19,14 @@
   "dependencies": {
     "clsx": "^2.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@types/chrome": "0.0.263",
     "@types/react": "18.2.61",
     "@types/react-dom": "18.2.19",
+    "@types/webfontloader": "^1.6.38",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "autoprefixer": "10.4.18",
