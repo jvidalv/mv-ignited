@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
 
-  "name": "mv-ignited Extension",
-  "description": "THE Mediavida web extension",
+  "name": "MV-Ignited",
+  "description": "A Mediavida forum web extension",
   "version": "0.1.0",
 
   "action": {
@@ -21,18 +21,14 @@
   "content_scripts": [
     {
       "run_at": "document_start",
-      "matches": [
-        "https://www.mediavida.com/*"
-      ],
+      "matches": ["https://www.mediavida.com/*"],
       "js": ["vendor.js", "mediavida-extension.js"]
     }
   ],
 
   "web_accessible_resources": [
     {
-      "matches": [
-        "https://www.mediavida.com/*"
-      ],
+      "matches": ["https://www.mediavida.com/*"],
       "resources": ["styles/mediavida.css"]
     }
   ],
@@ -41,12 +37,7 @@
     "service_worker": "background.js"
   },
 
-  "permissions": [
-    "webNavigation",
-    "scripting"
-  ],
+  "permissions": ["webNavigation", "scripting"],
 
-  "host_permissions": [
-    "https://www.mediavida.com/*"
-  ]
+  "host_permissions": ["https://www.mediavida.com/*"]
 }
