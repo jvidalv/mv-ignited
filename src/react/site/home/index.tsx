@@ -23,7 +23,7 @@ function Home({
   return (
     <div className={clsx("py-2")}>
       <div className="flex items-end justify-between">
-        <h1>Notícias</h1>
+        <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>
       </div>
       <div className="mt-3 grid grid-cols-5 gap-2">
