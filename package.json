@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build:chrome": "webpack --config webpack/webpack.prod.js",
-    "build:firefox": "webpack --config webpack/webpack.prod.js",
+    "build:firefox": "webpack --config webpack/webpack.prod.js && sed 's/\"service_worker\": \"background.js\"/\"scripts\": [\"background.js\"]/g' dist/manifest.json > tmp_file && mv tmp_file dist/manifest.json",
     "clean": "rimraf dist",
     "test": "npx jest",
     "style": "prettier --write \"src/**/*.{ts,tsx}\""

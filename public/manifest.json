@@ -5,6 +5,12 @@
   "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
   "version": "0.1.0",
 
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{4b01d379-9f71-4ade-9927-0acc6dd50d47}"
+    }
+  },
+
   "action": {
     "default_popup": "popup.html"
   },
