@@ -75,3 +75,14 @@ body {
 #index #content {
   min-height: calc(100vh - 177px);
 }
+
+/*
+* Fixes
+ */
+
+a.post-btn.btnmola i {
+  width: 16px;
+  height: 16px;
+  margin: 0 3px 0 0;
+  padding: 1px 0 0;
+}
