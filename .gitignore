@@ -3,3 +3,5 @@ dist/
 tmp/
 .idea
 .vscode
+.DS_Store
+public/.DS_Store
