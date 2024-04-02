@@ -86,3 +86,17 @@ a.post-btn.btnmola i {
   margin: 0 3px 0 0;
   padding: 1px 0 0;
 }
+
+
+/*
+* New features
+ */
+
+.mv-ignite--actions-container {
+  opacity: 0;
+  transition: opacity .25s;
+}
+
+.post:hover .mv-ignite--actions-container {
+  opacity: 1
+}

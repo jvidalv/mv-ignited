@@ -29,6 +29,10 @@ export const injectThread = () => {
       if (!actionsContainerElement) {
         actionsContainerElement = document.createElement("div");
         actionsContainerElement.id = actionsContainerId;
+        actionsContainerElement.setAttribute(
+          "class",
+          "mv-ignite--actions-container",
+        );
         element.appendChild(actionsContainerElement);
       }
 
