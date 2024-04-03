@@ -7,6 +7,8 @@ export const injectBrand = () => {
     logo.setAttribute("style", "position: relative;");
     logo.innerHTML = `${logo.innerHTML}<span style="position:absolute; font-size:20px; right: -16px;">🔥</span>`;
   }
+
+  window.document.title = `${window.document.title}🔥`;
 };
 
 export const injectFont = async (): Promise<string | void> => {

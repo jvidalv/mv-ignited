@@ -8,6 +8,10 @@ import React from "react";
 let configurationButtonRoot: Root | undefined;
 let configurationMenuRoot: Root | undefined;
 
+export const rerenderConfigurationMenuRoot = () => {
+  configurationMenuRoot?.render(<ConfigurationMenu />);
+};
+
 export const injectConfiguration = () => {
   const usermenuElement = document.getElementById("usermenu");
   if (!usermenuElement) {

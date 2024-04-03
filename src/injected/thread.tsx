@@ -2,6 +2,7 @@ import { mvIgniteStore } from "../utils/store";
 import { createRoot } from "react-dom/client";
 import { UserIgnoredInThread, UserActionsInThread } from "../react/site/thread";
 import React from "react";
+import { addThreadToIgnore } from "../domains/thread";
 
 const oldPostsHtml: string[] = [];
 const oldPostsClass: string[] = [];
@@ -9,6 +10,15 @@ const oldPostsClass: string[] = [];
 export const injectThread = () => {
   const posts = document.querySelectorAll(".cf.post");
 
+  // Post ignore
+  const ignoreButton = document.querySelector('a[title="Ignorar el tema"]');
+  ignoreButton?.addEventListener("click", () =>
+    addThreadToIgnore(
+      window.location.href.replace("https://www.mediavida.com", ""),
+    ),
+  );
+
+  // Posts modification
   Array.from(posts).forEach((post, index) => {
     const username = post.getAttribute("data-autor");
     const postNum = post.getAttribute("data-num");

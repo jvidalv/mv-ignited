@@ -1,4 +1,4 @@
-import { Thread } from "../../types/site-types";
+import { Thread } from "../../domains/thread";
 
 export const getUsername = () =>
   document.querySelector("#user-data span")?.innerHTML;

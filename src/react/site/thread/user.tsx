@@ -13,7 +13,7 @@ export const UserActionsInThread = ({ username }: { username: string }) => {
       mvIgniteStore.set("ignoredUsers", [...new Set(ignoredUsers)]);
       window.ignite
         .render()
-        .then(() => console.log(`MV-Ignite: User ${username} ignored`));
+        .then(() => console.log(`MV-Ignited: User ${username} ignored`));
     }
   };
 

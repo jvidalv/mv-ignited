@@ -9,11 +9,10 @@ import {
   getUsername,
 } from "./utils/data";
 import Home from "../react/site/home";
+import { hideContent, showContent } from "./utils/loader";
 
 export const injectHomepage = async () => {
-  const content = document.getElementById("content");
-  content?.setAttribute("style", "opacity: 0 !important");
-
+  hideContent();
   const [forums, favorites, lastPosts, lastNews, userLastsPosts] =
     await Promise.all([
       getForums(),
@@ -22,8 +21,7 @@ export const injectHomepage = async () => {
       getLastNews(),
       getUserLastPosts(getUsername()),
     ]);
-
-  content?.setAttribute("style", "opacity: 1 !important");
+  showContent();
 
   const main = document.getElementById("main");
   if (main) {

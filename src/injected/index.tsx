@@ -6,6 +6,16 @@ import { injectBrand, injectFont } from "./utils/brand";
 import { injectConfiguration } from "./configuration";
 import { injectThread } from "./thread";
 import { injectHomepage } from "./homepage";
+import {
+  isFeaturedThreads,
+  isHomepage,
+  isSubForumThreads,
+  isThread,
+  showBody,
+  showContent,
+} from "./utils/loader";
+import { injectThreads } from "./threads";
+import { ignoreThreads } from "../domains/thread";
 
 window.ignite = {
   isFirstRender: true,
@@ -15,35 +25,51 @@ window.ignite = {
         console.log(`MV-Ignited loaded font: ${customFont}`);
       }
     });
+
     // Await for page mounted before trying to modify anything
     await awaitUntil(() => !!document.getElementById("content"));
 
     // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
-    const body = document.getElementsByTagName("body").item(0);
-    body?.setAttribute("style", "opacity: 1 !important;");
+    showBody();
 
-    injectTheme();
-    injectBrand();
+    if (window.ignite.isFirstRender) {
+      injectTheme();
+      injectBrand();
+    }
+
     trackForumVisits();
 
-    // Settings
+    // Configuration
     if (document.getElementById("usermenu")) {
       injectConfiguration();
     }
 
     // Homepage
-    if (document.getElementById("index")) {
+    if (isHomepage()) {
       injectHomepage();
     }
 
+    // Threads
+    if (isSubForumThreads() || isFeaturedThreads()) {
+      injectThreads();
+    }
+
     // Thread
-    if (document.getElementById("post-container")) {
+    if (isThread()) {
       injectThread();
     }
+
+    ignoreThreads();
   },
 };
 
-window.ignite.render().then(() => {
-  window.ignite.isFirstRender = false;
-  console.log("MV-ignite: Successfully rendered");
-});
+window.ignite
+  .render()
+  .then(() => {
+    window.ignite.isFirstRender = false;
+    console.log("MV-Ignited🔥 successfully rendered ✅");
+  })
+  .catch(() => {
+    showContent();
+    console.log("MV-Ignited🔥 errored 🔴");
+  });

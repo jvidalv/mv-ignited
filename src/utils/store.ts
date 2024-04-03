@@ -1,6 +1,7 @@
 export type MVIgniteStore = {
   forumsLastVisited: string[];
   ignoredUsers: string[];
+  ignoredThreads: string[];
   customFont?: string;
 };
 
@@ -12,7 +13,14 @@ const set = <K extends keyof MVIgniteStore>(key: K, data: MVIgniteStore[K]) => {
 };
 
 const get = (): MVIgniteStore =>
-  JSON.parse(localStorage.getItem(MEDIAVIDA_KEY) ?? "{}");
+  JSON.parse(
+    localStorage.getItem(MEDIAVIDA_KEY) ??
+      JSON.stringify({
+        forumsLastVisited: [],
+        ignoredUsers: [],
+        ignoredThreads: [],
+      }),
+  );
 
 export const mvIgniteStore = {
   set,

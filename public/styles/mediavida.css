@@ -15,7 +15,6 @@ body {
   opacity: 0 !important;
 }
 
-
 /*
 * Sizes
 */
@@ -72,6 +71,7 @@ body {
 /*
 * Homepage
  */
+
 #index #content {
   min-height: calc(100vh - 177px);
 }
@@ -87,16 +87,19 @@ a.post-btn.btnmola i {
   padding: 1px 0 0;
 }
 
-
 /*
 * New features
  */
 
 .mv-ignite--actions-container {
   opacity: 0;
-  transition: opacity .25s;
+  transition: opacity 0.25s;
 }
 
 .post:hover .mv-ignite--actions-container {
-  opacity: 1
+  opacity: 1;
+}
+
+.mv-ignite--thread:hover .mv-ignite--thread--button-ignore {
+  opacity: 1;
 }

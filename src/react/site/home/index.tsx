@@ -1,10 +1,10 @@
 import React from "react";
 import clsx from "clsx";
 import Threads from "../components/threads";
-import { Thread } from "../../../types/site-types";
 import { getIconClassBySlug } from "../utils/forums";
 import { mvIgniteStore } from "../../../utils/store";
 import { getUsername } from "../../../injected/utils/data";
+import { Thread } from "../../../domains/thread";
 
 function Home({
   favorites,
@@ -23,7 +23,7 @@ function Home({
   return (
     <div className={clsx("py-2")}>
       <div className="flex items-end justify-between">
-        <h1>Notícias</h1>
+        <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>
       </div>
       <div className="mt-3 grid grid-cols-5 gap-2">
@@ -72,13 +72,13 @@ function Home({
       </div>
       <div className="grid grid-cols-3 gap-8 mt-10">
         <div className="col-span-2">
-          <div className="flex items-end justify-between">
+          <div className="flex items-end justify-between -mt-[0.3rem]">
             <h1>Foro</h1>
             <div
               className="flex items-center gap-2"
               title="Últimos foros visitados"
             >
-              {forumsLastVisited?.length &&
+              {!!forumsLastVisited?.length &&
                 forumsLastVisited
                   .filter((_, i) => i < 8)
                   .map((forumSlug) => (

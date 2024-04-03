@@ -1,7 +1,11 @@
 import React, { PropsWithChildren } from "react";
-import { type Thread } from "../../../types/site-types";
 import clsx from "clsx";
 import { getIconClassBySlug } from "../utils/forums";
+import {
+  addThreadToIgnore,
+  getThreadId,
+  Thread,
+} from "../../../domains/thread";
 
 const abbrevNumberToInt = (str: string) => {
   const match = str.match(/^(\d+(\.\d+)?)([kK])?$/);
@@ -25,33 +29,41 @@ const Root = ({
   children,
   className,
 }: PropsWithChildren<{ className?: string }>) => (
-  <div
-    className={clsx(
-      className,
-      "grid grid-cols-1 shadow gap-y-0.5 rounded overflow-hidden",
-    )}
-  >
+  <div className={clsx(className, "grid grid-cols-1 shadow gap-y-0.5 rounded")}>
     {children}
   </div>
 );
 
-const Thread = ({
-  url,
-  urlSinceLastVisit,
-  title,
-  lastActivityAt,
-  responsesSinceLastVisit,
-  totalResponses,
-  hasLive,
-  forumSlug,
-}: Thread) => {
+const Thread = (props: Thread) => {
+  const {
+    url,
+    urlSinceLastVisit,
+    title,
+    lastActivityAt,
+    responsesSinceLastVisit,
+    totalResponses,
+    hasLive,
+    forumSlug,
+  } = props;
+
   const totalResponsesAsInt = totalResponses
     ? abbrevNumberToInt(totalResponses)
     : 0;
 
   return (
-    <div className="flex justify-between overflow-hidden">
-      <div className="flex cursor-pointer flex-1 bg-surface items-center gap-2 p-2 hover:bg-opacity-50 transition duration-150">
+    <div
+      id={`mv-ignite--thread-${getThreadId(url)}`}
+      className="mv-ignite--thread flex justify-between relative bg-surface first:rounded-t last:rounded-b"
+    >
+      <button
+        className="mv-ignite--thread--button-ignore opacity-0 h-full w-8 -left-8 absolute text-gray-500 hover:scale-125 transition"
+        onClick={() => addThreadToIgnore(url)}
+        title={`Ignorar hilo: ${title}`}
+      >
+        <i className="fa fa-eye-slash"></i>
+        <span className="sr-only">Ignorar hilo</span>
+      </button>
+      <div className="flex cursor-pointer flex-1 items-center gap-2 p-2 hover:bg-opacity-50 transition duration-150">
         <a
           href={`https://www.mediavida.com/foro/${forumSlug}`}
           title={`Ir a ${forumSlug}`}
