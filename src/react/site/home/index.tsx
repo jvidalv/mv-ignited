@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import Threads from "../components/threads";
 import { getIconClassBySlug } from "../utils/forums";
-import { mvIgniteStore } from "../../../utils/store";
+import { useStore } from "../../../utils/store";
 import { getUsername } from "../../../injected/utils/data";
 import { Thread } from "../../../domains/thread";
 
@@ -18,7 +18,7 @@ function Home({
   lastNews: Thread[];
   userLastPosts: Thread[];
 }) {
-  const forumsLastVisited = mvIgniteStore.get().forumsLastVisited;
+  const { forumsLastVisited } = useStore();
 
   return (
     <div className={clsx("py-2")}>

@@ -1,28 +1,57 @@
-export type MVIgniteStore = {
+import { create } from "zustand";
+import { parseThreadsInPage } from "../domains/thread";
+import { subscribeWithSelector } from "zustand/middleware";
+
+export type MVIgnitedStore = {
   forumsLastVisited: string[];
-  ignoredUsers: string[];
-  ignoredThreads: string[];
+  usersIgnored: string[];
+  threadsIgnored: string[];
   customFont?: string;
 };
 
 const MEDIAVIDA_KEY = "mv-ignited::store";
 
-const set = <K extends keyof MVIgniteStore>(key: K, data: MVIgniteStore[K]) => {
-  const json = get();
-  localStorage.setItem(MEDIAVIDA_KEY, JSON.stringify({ ...json, [key]: data }));
+const storeSet = (data: MVIgnitedStore) => {
+  localStorage.setItem(MEDIAVIDA_KEY, JSON.stringify(data));
 };
 
-const get = (): MVIgniteStore =>
-  JSON.parse(
-    localStorage.getItem(MEDIAVIDA_KEY) ??
-      JSON.stringify({
-        forumsLastVisited: [],
-        ignoredUsers: [],
-        ignoredThreads: [],
+const storeGet = (): MVIgnitedStore | void => {
+  const saved = localStorage.getItem(MEDIAVIDA_KEY);
+  if (saved) {
+    return JSON.parse(saved);
+  }
+};
+
+export type MVIgnitedStoreState = MVIgnitedStore & {
+  update: <K extends keyof MVIgnitedStore>(
+    key: K,
+    data: MVIgnitedStore[K],
+  ) => void;
+};
+
+export const useStore = create(
+  subscribeWithSelector<MVIgnitedStoreState>((set) => ({
+    usersIgnored: [],
+    threadsIgnored: [],
+    forumsLastVisited: [],
+    ...storeGet(),
+    update: (key, data) =>
+      set(() => {
+        return { [key]: data };
       }),
-  );
+  })),
+);
 
-export const mvIgniteStore = {
-  set,
-  get,
-};
+useStore.subscribe(
+  (state) => state,
+  (state) => {
+    storeSet(state);
+  },
+);
+
+useStore.subscribe(
+  (state) => state.threadsIgnored,
+  () => {
+    parseThreadsInPage();
+  },
+);

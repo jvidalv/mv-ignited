@@ -26,3 +26,8 @@ export const loadFont = async (customFont: string) => {
   styles.innerHTML = `*:not(i) { font-family: '${customFont}' !important}`;
   head.appendChild(styles);
 };
+
+export const removeFont = () => {
+  const styles = document.getElementById(FONT_STYLESHEET_ID);
+  styles?.remove();
+};

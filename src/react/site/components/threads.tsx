@@ -1,11 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import clsx from "clsx";
 import { getIconClassBySlug } from "../utils/forums";
-import {
-  addThreadToIgnore,
-  getThreadId,
-  Thread,
-} from "../../../domains/thread";
+import { ignoreThread, getThreadId, Thread } from "../../../domains/thread";
 
 const abbrevNumberToInt = (str: string) => {
   const match = str.match(/^(\d+(\.\d+)?)([kK])?$/);
@@ -57,7 +53,7 @@ const Thread = (props: Thread) => {
     >
       <button
         className="mv-ignite--thread--button-ignore opacity-0 h-full w-8 -left-8 absolute text-gray-500 hover:scale-125 transition"
-        onClick={() => addThreadToIgnore(url)}
+        onClick={() => ignoreThread(url)}
         title={`Ignorar hilo: ${title}`}
       >
         <i className="fa fa-eye-slash"></i>

@@ -1,8 +1,8 @@
-import { mvIgniteStore } from "../utils/store";
+import { useStore } from "../utils/store";
 import { createRoot } from "react-dom/client";
 import { UserIgnoredInThread, UserActionsInThread } from "../react/site/thread";
 import React from "react";
-import { addThreadToIgnore } from "../domains/thread";
+import { ignoreThread } from "../domains/thread";
 
 const oldPostsHtml: string[] = [];
 const oldPostsClass: string[] = [];
@@ -13,9 +13,7 @@ export const injectThread = () => {
   // Post ignore
   const ignoreButton = document.querySelector('a[title="Ignorar el tema"]');
   ignoreButton?.addEventListener("click", () =>
-    addThreadToIgnore(
-      window.location.href.replace("https://www.mediavida.com", ""),
-    ),
+    ignoreThread(window.location.href.replace("https://www.mediavida.com", "")),
   );
 
   // Posts modification
@@ -54,12 +52,12 @@ export const injectThread = () => {
       const username = post.getAttribute("data-autor");
       const postNum = post.getAttribute("data-num");
 
-      const ignoredUsers = mvIgniteStore.get().ignoredUsers;
-      if (!ignoredUsers) {
+      const usersIgnored = useStore.getState().usersIgnored;
+      if (!usersIgnored) {
         return;
       }
 
-      ignoredUsers.forEach((ignoredUsername) => {
+      usersIgnored.forEach((ignoredUsername) => {
         const oldHtml = oldPostsHtml[index];
         const oldClass = oldPostsClass[index];
         // We do not want to ignore OP

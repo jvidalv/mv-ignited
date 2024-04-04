@@ -1,4 +1,4 @@
-import { mvIgniteStore } from "../../utils/store";
+import { useStore } from "../../utils/store";
 import { loadFont } from "../../utils/fonts";
 
 export const injectBrand = () => {
@@ -12,7 +12,7 @@ export const injectBrand = () => {
 };
 
 export const injectFont = async (): Promise<string | void> => {
-  const customFont = mvIgniteStore.get()?.customFont;
+  const customFont = useStore.getState()?.customFont;
 
   if (customFont) {
     await loadFont(customFont);

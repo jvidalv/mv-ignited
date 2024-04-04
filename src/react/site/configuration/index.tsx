@@ -1,24 +1,20 @@
-import { mvIgniteStore } from "../../../utils/store";
+import { useStore } from "../../../utils/store";
 import React, { useState } from "react";
-import { loadFont } from "../../../utils/fonts";
+import { loadFont, removeFont } from "../../../utils/fonts";
 import { Button } from "../components/ui";
-import { ignoreThreads } from "../../../domains/thread";
-import { rerenderConfigurationMenuRoot } from "../../../injected/configuration";
 
 export const ConfigurationMenu = () => {
-  const [customFont, setCustomFont] = useState<string>();
+  const [inputCustomFont, setInputCustomFont] = useState<string>();
 
-  const store = mvIgniteStore.get();
-  const ignoredUsers = store.ignoredUsers ?? [];
-  const ignoredThreads = store.ignoredThreads ?? [];
+  const { threadsIgnored, usersIgnored, customFont, update } = useStore();
 
   const onUnIgnoreUserClick = (username: string) => {
     if (
       confirm("Estas seguro de que quieres dejar de ignorar a este usuario?")
     ) {
-      mvIgniteStore.set(
-        "ignoredUsers",
-        ignoredUsers.filter((i) => i !== username),
+      update(
+        "usersIgnored",
+        usersIgnored.filter((i) => i !== username),
       );
 
       window.ignite
@@ -29,24 +25,26 @@ export const ConfigurationMenu = () => {
 
   const onUnIgnoreThreadClick = (thread: string) => {
     if (confirm("Estas seguro de que quieres dejar de ignorar este hilo?")) {
-      mvIgniteStore.set(
-        "ignoredThreads",
-        ignoredThreads.filter((i) => i !== thread),
+      update(
+        "threadsIgnored",
+        threadsIgnored.filter((i) => i !== thread),
       );
-      ignoreThreads();
-      rerenderConfigurationMenuRoot();
-
       console.log("MV-Ignited: un-ignoring thread");
     }
   };
 
   const onSelectFont = async () => {
-    if (!customFont) {
+    if (!inputCustomFont) {
       return alert("No es una font valida de Google Fonts!");
     }
 
-    await loadFont(customFont);
-    mvIgniteStore.set("customFont", customFont);
+    await loadFont(inputCustomFont);
+    update("customFont", inputCustomFont);
+  };
+
+  const onRemoveFont = () => {
+    update("customFont", undefined);
+    removeFont();
   };
 
   return (
@@ -57,26 +55,31 @@ export const ConfigurationMenu = () => {
       <div className="mt-2 px-4">
         <div className="grid grid-cols-1 gap-2">
           <label className="font-bold text-base">Custom font</label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="flex gap-2">
             <input
               type="text"
-              className="px-2 h-full col-span-2 text-black rounded"
+              className="px-2 h-full col-span-2 text-black rounded disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
               placeholder="Google font"
-              defaultValue={store.customFont ?? ""}
-              onChange={(e) => setCustomFont(e.target.value)}
+              defaultValue={customFont ?? ""}
+              disabled={!!customFont}
+              onChange={(e) => setInputCustomFont(e.target.value)}
             />
-            <Button onClick={onSelectFont}>Inject font</Button>
+            {customFont ? (
+              <Button onClick={onRemoveFont}>Remove font</Button>
+            ) : (
+              <Button onClick={onSelectFont}>Inject font</Button>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-2 mt-4">
           <label className="font-bold text-base">Usarios ignorados</label>
           <div className="flex flex-wrap gap-1">
-            {!ignoredUsers?.length && (
+            {!usersIgnored?.length && (
               <div className="opacity-50 -mt-4">
                 No tienes ningun usuario ignorado.
               </div>
             )}
-            {ignoredUsers?.map((username) => (
+            {usersIgnored?.map((username) => (
               <button
                 key={username}
                 className="bg-surface shadow rounded hover:bg-opacity-50 px-2"
@@ -90,12 +93,12 @@ export const ConfigurationMenu = () => {
         <div className="grid grid-cols-1 gap-2 mt-4">
           <label className="font-bold text-base">Hilos ignorados</label>
           <div className="grid grid-cols-1 gap-1">
-            {!ignoredThreads?.length && (
+            {!threadsIgnored?.length && (
               <div className="opacity-50 -mt-4">
                 No tienes ningun hilo ignorado.
               </div>
             )}
-            {ignoredThreads?.map((thread) => (
+            {threadsIgnored?.map((thread) => (
               <button
                 key={thread}
                 className="text-left whitespace-nowrap bg-surface shadow rounded hover:bg-opacity-50 overflow-ellipsis line-clamp-1 px-2"

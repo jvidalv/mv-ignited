@@ -1,16 +1,15 @@
 import React from "react";
-import { mvIgniteStore } from "../../../utils/store";
+import { useStore } from "../../../utils/store";
 
 export const UserActionsInThread = ({ username }: { username: string }) => {
+  const { usersIgnored, update } = useStore();
   const onIgnoreUserClick = () => {
-    const ignoredUsers = mvIgniteStore.get().ignoredUsers ?? [];
     if (
       confirm(
         "Esto silenciara al usuario en todos los hilos de mediavida, mas tarde te arrepientes puedes modificarlo desde la configuracion de tu perfil. Continuar?",
       )
     ) {
-      ignoredUsers.push(username);
-      mvIgniteStore.set("ignoredUsers", [...new Set(ignoredUsers)]);
+      update("usersIgnored", [...new Set([...usersIgnored, username])]);
       window.ignite
         .render()
         .then(() => console.log(`MV-Ignited: User ${username} ignored`));
