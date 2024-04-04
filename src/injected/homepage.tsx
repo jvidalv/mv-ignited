@@ -25,8 +25,7 @@ export const injectHomepage = async () => {
 
   const main = document.getElementById("main");
   if (main) {
-    const container = document.getElementById("main");
-    const root = createRoot(container!);
+    const root = createRoot(main);
     root.render(
       <Home
         favorites={favorites}
@@ -36,5 +35,8 @@ export const injectHomepage = async () => {
         userLastPosts={userLastsPosts}
       />,
     );
+
+    // Small delay fix issue with mounted dom elements not being available immediately after
+    return new Promise((resolve) => setTimeout(resolve, 1));
   }
 };

@@ -16,6 +16,11 @@ import {
 } from "./utils/loader";
 import { injectThreads } from "./threads";
 import { parseThreadsInPage } from "../domains/thread";
+import { parseUsersInPage } from "../domains/user";
+import { useStore } from "../utils/store";
+
+// Fills it before rendering pipe
+useStore.getState();
 
 window.ignite = {
   isFirstRender: true,
@@ -35,18 +40,15 @@ window.ignite = {
     if (window.ignite.isFirstRender) {
       injectTheme();
       injectBrand();
+      trackForumVisits();
     }
 
-    trackForumVisits();
-
-    // Configuration
     if (document.getElementById("usermenu")) {
       injectConfiguration();
     }
 
-    // Homepage
     if (isHomepage()) {
-      injectHomepage();
+      await injectHomepage();
     }
 
     // Threads
@@ -54,12 +56,15 @@ window.ignite = {
       injectThreads();
     }
 
-    // Thread
     if (isThread()) {
       injectThread();
     }
 
-    parseThreadsInPage();
+    // After the first run they are triggered on state change
+    if (window.ignite.isFirstRender) {
+      parseThreadsInPage();
+      parseUsersInPage();
+    }
   },
 };
 

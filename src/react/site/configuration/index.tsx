@@ -9,28 +9,22 @@ export const ConfigurationMenu = () => {
   const { threadsIgnored, usersIgnored, customFont, update } = useStore();
 
   const onUnIgnoreUserClick = (username: string) => {
-    if (
-      confirm("Estas seguro de que quieres dejar de ignorar a este usuario?")
-    ) {
-      update(
-        "usersIgnored",
-        usersIgnored.filter((i) => i !== username),
-      );
+    update(
+      "usersIgnored",
+      usersIgnored.filter((i) => i !== username),
+    );
 
-      window.ignite
-        .render()
-        .then(() => console.log("MV-Ignited: un-ignoring user"));
-    }
+    window.ignite
+      .render()
+      .then(() => console.log("MV-Ignited: un-ignoring user"));
   };
 
   const onUnIgnoreThreadClick = (thread: string) => {
-    if (confirm("Estas seguro de que quieres dejar de ignorar este hilo?")) {
-      update(
-        "threadsIgnored",
-        threadsIgnored.filter((i) => i !== thread),
-      );
-      console.log("MV-Ignited: un-ignoring thread");
-    }
+    update(
+      "threadsIgnored",
+      threadsIgnored.filter((i) => i !== thread),
+    );
+    console.log("MV-Ignited: un-ignoring thread");
   };
 
   const onSelectFont = async () => {

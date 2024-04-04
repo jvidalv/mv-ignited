@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { parseThreadsInPage } from "../domains/thread";
 import { subscribeWithSelector } from "zustand/middleware";
+import { parseUsersInPage } from "../domains/user";
 
 export type MVIgnitedStore = {
   forumsLastVisited: string[];
@@ -34,7 +35,7 @@ export const useStore = create(
     usersIgnored: [],
     threadsIgnored: [],
     forumsLastVisited: [],
-    ...storeGet(),
+    ...(storeGet() ?? {}),
     update: (key, data) =>
       set(() => {
         return { [key]: data };
@@ -45,6 +46,7 @@ export const useStore = create(
 useStore.subscribe(
   (state) => state,
   (state) => {
+    console.log("MV-Ignited🔥 state change:", state);
     storeSet(state);
   },
 );
@@ -53,5 +55,12 @@ useStore.subscribe(
   (state) => state.threadsIgnored,
   () => {
     parseThreadsInPage();
+  },
+);
+
+useStore.subscribe(
+  (state) => state.usersIgnored,
+  () => {
+    parseUsersInPage();
   },
 );

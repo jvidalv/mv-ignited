@@ -3,27 +3,27 @@ import { useStore } from "../../../utils/store";
 
 export const UserActionsInThread = ({ username }: { username: string }) => {
   const { usersIgnored, update } = useStore();
+  const isIgnored = usersIgnored.includes(username);
   const onIgnoreUserClick = () => {
-    if (
-      confirm(
-        "Esto silenciara al usuario en todos los hilos de mediavida, mas tarde te arrepientes puedes modificarlo desde la configuracion de tu perfil. Continuar?",
-      )
-    ) {
+    if (isIgnored) {
+      update("usersIgnored", [
+        ...new Set([...usersIgnored.filter((u) => u !== username)]),
+      ]);
+    } else {
       update("usersIgnored", [...new Set([...usersIgnored, username])]);
-      window.ignite
-        .render()
-        .then(() => console.log(`MV-Ignited: User ${username} ignored`));
     }
   };
 
   return (
-    <div className="text-left mt-2 opacity-50 hover:opacity-100 transition duration-200">
+    <div className="text-left mt-2 opacity-75 hover:opacity-100 transition duration-200">
       <button
-        title="Ignorar usuario"
-        className="bg-surface-high hover:bg-opacity-75 transition duration-100 rounded px-1.5 py-0.5 text-center shadow"
+        title={isIgnored ? "Designorar usuario" : "Ignorar usuario"}
+        className="bg-surface-high border dark:border-gray-700 hover:bg-opacity-75 transition duration-100 rounded px-1.5 py-0.5 text-center shadow"
         onClick={onIgnoreUserClick}
       >
-        <i className="fa fa-microphone-slash"></i>
+        <i
+          className={isIgnored ? "fa fa-microphone" : "fa fa-microphone-slash"}
+        ></i>
       </button>
     </div>
   );
