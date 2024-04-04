@@ -15,7 +15,7 @@ import {
   showContent,
 } from "./utils/loader";
 import { injectThreads } from "./threads";
-import { ignoreThreads } from "../domains/thread";
+import { parseThreadsInPage } from "../domains/thread";
 
 window.ignite = {
   isFirstRender: true,
@@ -59,7 +59,7 @@ window.ignite = {
       injectThread();
     }
 
-    ignoreThreads();
+    parseThreadsInPage();
   },
 };
 
@@ -69,7 +69,11 @@ window.ignite
     window.ignite.isFirstRender = false;
     console.log("MV-Ignited🔥 successfully rendered ✅");
   })
-  .catch(() => {
+  .catch((error) => {
     showContent();
     console.log("MV-Ignited🔥 errored 🔴");
+    console.error(error);
+    console.info(
+      "⬆️ Por favor, comparte el mensaje anterior para que pueda solucionarlo. 🙏🏼",
+    );
   });
