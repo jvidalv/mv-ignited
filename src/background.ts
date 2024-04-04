@@ -20,7 +20,7 @@ async function updateIcon(tabId: number) {
   });
 
   return chrome.action.setIcon({
-    path: tab?.url ? "icons/icon128.png" : "icons/icon128-disabled.png",
+    path: tab?.url ? "icons/logo-128.png" : "icons/logo-128-disabled.png",
     tabId: tabId,
   });
 }
