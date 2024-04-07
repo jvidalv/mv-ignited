@@ -47,7 +47,7 @@ export const ConfigurationMenu = () => {
         <h2>MV-Ignited 🔥</h2>
       </div>
       <div className="mt-2 px-4">
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-2 hidden">
           <label className="font-bold text-base">Custom font</label>
           <div className="flex gap-2">
             <input
@@ -79,7 +79,7 @@ export const ConfigurationMenu = () => {
                 className="bg-surface shadow rounded hover:bg-opacity-50 px-2"
                 onClick={() => onUnIgnoreUserClick(username)}
               >
-                {username} ❌
+                {username} <i className="fa fa-trash"></i>
               </button>
             ))}
           </div>
@@ -98,7 +98,7 @@ export const ConfigurationMenu = () => {
                 className="text-left whitespace-nowrap bg-surface shadow rounded hover:bg-opacity-50 overflow-ellipsis line-clamp-1 px-2"
                 onClick={() => onUnIgnoreThreadClick(thread)}
               >
-                {thread.split("/")[3]} ❌
+                {thread.split("/")[3]} <i className="fa fa-trash"></i>
               </button>
             ))}
           </div>
@@ -129,7 +129,7 @@ export const ConfigurationButton = ({
   return (
     <button
       onClick={onClick}
-      className="text-[1.35rem] h-full pl-1 text-primary mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
+      className="text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
       title="MV-ignite configuracion"
     >
       <i className="fa fa-cog"></i>
