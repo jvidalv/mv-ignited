@@ -11,6 +11,7 @@ import {
   isHomepage,
   isSubForumThreads,
   isThread,
+  isUserProfile,
   showBody,
   showContent,
 } from "./utils/loader";
@@ -18,6 +19,7 @@ import { injectThreads } from "./threads";
 import { parseThreadsInPage } from "../domains/thread";
 import { parseUsersInPage } from "../domains/user";
 import { useStore } from "../utils/store";
+import { injectUser } from "./user";
 
 // Fills it before rendering pipe
 useStore.getState();
@@ -49,6 +51,10 @@ window.ignite = {
 
     if (isHomepage()) {
       await injectHomepage();
+    }
+
+    if (isUserProfile()) {
+      injectUser();
     }
 
     // Threads

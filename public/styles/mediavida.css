@@ -50,7 +50,7 @@ body {
  */
 
 #brand-menu#brand-menu {
-  background: #e6720e;
+  background: inherit;
   border: unset;
 }
 
@@ -58,9 +58,22 @@ body {
   color: white;
 }
 
-/*
-* Twitter
-*/
+#title#title {
+  background: inherit;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+#title#title h1 {
+  text-shadow: unset;
+}
+
+.brand.brand>.section>a {
+  color: gainsboro;
+}
+  /*
+  * Twitter
+  */
 
 .embed.twitter.embed.twitter {
   margin-left: unset;
@@ -157,6 +170,19 @@ a.post-btn.btnmola i {
   display: none;
 }
 
+#top#top #temas td {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+#top#top .c-main {
+  padding-right: 0;
+}
+
+#top#top .c-side {
+  display: none;
+}
+
 #foros .forums.forums .forum.forum p {
   display: none !important;
 }
@@ -198,4 +224,20 @@ a.post-btn.btnmola i {
 
 #perfil#perfil .firmas > div {
   margin-bottom: 0;
+}
+
+#usermenu#usermenu {
+  background: unset;
+}
+
+#user-data#user-data {
+  margin-right: 0;
+}
+
+#user-data#user-data > img {
+  margin-right: 0;
+}
+
+#user-data#user-data span {
+  display: none;
 }

@@ -17,6 +17,7 @@ export const hideContent = () => {
 };
 
 export const isHomepage = () => !!document.getElementById("index");
+export const isUserProfile = () => !!document.getElementById("perfil");
 export const isThread = () => !!document.getElementById("post-container");
 export const getSubForumContainerElement = () =>
   document.getElementById("temas");
