@@ -3,6 +3,17 @@ import { Thread } from "../../domains/thread";
 export const getUsername = () =>
   document.querySelector("#user-data span")?.innerHTML;
 
+export const getUser = () => {
+  return {
+    avatar: document
+      ?.getElementById("user-data")
+      ?.getElementsByTagName("img")
+      .item(0)
+      ?.getAttribute("src"),
+    username: document?.getElementById("user-data")?.textContent,
+  };
+};
+
 type MediaVidaForum = {
   nombre: string;
   friendly: string;
@@ -82,16 +93,6 @@ export const getFavorites = async (): Promise<Thread[]> => {
   });
 
   return favorites;
-};
-
-export type Post = {
-  forum: string;
-  thread: string;
-  url: string;
-  count: number;
-  responsesCount: string;
-  lastActivityAt: string;
-  lastReadUrl?: string | null;
 };
 
 export const getForumLastPosts = async (): Promise<Thread[]> => {

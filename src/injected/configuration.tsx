@@ -24,7 +24,7 @@ export const injectConfiguration = () => {
     return;
   }
 
-  const configurationButtonId = "mv-ignite--configuration-button";
+  const configurationButtonId = "mv-ignited--configuration-button";
   const configurationMenuId = "mv-ignited--configuration-menu";
 
   if (!configurationButtonRoot) {

@@ -48,11 +48,11 @@ const Thread = (props: Thread) => {
 
   return (
     <div
-      id={`mv-ignite--thread-${getThreadId(url)}`}
-      className="mv-ignite--thread flex justify-between relative bg-surface first:rounded-t last:rounded-b"
+      id={`mv-ignited--thread-${getThreadId(url)}`}
+      className="mv-ignited--thread flex justify-between relative bg-surface first:rounded-t last:rounded-b"
     >
       <button
-        className="mv-ignite--thread--button-ignore opacity-0 h-full w-8 -left-8 absolute text-gray-500 hover:scale-125 transition"
+        className="mv-ignited--thread--button-ignore opacity-0 h-full w-8 -left-8 absolute text-gray-500 hover:scale-125 transition"
         onClick={() => ignoreThread(url)}
         title={`Ignorar hilo: ${title}`}
       >

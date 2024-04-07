@@ -79,7 +79,6 @@ body {
 /*
 * Fixes
  */
-
 a.post-btn.btnmola i {
   width: 16px;
   height: 16px;
@@ -87,19 +86,40 @@ a.post-btn.btnmola i {
   padding: 1px 0 0;
 }
 
+.btnmola.btnmola.btnmola {
+  flex: 1;
+  padding-left: 0;
+  display: block !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease-in;
+}
+
+.post-controls.post-controls {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.post-controls .btnmola:hover {
+  background: none;
+}
+
+@media screen and (min-width: 996px) .post .buttons {
+  opacity: 0.2 !important;
+}
+
 /*
 * New features
  */
-
-.mv-ignite--actions-container {
+.mv-ignited--actions-container {
   opacity: 0;
   transition: opacity 0.25s;
 }
 
-.post:hover .mv-ignite--actions-container {
+.cf.post:hover .mv-ignited--actions-container {
   opacity: 1;
 }
 
-.mv-ignite--thread:hover .mv-ignite--thread--button-ignore {
+.mv-ignited--thread:hover .mv-ignited--thread--button-ignore {
   opacity: 1;
 }

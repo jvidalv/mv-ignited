@@ -1,1 +1,1 @@
-export { UserActionsInThread, UserIgnoredInThread } from "./user";
+export { UserActionsInThread } from "./user";

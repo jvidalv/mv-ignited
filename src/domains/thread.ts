@@ -42,7 +42,7 @@ export const parseThreadsInPage = () => {
 
   if (isHomepage()) {
     document
-      .querySelectorAll(".mv-ignite--thread")
+      .querySelectorAll(".mv-ignited--thread")
       ?.forEach((threadElement) => {
         const idSplit = threadElement.id?.split("-");
         if (ignoredThreadsIds.includes(idSplit[idSplit.length - 1])) {
