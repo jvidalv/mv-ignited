@@ -201,7 +201,7 @@ a.post-btn.btnmola i {
   padding-bottom: 6px;
 }
 
-#foros#foros tr.sub th:nth-child(3), #foros#foros tr td:nth-child(3) {
+#foros#foros tr th:nth-child(3), #foros#foros tr td:nth-child(3) {
  display: none !important;
 }
 
