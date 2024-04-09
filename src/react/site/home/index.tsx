@@ -13,12 +13,17 @@ import {
 import { Thread } from "../../../domains/thread";
 
 function Home({ onLoad }: { onLoad: () => void }) {
-  const [favorites, setFavorites] = useState<Thread[]>();
-  const [lastThreads, setLastThreads] = useState<Thread[]>();
-  const [lastNews, setLastNews] = useState<Thread[]>();
-  const [userLastPosts, setUserLastPosts] = useState<Thread[]>();
+  const { dataCache, forumsLastVisited, update } = useStore();
 
-  const { forumsLastVisited } = useStore();
+  const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState<Thread[]>(dataCache.favorites);
+  const [lastThreads, setLastThreads] = useState<Thread[]>(
+    dataCache.lastThreads
+  );
+  const [lastNews, setLastNews] = useState<Thread[]>(dataCache.lastNews);
+  const [userLastPosts, setUserLastPosts] = useState<Thread[]>(
+    dataCache.userLastPosts
+  );
 
   useEffect(() => {
     const loadHomePageData = async () => {
@@ -33,11 +38,16 @@ function Home({ onLoad }: { onLoad: () => void }) {
 
       const lastNews = await getLastNews();
       setLastNews(lastNews);
+
+      update("dataCache", { favorites, lastThreads, lastNews, userLastPosts });
+      setLoading(false);
     };
 
     loadHomePageData();
     onLoad();
   }, []);
+
+  const loadingStyle = "animate-pulse blur-sm";
 
   return (
     <div className={clsx("py-2")}>
@@ -45,7 +55,9 @@ function Home({ onLoad }: { onLoad: () => void }) {
         <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>
       </div>
-      <div className="mt-3 grid grid-cols-5 gap-2 min-h-44">
+      <div
+        className={`mt-3 grid grid-cols-5 gap-2 min-h-44 ${loading ? loadingStyle : ""}`}
+      >
         {lastNews
           ?.filter((_, i) => i < 5)
           .map((thread) => {
@@ -113,7 +125,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
                   ))}
             </div>
           </div>
-          <Threads.Root className="mt-3">
+          <Threads.Root className={`mt-3 ${loading ? loadingStyle : ""}`}>
             {lastThreads?.map((thread) => {
               return <Threads.Thread key={thread.url} {...thread} />;
             })}
@@ -124,7 +136,9 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <h2>Tus últimos posts </h2>
             <a href={`/id/${getUsername()}/posts`}>Todos</a>
           </div>
-          <Threads.Root className="mt-3 min-h-72">
+          <Threads.Root
+            className={`mt-3 min-h-72 ${loading ? loadingStyle : ""}`}
+          >
             {userLastPosts
               ?.filter((f, i) => i < 6)
               .map((thread) => {
@@ -135,7 +149,9 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <h2>Favoritos</h2>
             <a href="/foro/favoritos">Todos</a>
           </div>
-          <Threads.Root className="mt-3 min-h-72">
+          <Threads.Root
+            className={`mt-3 min-h-72 ${loading ? loadingStyle : ""}`}
+          >
             {favorites
               ?.filter((f, i) => f.responsesSinceLastVisit && i < 6)
               .map((favorite) => {
