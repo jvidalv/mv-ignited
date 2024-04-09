@@ -95,7 +95,7 @@ export const getFavorites = async (): Promise<Thread[]> => {
   return favorites;
 };
 
-export const getForumLastPosts = async (): Promise<Thread[]> => {
+export const getForumLastThreads = async (): Promise<Thread[]> => {
   const response = await fetch("https://www.mediavida.com/foro/spy", {
     headers: {
       accept: "*/*",

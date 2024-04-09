@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import React from "react";
 import {
   getFavorites,
-  getForumLastPosts,
+  getForumLastThreads,
   getForums,
   getLastNews,
   getUserLastPosts,
@@ -13,11 +13,11 @@ import { hideContent, showContent } from "./utils/loader";
 
 export const injectHomepage = async () => {
   hideContent();
-  const [forums, favorites, lastPosts, lastNews, userLastsPosts] =
+  const [forums, favorites, lastThreads, lastNews, userLastPosts] =
     await Promise.all([
       getForums(),
       getFavorites(),
-      getForumLastPosts(),
+      getForumLastThreads(),
       getLastNews(),
       getUserLastPosts(getUsername()),
     ]);
@@ -30,10 +30,10 @@ export const injectHomepage = async () => {
       <Home
         favorites={favorites}
         forums={forums}
-        lastThreads={lastPosts}
+        lastThreads={lastThreads}
         lastNews={lastNews}
-        userLastPosts={userLastsPosts}
-      />,
+        userLastPosts={userLastPosts}
+      />
     );
 
     // Small delay fix issue with mounted dom elements not being available immediately after
