@@ -50,7 +50,7 @@ window.ignite = {
     }
 
     if (isHomepage()) {
-      await injectHomepage();
+      injectHomepage();
     }
 
     if (isUserProfile()) {
