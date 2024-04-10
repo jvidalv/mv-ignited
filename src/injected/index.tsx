@@ -36,17 +36,14 @@ window.ignite = {
     // Await for page mounted before trying to modify anything
     await awaitUntil(() => !!document.getElementById("content"));
 
-    if (document.getElementById("usermenu")) {
-      injectConfiguration();
-    }
-
     if (window.ignite.isFirstRender) {
-      // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
-      showBody();
-
       injectTheme();
       injectBrand();
       trackForumVisits();
+    }
+
+    if (document.getElementById("usermenu")) {
+      injectConfiguration();
     }
 
     if (isHomepage()) {
@@ -66,10 +63,13 @@ window.ignite = {
       injectThread();
     }
 
-    // After the first run they are triggered on state change
     if (window.ignite.isFirstRender) {
+      // After the first run they are triggered on state change
       parseThreadsInPage();
       parseUsersInPage();
+
+      // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
+      showBody();
     }
   },
 };
