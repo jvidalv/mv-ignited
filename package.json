@@ -1,12 +1,11 @@
 {
   "name": "mv-ignited",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build:chrome": "webpack --config webpack/webpack.prod.js",
-    "build:firefox": "webpack --config webpack/webpack.prod.js && sed 's/\"service_worker\": \"background.js\"/\"scripts\": [\"background.js\"]/g' dist/manifest.json > tmp_file && mv tmp_file dist/manifest.json",
+    "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
     "test": "npx jest",
     "style": "prettier --write \"src/**/*.{ts,tsx}\""
@@ -31,8 +30,8 @@
     "@types/react": "18.2.61",
     "@types/react-dom": "18.2.19",
     "@types/webfontloader": "^1.6.38",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "7.2.0",
+    "@typescript-eslint/parser": "7.2.0",
     "autoprefixer": "10.4.18",
     "copy-webpack-plugin": "12.0.2",
     "css-loader": "6.10.0",

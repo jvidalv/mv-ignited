@@ -33,6 +33,10 @@ chrome.webNavigation.onCommitted.addListener(
         target: { tabId: details.tabId },
         files: ["/styles/mediavida.css"],
       });
+      chrome.scripting.executeScript({
+        target: { tabId: details.tabId },
+        files: ["/vendor.js", "/mediavida-extension.js"],
+      });
     }
   },
   { url: [{ urlMatches: "https://www.mediavida.com/*" }] },
