@@ -1,15 +1,17 @@
 import React from "react";
 import { getUsername } from "../../../injected/utils/data";
 import clsx from "clsx";
+import { Tooltip } from "../components/ui";
 
 const getColour = (numberOfUpvotes: number) => {
   if (numberOfUpvotes < 20) {
-    return "";
+    return "text-gray-500 dark:text-gray-400";
   }
   if (numberOfUpvotes < 100) {
-    return "text-orange-400 dark:text-orange-300";
+    return "text-orange-500 dark:text-orange-500";
   }
-  return "text-purple-500 dark:text-purple-400";
+
+  return "text-purple-500 dark:text-purple-500";
 };
 
 export const UpvotesLoadingInPost = ({
@@ -25,18 +27,14 @@ export const UpvotesLoadingInPost = ({
     <div className="flex items-center gap-1.5">
       <div
         title="Ver todas las manitas"
-        className="flex -space-x-3 rtl:space-x-reverse [&>img]:grayscale [&:hover>img]:grayscale-0 filter opacity-75"
+        className="flex -space-x-3 rtl:space-x-reverse filter opacity-75"
       >
         {Array.from({ length: numberOfUpvotes })
           .filter((_, i) => i < 5)
           .map((_, i) => (
             <div
               key={i}
-              style={{
-                borderWidth: "0.5px",
-                borderStyle: "solid",
-              }}
-              className="animate-pulse w-6 h-6 bg-surface border-surface relative flex items-center justify-center border-2 rounded-full"
+              className="animate-pulse w-6 h-6 bg-surface relative flex items-center justify-center border-2 rounded-full"
             />
           ))}
       </div>
@@ -69,7 +67,7 @@ export const UpvotesInPost = ({
       <div
         title="Ver todas las manitas"
         className={clsx(
-          "flex -space-x-3 opacity-75 [&>img]:grayscale [&:hover>img]:grayscale-0 filter hover:opacity-100 transition duration-300",
+          "flex -space-x-3 opacity-75 hover:opacity-100 transition duration-300",
           haveYouVoted && "[&>img]:grayscale-0 opacity-100",
         )}
       >
@@ -77,17 +75,15 @@ export const UpvotesInPost = ({
           .reverse()
           ?.filter((_, i) => i < 5)
           .map(({ username, avatar }) => (
-            <img
-              key={username}
-              style={{
-                borderWidth: "0.5px",
-                borderStyle: "solid",
-              }}
-              className="w-6 h-6 relative border-surface bg-surface rounded-full hover:-translate-y-0.5 duration-200 transition"
-              src={avatar}
-              alt={username}
-              title={username}
-            />
+            <Tooltip key={username} content={username}>
+              <img
+                key={username}
+                className="w-6 h-6 relative bg-surface rounded-full hover:-translate-y-0.5 duration-200 transition"
+                src={avatar}
+                alt={username}
+                title={username}
+              />
+            </Tooltip>
           ))}
       </div>
       <div className={getColour(numberOfUpvotes)}>{numberOfUpvotes}</div>
