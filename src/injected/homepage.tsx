@@ -1,42 +1,23 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
-import {
-  getFavorites,
-  getForumLastPosts,
-  getForums,
-  getLastNews,
-  getUserLastPosts,
-  getUsername,
-} from "./utils/data";
 import Home from "../react/site/home";
 import { hideContent, showContent } from "./utils/loader";
+import { asyncStoragePersister, queryClient } from "../utils/query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
-export const injectHomepage = async () => {
+export const injectHomepage = () => {
   hideContent();
-  const [forums, favorites, lastPosts, lastNews, userLastsPosts] =
-    await Promise.all([
-      getForums(),
-      getFavorites(),
-      getForumLastPosts(),
-      getLastNews(),
-      getUserLastPosts(getUsername()),
-    ]);
-  showContent();
-
   const main = document.getElementById("main");
+
   if (main) {
     const root = createRoot(main);
     root.render(
-      <Home
-        favorites={favorites}
-        forums={forums}
-        lastThreads={lastPosts}
-        lastNews={lastNews}
-        userLastPosts={userLastsPosts}
-      />,
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: asyncStoragePersister }}
+      >
+        <Home onLoad={showContent} />
+      </PersistQueryClientProvider>
     );
-
-    // Small delay fix issue with mounted dom elements not being available immediately after
-    return new Promise((resolve) => setTimeout(resolve, 1));
   }
 };

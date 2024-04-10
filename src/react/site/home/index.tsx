@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import Threads from "../components/threads";
 import { getIconClassBySlug } from "../utils/forums";
 import { useStore } from "../../../utils/store";
-import { getUsername } from "../../../injected/utils/data";
-import { Thread } from "../../../domains/thread";
+import {
+  getFavorites,
+  getForumLastThreads,
+  getLastNews,
+  getUsername,
+  getUserLastPosts,
+} from "../../../injected/utils/data";
+import { useQuery } from "@tanstack/react-query";
 
-function Home({
-  favorites,
-  lastThreads,
-  lastNews,
-  userLastPosts,
-}: {
-  favorites: Thread[];
-  forums: { name: string; url: string; slug: string }[];
-  lastThreads: Thread[];
-  lastNews: Thread[];
-  userLastPosts: Thread[];
-}) {
+function Home({ onLoad }: { onLoad: () => void }) {
   const { forumsLastVisited } = useStore();
+
+  const { data: lastThreads, isPending: lastThreadsPending } = useQuery({
+    queryKey: ["lastThreads"],
+    queryFn: () => getForumLastThreads(),
+  });
+
+  const { data: userLastPosts, isPending: userLastPostsPending } = useQuery({
+    queryKey: ["userLastPosts"],
+    queryFn: () => getUserLastPosts(getUsername()),
+  });
+
+  const { data: favorites, isPending: favoritesPending } = useQuery({
+    queryKey: ["favorites"],
+    queryFn: () => getFavorites(),
+  });
+
+  const { data: lastNews, isPending: lastNewsPending } = useQuery({
+    queryKey: ["lastNews"],
+    queryFn: () => getLastNews(),
+  });
+
+  useEffect(() => {
+    [
+      lastThreadsPending,
+      userLastPostsPending,
+      favoritesPending,
+      lastNewsPending,
+    ].every((isPending) => !isPending) && onLoad();
+  }, [
+    lastThreadsPending,
+    userLastPostsPending,
+    favoritesPending,
+    lastNewsPending,
+  ]);
 
   return (
     <div className={clsx("py-2")}>
@@ -28,7 +57,7 @@ function Home({
       </div>
       <div className="mt-3 grid grid-cols-5 gap-2">
         {lastNews
-          .filter((_, i) => i < 5)
+          ?.filter((_, i) => i < 5)
           .map((thread) => {
             return (
               <div
@@ -50,7 +79,7 @@ function Home({
                       <i
                         className={clsx(
                           "fid",
-                          getIconClassBySlug(thread.forumSlug),
+                          getIconClassBySlug(thread.forumSlug)
                         )}
                       />
                     </a>
@@ -95,7 +124,7 @@ function Home({
             </div>
           </div>
           <Threads.Root className="mt-3">
-            {lastThreads.map((thread) => {
+            {lastThreads?.map((thread) => {
               return <Threads.Thread key={thread.url} {...thread} />;
             })}
           </Threads.Root>
@@ -107,7 +136,7 @@ function Home({
           </div>
           <Threads.Root className="mt-3">
             {userLastPosts
-              .filter((f, i) => i < 6)
+              ?.filter((f, i) => i < 6)
               .map((thread) => {
                 return <Threads.Thread key={thread.url} {...thread} />;
               })}
@@ -118,7 +147,7 @@ function Home({
           </div>
           <Threads.Root className="mt-3">
             {favorites
-              .filter((f, i) => f.responsesSinceLastVisit && i < 6)
+              ?.filter((f, i) => f.responsesSinceLastVisit && i < 6)
               .map((favorite) => {
                 return <Threads.Thread key={favorite.url} {...favorite} />;
               })}
