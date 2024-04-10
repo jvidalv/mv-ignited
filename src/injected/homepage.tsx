@@ -2,6 +2,8 @@ import { createRoot } from "react-dom/client";
 import React from "react";
 import Home from "../react/site/home";
 import { hideContent, showContent } from "./utils/loader";
+import { asyncStoragePersister, queryClient } from "../utils/query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
 export const injectHomepage = () => {
   hideContent();
@@ -9,6 +11,13 @@ export const injectHomepage = () => {
 
   if (main) {
     const root = createRoot(main);
-    root.render(<Home onLoad={showContent} />);
+    root.render(
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: asyncStoragePersister }}
+      >
+        <Home onLoad={showContent} />
+      </PersistQueryClientProvider>
+    );
   }
 };
