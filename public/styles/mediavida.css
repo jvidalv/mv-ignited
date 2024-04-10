@@ -221,3 +221,7 @@ a.post-btn.btnmola i {
 #user-data#user-data span {
   display: none;
 }
+
+#side-nav#side-nav {
+  margin-left: -23px;
+}
