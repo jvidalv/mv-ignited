@@ -31,3 +31,7 @@ h3 {
 .btn-primary {
   @apply bg-primary
 }
+
+a {
+  @apply text-primary
+}
