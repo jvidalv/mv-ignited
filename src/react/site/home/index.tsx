@@ -55,7 +55,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
         <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>
       </div>
-      <div className={"mt-3 grid grid-cols-5 gap-2 min-h-44"}>
+      <div className="mt-3 grid grid-cols-5 gap-2">
         {lastNews
           ?.filter((_, i) => i < 5)
           .map((thread) => {
@@ -123,7 +123,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
                   ))}
             </div>
           </div>
-          <Threads.Root className={"mt-3"}>
+          <Threads.Root className="mt-3">
             {lastThreads?.map((thread) => {
               return <Threads.Thread key={thread.url} {...thread} />;
             })}
@@ -134,7 +134,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <h2>Tus últimos posts </h2>
             <a href={`/id/${getUsername()}/posts`}>Todos</a>
           </div>
-          <Threads.Root className={"mt-3 min-h-72"}>
+          <Threads.Root className="mt-3">
             {userLastPosts
               ?.filter((f, i) => i < 6)
               .map((thread) => {
@@ -145,7 +145,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <h2>Favoritos</h2>
             <a href="/foro/favoritos">Todos</a>
           </div>
-          <Threads.Root className={"mt-3 min-h-72"}>
+          <Threads.Root className="mt-3">
             {favorites
               ?.filter((f, i) => f.responsesSinceLastVisit && i < 6)
               .map((favorite) => {
