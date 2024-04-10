@@ -16,36 +16,6 @@ body {
 }
 
 /*
-* Sizes
-*/
-
-@media screen and (max-width: 1200px) {
-  #topbar#topbar,
-  #main#main,
-  .fullw.fullw {
-    min-width: 1024px;
-    width: 100%;
-  }
-}
-@media screen and (min-width: 1200px) {
-  #topbar#topbar,
-  #main#main,
-  .fullw.fullw {
-    min-width: 1128px;
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 1400px) {
-  #topbar#topbar,
-  #main#main,
-  .fullw.fullw {
-    min-width: 1280px;
-    width: 100%;
-  }
-}
-
-/*
 * Brand
  */
 
@@ -116,8 +86,6 @@ a.post-btn.btnmola i {
 .post-controls .btnmola:hover {
   background: none;
 }
-
-
 
 @media screen and (min-width: 996px) .post .buttons {
   opacity: 0.2 !important;
@@ -227,6 +195,7 @@ a.post-btn.btnmola i {
 }
 
 #usermenu#usermenu {
+  min-width: 220.52px;
   background: unset;
 }
 

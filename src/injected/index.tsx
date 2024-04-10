@@ -36,17 +36,17 @@ window.ignite = {
     // Await for page mounted before trying to modify anything
     await awaitUntil(() => !!document.getElementById("content"));
 
-    // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
-    showBody();
+    if (document.getElementById("usermenu")) {
+      injectConfiguration();
+    }
 
     if (window.ignite.isFirstRender) {
+      // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
+      showBody();
+
       injectTheme();
       injectBrand();
       trackForumVisits();
-    }
-
-    if (document.getElementById("usermenu")) {
-      injectConfiguration();
     }
 
     if (isHomepage()) {
