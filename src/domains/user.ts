@@ -70,10 +70,10 @@ export const parseUsersInPage = () => {
         );
         const placeholder = document.createElement("div");
         placeholder.id = layerId;
-        placeholder.innerHTML = `<div class="opacity-50 hover:opacity-100 transition">Post de <strong>${username}</strong></div>`;
+        placeholder.innerHTML = `<div class="info opacity-50 hover:opacity-100 transition ml-[76px] !bg-inherit">Post de <strong>${username}</strong> <button class="post-btn hiddengrp">Mostrar</button></div>`;
         placeholder.setAttribute("style", "background-color:inherit");
         placeholder.className =
-          "absolute top-0 left-0 w-full h-full bg-red-500 flex items-center justify-start pl-6 cursor-pointer hover:underline";
+          "absolute top-0 left-0 w-full h-full bg-red-500 flex items-center justify-start pl-6 cursor-pointer";
         placeholder.onclick = removeLayer;
 
         post.appendChild(placeholder);
