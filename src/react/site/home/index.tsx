@@ -12,35 +12,52 @@ import {
 } from "../../../injected/utils/data";
 import { Thread } from "../../../domains/thread";
 
+type QueryData<T> = {
+  data: T;
+  isLoading: boolean;
+};
+
 function Home({ onLoad }: { onLoad: () => void }) {
   const { dataCache, forumsLastVisited, update } = useStore();
 
-  const [loading, setLoading] = useState(true);
-  const [favorites, setFavorites] = useState<Thread[]>(dataCache.favorites);
-  const [lastThreads, setLastThreads] = useState<Thread[]>(
-    dataCache.lastThreads
-  );
-  const [lastNews, setLastNews] = useState<Thread[]>(dataCache.lastNews);
-  const [userLastPosts, setUserLastPosts] = useState<Thread[]>(
-    dataCache.userLastPosts
-  );
+  const [{ data: favorites, isLoading: favoritesLoading }, setFavorites] =
+    useState<QueryData<Thread[]>>({
+      data: dataCache.favorites,
+      isLoading: true,
+    });
+  const [{ data: lastThreads, isLoading: lastThreadsLoading }, setLastThreads] =
+    useState<QueryData<Thread[]>>({
+      data: dataCache.lastThreads,
+      isLoading: true,
+    });
+  const [{ data: lastNews, isLoading: lastNewsLoading }, setLastNews] =
+    useState<QueryData<Thread[]>>({
+      data: dataCache.lastNews,
+      isLoading: true,
+    });
+  const [
+    { data: userLastPosts, isLoading: userLastPostsLoading },
+    setUserLastPosts,
+  ] = useState<QueryData<Thread[]>>({
+    data: dataCache.userLastPosts,
+    isLoading: true,
+  });
 
   useEffect(() => {
     const loadHomePageData = async () => {
       const lastThreads = await getForumLastThreads();
-      setLastThreads(lastThreads);
+      setLastThreads({ data: lastThreads, isLoading: false });
 
       const userLastPosts = await getUserLastPosts(getUsername());
-      setUserLastPosts(userLastPosts);
+      setUserLastPosts({ data: userLastPosts, isLoading: false });
 
       const favorites = await getFavorites();
-      setFavorites(favorites);
+      setFavorites({ data: favorites, isLoading: false });
 
       const lastNews = await getLastNews();
-      setLastNews(lastNews);
+      setLastNews({ data: lastNews, isLoading: false });
 
       update("dataCache", { favorites, lastThreads, lastNews, userLastPosts });
-      setLoading(false);
     };
 
     loadHomePageData();
@@ -56,7 +73,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
         <a href="/p2">Siguientes</a>
       </div>
       <div
-        className={`mt-3 grid grid-cols-5 gap-2 min-h-44 ${loading ? loadingStyle : ""}`}
+        className={`mt-3 grid grid-cols-5 gap-2 min-h-44 ${lastNewsLoading ? loadingStyle : ""}`}
       >
         {lastNews
           ?.filter((_, i) => i < 5)
@@ -125,7 +142,9 @@ function Home({ onLoad }: { onLoad: () => void }) {
                   ))}
             </div>
           </div>
-          <Threads.Root className={`mt-3 ${loading ? loadingStyle : ""}`}>
+          <Threads.Root
+            className={`mt-3 ${lastThreadsLoading ? loadingStyle : ""}`}
+          >
             {lastThreads?.map((thread) => {
               return <Threads.Thread key={thread.url} {...thread} />;
             })}
@@ -137,7 +156,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <a href={`/id/${getUsername()}/posts`}>Todos</a>
           </div>
           <Threads.Root
-            className={`mt-3 min-h-72 ${loading ? loadingStyle : ""}`}
+            className={`mt-3 min-h-72 ${userLastPostsLoading ? loadingStyle : ""}`}
           >
             {userLastPosts
               ?.filter((f, i) => i < 6)
@@ -150,7 +169,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
             <a href="/foro/favoritos">Todos</a>
           </div>
           <Threads.Root
-            className={`mt-3 min-h-72 ${loading ? loadingStyle : ""}`}
+            className={`mt-3 min-h-72 ${favoritesLoading ? loadingStyle : ""}`}
           >
             {favorites
               ?.filter((f, i) => f.responsesSinceLastVisit && i < 6)
