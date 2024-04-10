@@ -1,4 +1,5 @@
 import { useStore } from "../utils/store";
+import { isThreadLive } from "../injected/utils/loader";
 
 export const parseUsersInPage = () => {
   const usersIgnored = useStore.getState().usersIgnored;
@@ -44,44 +45,60 @@ export const parseUsersInPage = () => {
   });
 
   // Posts
-  const posts = document.querySelectorAll(".cf.post") ?? [];
-  Array.from(posts).forEach((post) => {
-    const username = post.getAttribute("data-autor");
-    const postNum = post.getAttribute("data-num");
-    const layerId = `ignored-user--layer--${postNum}-${username}`;
-    const newPostId = `user--post--${postNum}-${username}`;
-    post.id = newPostId;
+  const ignorePosts = () => {
+    const usersIgnored = useStore.getState().usersIgnored;
+    const posts = document.querySelectorAll(".cf.post") ?? [];
+    Array.from(posts).forEach((post) => {
+      const username = post.getAttribute("data-autor");
+      const postNum = post.getAttribute("data-num");
+      const layerId = `ignored-user--layer--${postNum}-${username}`;
+      const newPostId = `user--post--${postNum}-${username}`;
+      post.id = newPostId;
 
-    // We don't want to ignore 1
-    if (postNum === "1") {
-      return;
-    }
-
-    const removeLayer = () => {
-      document.getElementById(newPostId)?.setAttribute("style", "");
-      document.getElementById(layerId)?.remove();
-    };
-
-    if (username && usersIgnored.includes(username)) {
-      if (!document.getElementById(layerId)) {
-        post.setAttribute(
-          "style",
-          "height: 42px; position: relative; display: flex; overflow: hidden",
-        );
-        const placeholder = document.createElement("div");
-        placeholder.id = layerId;
-        placeholder.innerHTML = `<div class="info opacity-50 hover:opacity-100 transition ml-[76px] !bg-inherit">Post de <strong>${username}</strong> <button class="post-btn hiddengrp">Mostrar</button></div>`;
-        placeholder.setAttribute("style", "background-color:inherit");
-        placeholder.className =
-          "absolute top-0 left-0 w-full h-full bg-red-500 flex items-center justify-start pl-6 cursor-pointer";
-        placeholder.onclick = removeLayer;
-
-        post.appendChild(placeholder);
+      // We don't want to ignore 1
+      if (postNum === "1") {
+        return;
       }
-    } else {
-      if (document.getElementById(layerId)) {
-        removeLayer();
+
+      const removeLayer = () => {
+        document.getElementById(newPostId)?.setAttribute("style", "");
+        document.getElementById(layerId)?.remove();
+      };
+
+      if (
+        username &&
+        usersIgnored.includes(username) &&
+        !post.getAttribute("data-opened")
+      ) {
+        if (!document.getElementById(layerId)) {
+          post.setAttribute(
+            "style",
+            "height: 42px; position: relative; display: flex; overflow: hidden",
+          );
+          const placeholder = document.createElement("div");
+          placeholder.id = layerId;
+          placeholder.innerHTML = `<div class="info opacity-50 hover:opacity-100 transition ml-[76px] !bg-inherit">Post de <strong>${username}</strong> <button class="post-btn hiddengrp">Mostrar</button></div>`;
+          placeholder.setAttribute("style", "background-color:inherit");
+          placeholder.className =
+            "absolute top-0 left-0 w-full h-full bg-red-500 flex items-center justify-start pl-6 cursor-pointer";
+          placeholder.onclick = () => {
+            post.setAttribute("data-opened", "true");
+            removeLayer();
+          };
+
+          post.appendChild(placeholder);
+        }
+      } else {
+        if (document.getElementById(layerId)) {
+          removeLayer();
+        }
       }
-    }
-  });
+    });
+  };
+
+  ignorePosts();
+
+  if (isThreadLive()) {
+    setInterval(ignorePosts, 150);
+  }
 };
