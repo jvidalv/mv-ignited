@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Thread, parseThreadsInPage } from "../domains/thread";
+import { parseThreadsInPage } from "../domains/thread";
 import { subscribeWithSelector } from "zustand/middleware";
 import { parseUsersInPage } from "../domains/user";
 
@@ -7,12 +7,6 @@ export type MVIgnitedStore = {
   forumsLastVisited: string[];
   usersIgnored: string[];
   threadsIgnored: string[];
-  dataCache: {
-    favorites: Thread[];
-    lastThreads: Thread[];
-    lastNews: Thread[];
-    userLastPosts: Thread[];
-  };
   customFont?: string;
 };
 
@@ -32,7 +26,7 @@ const storeGet = (): MVIgnitedStore | void => {
 export type MVIgnitedStoreState = MVIgnitedStore & {
   update: <K extends keyof MVIgnitedStore>(
     key: K,
-    data: MVIgnitedStore[K]
+    data: MVIgnitedStore[K],
   ) => void;
 };
 
@@ -41,18 +35,12 @@ export const useStore = create(
     usersIgnored: [],
     threadsIgnored: [],
     forumsLastVisited: [],
-    dataCache: {
-      favorites: [],
-      lastThreads: [],
-      lastNews: [],
-      userLastPosts: [],
-    },
     ...(storeGet() ?? {}),
     update: (key, data) =>
       set(() => {
         return { [key]: data };
       }),
-  }))
+  })),
 );
 
 useStore.subscribe(
