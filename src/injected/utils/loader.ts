@@ -17,6 +17,8 @@ export const hideContent = () => {
 };
 
 export const isHomepage = () => !!document.getElementById("index");
+export const isIgnitedPage = () =>
+  window.location.href === "https://www.mediavida.com/ignited";
 export const isUserProfile = () => !!document.getElementById("perfil");
 export const isThread = () => !!document.getElementById("post-container");
 export const isThreadLive = () => !!document.getElementById("live");

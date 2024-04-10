@@ -9,6 +9,7 @@ import { injectHomepage } from "./homepage";
 import {
   isFeaturedThreads,
   isHomepage,
+  isIgnitedPage,
   isSubForumThreads,
   isThread,
   isUserProfile,
@@ -20,6 +21,7 @@ import { parseThreadsInPage } from "../domains/thread";
 import { parseUsersInPage } from "../domains/user";
 import { useStore } from "../utils/store";
 import { injectUser } from "./user";
+import { injectIgnited } from "./ingited";
 
 // Fills it before rendering pipe
 useStore.getState();
@@ -32,6 +34,10 @@ window.ignite = {
         console.log(`MV-Ignited loaded font: ${customFont}`);
       }
     });
+
+    if (isIgnitedPage()) {
+      injectIgnited();
+    }
 
     // Await for page mounted before trying to modify anything
     await awaitUntil(() => !!document.getElementById("content"));
