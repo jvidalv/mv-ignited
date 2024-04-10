@@ -54,14 +54,18 @@ export const parseThreadsInPage = () => {
   }
 
   if (isFeaturedThreads()) {
-    document.querySelectorAll("a")?.forEach((a) => {
-      const thread = document.getElementById(`t${a.id.slice(1)}`);
-      if (ignoredThreadsIds.includes(a.id.slice(1))) {
-        thread?.setAttribute("style", "display:none");
-      } else {
-        thread?.setAttribute("style", "");
-      }
-    });
+    const ignoreThreadsInSpy = () => {
+      document.querySelectorAll("#temas tr")?.forEach((tr) => {
+        if (ignoredThreadsIds.includes(tr.id.slice(1))) {
+          tr?.setAttribute("style", "display:none");
+        } else {
+          tr?.setAttribute("style", "");
+        }
+      });
+    };
+
+    ignoreThreadsInSpy();
+    setInterval(ignoreThreadsInSpy, 150);
   }
 
   const temasElement = getSubForumContainerElement();

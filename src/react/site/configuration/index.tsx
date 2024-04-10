@@ -43,7 +43,7 @@ export const ConfigurationMenu = () => {
 
   return (
     <div className="float-right w-1/3 max-w-[420px] -mt-[0px] min-h-screen bg-surface-high shadow-lg">
-      <div className="bg-surface h-[46px] px-4 py-1 shadow">
+      <div className="bg-surface px-4 py-2 shadow">
         <h2>MV-Ignited 🔥</h2>
       </div>
       <div className="mt-2 px-4">
