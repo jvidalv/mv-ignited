@@ -39,3 +39,24 @@ a {
 #more-actions {
   @apply flex gap-1 flex-wrap
 }
+
+.tag-group i {
+  @apply opacity-100
+}
+
+.tag-group span {
+  line-height: 16px;
+}
+
+#foros td.col-av-m {
+  @apply !flex items-center justify-center w-full h-[60px]
+}
+
+#foros .c-main {
+  padding-left: 0;
+  padding-right: 300px;
+}
+
+#side-nav {
+  margin-left: -33px;
+}

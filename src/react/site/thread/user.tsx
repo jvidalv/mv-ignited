@@ -16,7 +16,7 @@ export const UserActionsInThread = ({ username }: { username: string }) => {
   };
 
   return (
-    <div className="text-left mt-2 opacity-50 hover:opacity-100 transition duration-200">
+    <div className="text-left mt-2 opacity-30 hover:opacity-100 transition duration-200">
       <Tooltip content={isIgnored ? "Designorar usuario" : "Ignorar usuario"}>
         <button
           className="transition duration-100 rounded text-center"

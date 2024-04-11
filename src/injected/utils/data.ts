@@ -14,6 +14,42 @@ export const getUser = () => {
   };
 };
 
+export const getUsers = async (
+  username: string,
+): Promise<
+  {
+    value: string;
+    data: {
+      uid: string;
+      nombre: string;
+      avatar: string;
+    };
+  }[]
+> => {
+  const response = await fetch(
+    `https://www.mediavida.com/usuarios/listado.php?query=${username}`,
+    {
+      headers: {
+        accept: "text/plain, */*; q=0.01",
+        "accept-language": "en-GB,en;q=0.7",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-requested-with": "XMLHttpRequest",
+      },
+      referrer: "https://www.mediavida.com/mensajes/nuevo",
+      mode: "cors",
+      credentials: "include",
+    },
+  );
+
+  try {
+    return await response.json()?.then((d) => d?.suggestions);
+  } catch {
+    return [];
+  }
+};
+
 type MediaVidaForum = {
   nombre: string;
   friendly: string;

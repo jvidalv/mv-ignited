@@ -1,22 +1,24 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 import Ignited from "../react/site/ignited";
-import { showBody, showContent } from "./utils/loader";
-import { asyncStoragePersister, queryClient } from "../utils/query";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { showBody } from "./utils/loader";
+import { queryClient } from "../utils/query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 export const injectIgnited = () => {
   window.document.title = "Ignited | Mediavida🔥";
+  const html = document.getElementsByTagName("html").item(0);
+
+  html?.setAttribute("class", "dark");
+  html?.setAttribute("prefers-color-scheme", "dark");
   showBody();
   const body = document.getElementsByTagName("body").item(0);
+
   if (body) {
     createRoot(body).render(
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{ persister: asyncStoragePersister }}
-      >
-        <Ignited onLoad={showContent} />
-      </PersistQueryClientProvider>,
+      <QueryClientProvider client={queryClient}>
+        <Ignited />
+      </QueryClientProvider>,
     );
   }
 };

@@ -184,13 +184,6 @@ a.post-btn.btnmola i {
  display: none !important;
 }
 
-#foros#foros td.col-av-m {
-  display: flex !important;
-  height: 53px;
-  width: 100%;
-  align-items: center;
-}
-
 #forum-bar#forum-bar {
   display: flex;
   gap: 6px;
@@ -222,7 +215,4 @@ a.post-btn.btnmola i {
   display: none;
 }
 
-#side-nav#side-nav {
-  margin-left: -23px;
-}
 

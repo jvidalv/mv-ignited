@@ -43,8 +43,11 @@ export const ConfigurationMenu = () => {
 
   return (
     <div className="float-right w-1/3 max-w-[420px] -mt-[0px] min-h-screen bg-surface-high shadow-lg">
-      <div className="bg-surface px-4 py-2 shadow">
+      <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
         <h2>MV-Ignited 🔥</h2>
+        <a href="/ignited" className="hover:underline">
+          Ignited page
+        </a>
       </div>
       <div className="mt-2 px-4">
         <div className="grid grid-cols-1 gap-2 hidden">
