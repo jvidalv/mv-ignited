@@ -10,7 +10,7 @@ export const trackForumVisits = () => {
     !["spy", "top", "unread", "featured", "new"].includes(splitUrl[4])
   ) {
     update("forumsLastVisited", [
-      ...new Set([splitUrl[4], ...(forumsLastVisited ?? [])]),
+      ...new Set([splitUrl[4].split("?")[0], ...(forumsLastVisited ?? [])]),
     ]);
   }
 };
