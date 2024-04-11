@@ -70,7 +70,7 @@ export const parseThreadsInPage = () => {
 
   const temasElement = getSubForumContainerElement();
   if (temasElement) {
-    for (const a of document.querySelectorAll("a")) {
+    for (const a of document.querySelectorAll("#temas .thread a")) {
       const thread = document.getElementById(`a${a.id.slice(1)}`);
       const trElement = thread?.parentElement?.parentElement?.parentElement;
 

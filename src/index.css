@@ -35,3 +35,7 @@ h3 {
 a {
   @apply text-primary
 }
+
+#more-actions {
+  @apply flex gap-1 flex-wrap
+}

@@ -8,10 +8,20 @@ export const injectThread = () => {
   const posts = document.querySelectorAll(".cf.post");
 
   // Thread ignore
-  const ignoreButton = document.querySelector('a[title="Ignorar el tema"]');
-  ignoreButton?.addEventListener("click", () =>
-    ignoreThread(window.location.href.replace("https://www.mediavida.com", "")),
-  );
+  const buttonsContainer = document.querySelector("#more-actions");
+  if (buttonsContainer) {
+    const ignoreButton = document.createElement("button");
+    ignoreButton.setAttribute("class", "btn ignore-topic");
+    ignoreButton.innerHTML =
+      '<i class="fa fa-eye-slash"></i> Ignore global del hilo';
+    ignoreButton.id = "mv-ignited--thread--ignore-button";
+    ignoreButton.addEventListener("click", () => {
+      const splitHref = window.location.href.split("/");
+      ignoreThread(`/${splitHref[3]}/${splitHref[4]}/${splitHref[5]}`);
+      ignoreButton.remove();
+    });
+    buttonsContainer.append(ignoreButton);
+  }
 
   Array.from(posts).forEach((post, index) => {
     const username = post.getAttribute("data-autor");
@@ -30,9 +40,11 @@ export const injectThread = () => {
 
       // Skeleton
       root.render(<UpvotesLoadingInPost numberOfUpvotes={numberOfUpvotes} />);
+
       setTimeout(() => {
         upvoteElement.setAttribute("style", "opacity: 1 !important;");
       }, 50);
+
       const renderUpvotes = async () => {
         const response = await fetch(
           `https://www.mediavida.com${upvoteElement.getAttribute("href")}`,

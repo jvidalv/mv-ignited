@@ -20,7 +20,7 @@ export const isHomepage = () => !!document.getElementById("index");
 export const isIgnitedPage = () =>
   window.location.href === "https://www.mediavida.com/ignited";
 export const isUserProfile = () => !!document.getElementById("perfil");
-export const isThread = () => !!document.getElementById("post-container");
+export const isThread = () => !!document.getElementById("posts-wrap");
 export const isThreadLive = () => !!document.getElementById("live");
 export const getSubForumContainerElement = () =>
   document.getElementById("temas");
