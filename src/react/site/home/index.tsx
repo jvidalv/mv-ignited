@@ -11,6 +11,7 @@ import {
   getUserLastPosts,
 } from "../../../injected/utils/data";
 import { useQuery } from "@tanstack/react-query";
+import { Tooltip } from "../components/ui";
 
 function Home({ onLoad }: { onLoad: () => void }) {
   const { forumsLastVisited } = useStore();
@@ -79,7 +80,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
                       <i
                         className={clsx(
                           "fid",
-                          getIconClassBySlug(thread.forumSlug)
+                          getIconClassBySlug(thread.forumSlug),
                         )}
                       />
                     </a>
@@ -111,15 +112,16 @@ function Home({ onLoad }: { onLoad: () => void }) {
                 forumsLastVisited
                   .filter((_, i) => i < 8)
                   .map((forumSlug) => (
-                    <a
-                      key={forumSlug}
-                      className="hover:scale-125 duration-200 transition"
-                      href={`/foro/${forumSlug}`}
-                    >
-                      <i
-                        className={clsx("fid", getIconClassBySlug(forumSlug))}
-                      />
-                    </a>
+                    <Tooltip key={forumSlug} content={forumSlug}>
+                      <a
+                        className="hover:scale-125 duration-200 transition"
+                        href={`/foro/${forumSlug}`}
+                      >
+                        <i
+                          className={clsx("fid", getIconClassBySlug(forumSlug))}
+                        />
+                      </a>
+                    </Tooltip>
                   ))}
             </div>
           </div>
