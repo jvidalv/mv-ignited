@@ -59,3 +59,36 @@ a {
 #side-nav {
   @apply ml-[-33px]
 }
+
+._p-tp,
+._p-ft {
+  @apply hidden;
+}
+
+#brand-menu {
+  @apply bg-inherit border-none
+}
+
+#brand-menu a span {
+  @apply text-white
+}
+
+#title {
+  @apply bg-inherit border-t-0 border-b-0
+}
+
+#title h1 {
+  text-shadow: unset;
+}
+
+.brand > .section > a {
+  @apply text-gray-300
+}
+
+.post-contents div.embed.twitter {
+  @apply ml-0 mr-0;
+}
+
+.post-contents div.embed.twitter iframe{
+  @apply !m-0
+}

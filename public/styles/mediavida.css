@@ -1,62 +1,9 @@
 /*
-* Adds
+* Required to prevent blinking, it is restored once the extension spits the JS
+* It can't be moved to the index.css file
 */
-
-._p-tp,
-._p-ft {
-  display: none;
-}
-
-/*
-* All
-*/
-
 body {
   opacity: 0 !important;
-}
-
-/*
-* Brand
- */
-
-#brand-menu#brand-menu {
-  background: inherit;
-  border: unset;
-}
-
-#brand-menu a span {
-  color: white;
-}
-
-#title#title {
-  background: inherit;
-  border-top: 0;
-  border-bottom: 0;
-}
-
-#title#title h1 {
-  text-shadow: unset;
-}
-
-.brand.brand>.section>a {
-  color: gainsboro;
-}
-  /*
-  * Twitter
-  */
-
-.embed.twitter.embed.twitter {
-  margin-left: unset;
-  margin-right: unset;
-  text-align: unset;
-}
-
-/*
-* Homepage
- */
-
-#index #content {
-  min-height: calc(100vh - 177px);
 }
 
 /*
