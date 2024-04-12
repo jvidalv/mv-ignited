@@ -52,11 +52,10 @@ a {
   @apply !flex items-center justify-center w-full h-[60px]
 }
 
-#foros .c-main {
-  padding-left: 0;
-  padding-right: 300px;
+.c-main {
+  @apply pl-0 pr-[300px]
 }
 
 #side-nav {
-  margin-left: -33px;
+  @apply ml-[-33px]
 }
