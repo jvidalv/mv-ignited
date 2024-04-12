@@ -42,9 +42,6 @@ window.ignite = {
       injectIgnited();
     }
 
-    // Await for page mounted before trying to modify anything
-    await awaitUntil(() => !!document.getElementById("content"));
-
     if (window.ignite.isFirstRender) {
       injectTheme();
       injectBrand();
