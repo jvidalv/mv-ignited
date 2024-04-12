@@ -22,12 +22,9 @@ import { parseUsersInPage } from "../domains/user";
 import { useStore } from "../utils/store";
 import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
-import { getUsers } from "./utils/data";
 
-// Fills it before rendering pipe
+// Fills the store before the rendering pipe
 useStore.getState();
-
-getUsers("asd");
 
 window.ignite = {
   isFirstRender: true,
