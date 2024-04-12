@@ -130,9 +130,42 @@ const Thread = (props: Thread) => {
   );
 };
 
+const ThreadSkeleton = () => {
+  return (
+    <div className="bg-surface first:rounded-t last:rounded-b min-h-[40px] animate-pulse" />
+  );
+};
+
+const ThreadList = ({
+  threads,
+  loading,
+  maxThreads,
+}: {
+  className?: string;
+  threads?: Thread[];
+  loading: boolean;
+  maxThreads: number;
+}) => {
+  return (
+    <>
+      {loading
+        ? [...Array(maxThreads).keys()].map((i) => (
+            <Threads.ThreadSkeleton key={i} />
+          ))
+        : threads
+            ?.filter((f, i) => i < maxThreads)
+            .map((thread) => {
+              return <Threads.Thread key={thread.url} {...thread} />;
+            })}
+    </>
+  );
+};
+
 const Threads = {
   Root,
   Thread,
+  ThreadSkeleton,
+  ThreadList,
 };
 
 export default Threads;

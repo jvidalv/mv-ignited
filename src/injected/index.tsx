@@ -21,7 +21,7 @@ import { parseThreadsInPage } from "../domains/thread";
 import { parseUsersInPage } from "../domains/user";
 import { useStore } from "../utils/store";
 import { injectUser } from "./user";
-import { injectIgnited } from "./ingited";
+import { injectIgnited } from "./ignited";
 import { getUsers } from "./utils/data";
 
 // Fills it before rendering pipe
