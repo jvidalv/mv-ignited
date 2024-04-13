@@ -169,7 +169,11 @@ function Ignited() {
         <div className="container mx-auto p-4 flex items-center justify-between">
           <h1 className="font-black text-white">MV-Ignited 🔥</h1>
           <button
-            onClick={() => history.back()}
+            onClick={() =>
+              history.length > 1
+                ? history.back()
+                : (() => (window.location.href = "https://www.mediavida.com"))()
+            }
             className="text-primary hover:underline text-sm"
           >
             Volver a Mediavida
