@@ -1,14 +1,19 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import clsx from "clsx";
 
-export const Button = (
-  props: DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >,
-) => {
+export const Button = ({
+  className,
+  ...props
+}: DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) => {
   return (
     <button
-      className="bg-primary whitespace-nowrap hover:bg-opacity-50 text-white font-bold px-4 rounded"
+      className={clsx(
+        className,
+        "bg-primary whitespace-nowrap hover:bg-opacity-50 min-h-[32px] text-white font-medium px-3 rounded",
+      )}
       {...props}
     />
   );

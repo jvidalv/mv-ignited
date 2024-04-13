@@ -1,4 +1,3 @@
-import { awaitUntil } from "./utils/promises";
 import "../index.css";
 import { injectTheme } from "./utils/theme";
 import { trackForumVisits } from "./utils/tracking";
@@ -88,6 +87,6 @@ window.ignite
     console.log("MV-Ignited🔥 errored 🔴");
     console.error(error);
     console.info(
-      "⬆️ Por favor, comparte el mensaje anterior para que pueda solucionarlo. 🙏🏼",
+      "⬆️ Por favor, comparte el mensaje anterior para facilitar su correción. 🙏🏼",
     );
   });

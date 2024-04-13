@@ -4,9 +4,10 @@ import Ignited from "../react/site/ignited";
 import { showBody } from "./utils/loader";
 import { queryClient } from "../utils/query";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
 export const injectIgnited = () => {
-  window.document.title = "Ignited | Mediavida🔥";
+  window.document.title = "Ignited | Mediavida";
   const html = document.getElementsByTagName("html").item(0);
 
   html?.setAttribute("class", "dark");
@@ -17,6 +18,7 @@ export const injectIgnited = () => {
   if (body) {
     createRoot(body).render(
       <QueryClientProvider client={queryClient}>
+        <Toaster />
         <Ignited />
       </QueryClientProvider>,
     );

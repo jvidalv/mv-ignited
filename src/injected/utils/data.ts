@@ -14,18 +14,18 @@ export const getUser = () => {
   };
 };
 
-export const getUsers = async (
+export type SearchedUser = {
+  value: string;
+  data: {
+    uid: string;
+    nombre: string;
+    avatar: string;
+  };
+};
+
+export const getSearchUsers = async (
   username: string,
-): Promise<
-  {
-    value: string;
-    data: {
-      uid: string;
-      nombre: string;
-      avatar: string;
-    };
-  }[]
-> => {
+): Promise<SearchedUser[]> => {
   const response = await fetch(
     `https://www.mediavida.com/usuarios/listado.php?query=${username}`,
     {

@@ -5,7 +5,6 @@ import { Button } from "../components/ui";
 
 export const ConfigurationMenu = () => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
-
   const { threadsIgnored, usersIgnored, customFont, update } = useStore();
 
   const onUnIgnoreUserClick = (username: string) => {
@@ -44,9 +43,9 @@ export const ConfigurationMenu = () => {
   return (
     <div className="float-right w-1/3 max-w-[420px] -mt-[0px] min-h-screen bg-surface-high shadow-lg">
       <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
-        <h2>MV-Ignited 🔥</h2>
+        <h2 className="font-black">MV-Ignited 🔥</h2>
         <a href="/ignited" className="hover:underline">
-          Ignited page
+          Main Page ➡️
         </a>
       </div>
       <div className="mt-2 px-4">
