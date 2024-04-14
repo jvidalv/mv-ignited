@@ -17,31 +17,31 @@
 */
 
 h1 {
-  @apply text-xl
+  @apply text-xl;
 }
 
 h2 {
-  @apply text-lg
+  @apply text-lg;
 }
 
 h3 {
-  @apply text-base
+  @apply text-base;
 }
 
 .btn-primary {
-  @apply bg-primary
+  @apply bg-primary;
 }
 
 a {
-  @apply text-primary
+  @apply text-primary;
 }
 
 #more-actions {
-  @apply flex gap-1 flex-wrap
+  @apply flex gap-1 flex-wrap;
 }
 
 .tag-group i {
-  @apply opacity-100
+  @apply opacity-100;
 }
 
 .tag-group span {
@@ -49,15 +49,15 @@ a {
 }
 
 #foros td.col-av-m {
-  @apply !flex items-center justify-center w-full h-[60px]
+  @apply !flex items-center justify-center w-full h-[60px];
 }
 
 .c-main {
-  @apply pl-0 pr-[300px]
+  @apply pl-0 pr-[300px];
 }
 
 #side-nav {
-  @apply ml-[-33px]
+  @apply ml-[-33px];
 }
 
 ._p-tp,
@@ -66,15 +66,15 @@ a {
 }
 
 #brand-menu {
-  @apply bg-inherit border-none
+  @apply bg-inherit border-none;
 }
 
 #brand-menu a span {
-  @apply text-white
+  @apply text-white;
 }
 
 #title {
-  @apply bg-inherit border-t-0 border-b-0
+  @apply bg-inherit border-t-0 border-b-0;
 }
 
 #title h1 {
@@ -82,13 +82,13 @@ a {
 }
 
 .brand > .section > a {
-  @apply text-gray-300
+  @apply text-gray-300;
 }
 
 .post-contents div.embed.twitter {
   @apply ml-0 mr-0;
 }
 
-.post-contents div.embed.twitter iframe{
-  @apply !m-0
+.post-contents div.embed.twitter iframe {
+  @apply !m-0;
 }

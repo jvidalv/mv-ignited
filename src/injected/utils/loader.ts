@@ -2,10 +2,6 @@ export const showBody = () => {
   const body = document.getElementsByTagName("body").item(0);
   body?.setAttribute("style", "opacity: 1 !important;");
 };
-export const hideBody = () => {
-  const body = document.getElementsByTagName("body").item(0);
-  body?.setAttribute("style", "opacity: 0 !important;");
-};
 
 export const showContent = () => {
   const content = document.getElementById("content");
@@ -18,8 +14,11 @@ export const hideContent = () => {
 
 export const isHomepage = () => !!document.getElementById("index");
 export const isIgnitedPage = () =>
-  window.location.href === "https://www.mediavida.com/ignited";
+  window.location.href.startsWith("https://www.mediavida.com/ignited");
 export const isUserProfile = () => !!document.getElementById("perfil");
+export const isUserProfileSignatures = () =>
+  !!document.getElementById("firmas");
+export const isMessages = () => !!document.getElementById("mensajes");
 export const isThread = () => !!document.getElementById("posts-wrap");
 export const isThreadLive = () => !!document.getElementById("live");
 export const getSubForumContainerElement = () =>

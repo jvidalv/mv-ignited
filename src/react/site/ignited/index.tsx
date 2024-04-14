@@ -1,48 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getSearchUsers, SearchedUser } from "../../../injected/utils/data";
 import { useQuery } from "@tanstack/react-query";
-import { MVIgnitedStoreUser, storeSet, useStore } from "../../../utils/store";
+import { storeSet, useStore, useUpdateUserInStore } from "../../../utils/store";
 import { Button, Input, Label } from "../components/ui";
 import useClipboard from "../../hooks/use-clipboard";
 import toast from "react-hot-toast";
 import clsx from "clsx";
 
 const User = ({ user }: { user: SearchedUser }) => {
-  const { users, update } = useStore((s) => ({
+  const { users } = useStore((s) => ({
     users: s.users,
     update: s.update,
   }));
 
   const userInStore = users.find((u) => u.username === user.value);
-
-  const updateUser = <K extends keyof MVIgnitedStoreUser>(
-    key: K,
-    data: MVIgnitedStoreUser[K],
-  ) => {
-    update(
-      "users",
-      userInStore
-        ? users.map((u) => {
-            if (u.username === user.value) {
-              return {
-                ...userInStore,
-                [key]: data ? data : null,
-              };
-            }
-
-            return u;
-          })
-        : [
-            ...users,
-            {
-              uid: user.data.uid,
-              username: user.value,
-              avatar: `https://mediavida.b-cdn.net/img/users/avatar/${user.data.avatar}`,
-              [key]: data,
-            },
-          ],
-    );
-  };
+  const { onUpdateUserInStore } = useUpdateUserInStore({
+    username: user.value,
+    uid: user.data.uid,
+    avatar: user.data.avatar,
+  });
 
   const avatarSrc = useMemo(() => {
     if (userInStore?.avatarCustom) {
@@ -95,8 +71,10 @@ const User = ({ user }: { user: SearchedUser }) => {
             <div className="grid gap-1 col-span-3">
               <Label>Username custom</Label>
               <Input
-                value={userInStore?.usernameCustom}
-                onChange={(e) => updateUser("usernameCustom", e.target.value)}
+                value={userInStore?.usernameCustom ?? ""}
+                onChange={(e) =>
+                  onUpdateUserInStore("usernameCustom", e.target.value)
+                }
                 placeholder="Este nombre remplazara al original en todo el foro!"
               />
             </div>
@@ -106,15 +84,19 @@ const User = ({ user }: { user: SearchedUser }) => {
                 type="color"
                 className="p-0 w-16 h-10"
                 value={userInStore?.usernameColour}
-                onChange={(e) => updateUser("usernameColour", e.target.value)}
+                onChange={(e) =>
+                  onUpdateUserInStore("usernameColour", e.target.value)
+                }
               />
             </div>
           </div>
           <div className="grid gap-1">
             <Label>Avatar custom</Label>
             <Input
-              value={userInStore?.avatarCustom}
-              onChange={(e) => updateUser("avatarCustom", e.target.value)}
+              value={userInStore?.avatarCustom ?? ""}
+              onChange={(e) =>
+                onUpdateUserInStore("avatarCustom", e.target.value)
+              }
               placeholder="Para que funcione tiene que ser una url, recomiendo imgur!"
             />
           </div>
@@ -123,7 +105,9 @@ const User = ({ user }: { user: SearchedUser }) => {
             <input
               type="checkbox"
               checked={!!userInStore?.isIgnored}
-              onChange={() => updateUser("isIgnored", !userInStore?.isIgnored)}
+              onChange={() =>
+                onUpdateUserInStore("isIgnored", !userInStore?.isIgnored)
+              }
             />
           </div>
         </div>
@@ -132,8 +116,11 @@ const User = ({ user }: { user: SearchedUser }) => {
   );
 };
 
+const urlParams = new URLSearchParams(window.location.search);
+const query = urlParams.get("q");
+
 function Ignited() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(query ?? "");
   const state = useStore((s) => s);
   const [modifiedStore, setModifiedStore] = useState(
     JSON.stringify(state, null, 2),
@@ -185,6 +172,7 @@ function Ignited() {
             <h2 className="font-medium text-white">Busqueda de usuarios</h2>
             <Input
               onChange={(e) => setUsername(e.target.value)}
+              defaultValue={query ?? ""}
               className="mt-4"
               placeholder="Escribe el nombre 🔍"
             />

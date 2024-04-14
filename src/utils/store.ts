@@ -14,7 +14,6 @@ export type MVIgnitedStoreUser = {
 };
 
 export type MVIgnitedStore = {
-  usersIgnored: string[];
   threadsIgnored: string[];
   customFont?: string;
   users: MVIgnitedStoreUser[];
@@ -32,6 +31,8 @@ export const storeGet = (): MVIgnitedStore | void => {
     const store = JSON.parse(saved);
     // Migration 2.0.0
     delete store?.forumsLastVisited;
+    delete store?.usersIgnored;
+    // end migration 2.0.0
 
     return store;
   }
@@ -44,9 +45,98 @@ export type MVIgnitedStoreState = MVIgnitedStore & {
   ) => void;
 };
 
+export const updateUserInStore = <K extends keyof MVIgnitedStoreUser>(
+  userInformation: {
+    username: string;
+    uid: string;
+    avatar: string;
+  },
+  key: K,
+  data: MVIgnitedStoreUser[K],
+) => {
+  const { update, users } = useStore.getState();
+
+  const isUserInStore = users.some(
+    (u) => u.username === userInformation.username,
+  );
+
+  if (isUserInStore) {
+    return update(
+      "users",
+      users.map((u) => {
+        if (u.username === userInformation.username) {
+          return {
+            ...u,
+            [key]: data ? data : null,
+          };
+        }
+
+        return u;
+      }),
+    );
+  }
+
+  return update("users", [
+    ...users,
+    {
+      uid: userInformation.uid,
+      username: userInformation.username,
+      avatar: `https://mediavida.b-cdn.net/img/users/avatar/${userInformation.avatar}`,
+      [key]: data,
+    },
+  ]);
+};
+
+export const useUpdateUserInStore = <
+  K extends keyof MVIgnitedStoreUser,
+>(userInformation: {
+  username: string;
+  uid: string;
+  avatar: string;
+}) => {
+  const { users, update } = useStore((s) => ({
+    users: s.users,
+    update: s.update,
+  }));
+  const isUserInStore = users.some(
+    (u) => u.username === userInformation.username,
+  );
+
+  const onUpdateUserInStore = (key: K, data: MVIgnitedStoreUser[K]) => {
+    if (isUserInStore) {
+      return update(
+        "users",
+        users.map((u) => {
+          if (u.username === userInformation.username) {
+            return {
+              ...u,
+              [key]: data ? data : null,
+            };
+          }
+
+          return u;
+        }),
+      );
+    }
+
+    return update("users", [
+      ...users,
+      {
+        uid: userInformation.uid,
+        username: userInformation.username,
+        avatar: `https://mediavida.b-cdn.net/img/users/avatar/${userInformation.avatar}`,
+        [key]: data,
+      },
+    ]);
+  };
+
+  return {
+    onUpdateUserInStore,
+  };
+};
+
 export const useStore = create(
   subscribeWithSelector<MVIgnitedStoreState>((set) => ({
-    usersIgnored: [],
     threadsIgnored: [],
     users: [],
     ...(storeGet() ?? {}),
@@ -73,7 +163,8 @@ useStore.subscribe(
 );
 
 useStore.subscribe(
-  (state) => state.usersIgnored,
+  // Quick hack for changes to be detected, doesn't scale
+  (state) => JSON.stringify(state.users.map((u) => JSON.stringify(u))),
   () => {
     parseUsersInPage();
   },

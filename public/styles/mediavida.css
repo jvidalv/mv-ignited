@@ -42,7 +42,7 @@ a.post-btn.btnmola i {
 
 .post-controls.post-controls .btnrep i {
   opacity: 0.4;
-  font-size:12px;
+  font-size: 12px;
 }
 
 @media screen and (min-width: 996px) .post .buttons {
@@ -74,13 +74,13 @@ a.post-btn.btnmola i {
   height: 26px;
 }
 
-.col-av.col-av.col-av a img{
+.col-av.col-av.col-av a img {
   width: 26px;
   height: 26px;
 }
 
 #logo#logo {
-  margin-left:0
+  margin-left: 0;
 }
 
 #foros_spy#foros_spy #temas td {
@@ -113,7 +113,7 @@ a.post-btn.btnmola i {
   display: none !important;
 }
 
-#foros .c-main h2{
+#foros .c-main h2 {
   margin-top: 12px;
   margin-bottom: 8px;
 }
@@ -127,8 +127,9 @@ a.post-btn.btnmola i {
   padding-bottom: 6px;
 }
 
-#foros#foros tr th:nth-child(3), #foros#foros tr td:nth-child(3) {
- display: none !important;
+#foros#foros tr th:nth-child(3),
+#foros#foros tr td:nth-child(3) {
+  display: none !important;
 }
 
 #forum-bar#forum-bar {
@@ -161,5 +162,3 @@ a.post-btn.btnmola i {
 #user-data#user-data span {
   display: none;
 }
-
-

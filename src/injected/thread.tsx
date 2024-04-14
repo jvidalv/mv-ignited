@@ -1,12 +1,60 @@
 import { createRoot, Root } from "react-dom/client";
-import { UserActionsInThread } from "../react/site/thread";
 import React from "react";
 import { ignoreThread } from "../domains/thread";
-import { UpvotesInPost, UpvotesLoadingInPost } from "../react/site/thread/post";
+import { UpvotesInPost, UpvotesLoadingInPost } from "../react/site/thread";
+import { updateUserInStore, useStore } from "../utils/store";
 
 export const injectThread = () => {
-  const posts = document.querySelectorAll(".cf.post");
+  // Tooltips on user click
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      const users = useStore.getState().users;
+      // Tooltip on username click
+      const divElement = mutation.addedNodes.item(0) as HTMLDivElement;
+      if (divElement?.getAttribute("class") === "f-card show") {
+        const muteButton = divElement.querySelector("#mute-user");
+        const username = divElement.querySelector(".user-info h4")?.textContent;
+        const user = users.find((u) => u.username === username);
+        const uid = muteButton?.getAttribute("data-uid");
+        const avatar =
+          divElement.querySelector(".user-avatar img")?.getAttribute("src") ??
+          "https://mediavida.b-cdn.net/img/users/avatar/default_big.png";
 
+        // Ignore button
+        if (username && uid && avatar) {
+          const mvIgnitedMuteButton = document.createElement("a");
+          mvIgnitedMuteButton.setAttribute(
+            "style",
+            "border-top: 1px solid grey; padding-top: 4px;",
+          );
+          mvIgnitedMuteButton.innerHTML = `<button class="btn" style="width: 100%"><i class="fa fa-microphone${user?.isIgnored ? "" : "-slash"}"></i><span class="ddi"> ${user?.isIgnored ? "Des-ignorar" : "Ignorar"} globalmente</span></button>`;
+          mvIgnitedMuteButton.onclick = () => {
+            updateUserInStore(
+              {
+                username,
+                uid,
+                avatar,
+              },
+              "isIgnored",
+              !user?.isIgnored,
+            );
+
+            document.body.click();
+          };
+          document.querySelector(".user-controls")?.append(mvIgnitedMuteButton);
+        }
+
+        // Customization button
+        const mvIgnitedButton = document.createElement("a");
+        mvIgnitedButton.innerHTML = `<a class="btn" style="border-color: orange" href="https://www.mediavida.com/ignited?q=${username}"><i class="fa fa-edit"></i><span class="ddi"> Customizar🔥</span></a>`;
+        document.querySelector(".user-controls")?.append(mvIgnitedButton);
+      }
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+  });
   // Thread ignore
   const buttonsContainer = document.querySelector("#more-actions");
   if (buttonsContainer) {
@@ -23,9 +71,9 @@ export const injectThread = () => {
     buttonsContainer.append(ignoreButton);
   }
 
-  Array.from(posts).forEach((post, index) => {
-    const username = post.getAttribute("data-autor");
-    const postNum = post.getAttribute("data-num");
+  document.querySelectorAll(".cf.post").forEach((post, index) => {
+    // const username = post.getAttribute("data-autor");
+    // const postNum = post.getAttribute("data-num");
     const roots: Root[] = [];
 
     // Up-vote counter
@@ -126,19 +174,19 @@ export const injectThread = () => {
       });
     }
 
-    // Render options under user
-    Array.from(post.querySelectorAll(".post-avatar")).forEach((element) => {
-      const actionsContainerId = `mv-ignited--actions-container-${postNum}`;
-      let actionsContainerElement = document.getElementById(actionsContainerId);
-      if (!actionsContainerElement) {
-        actionsContainerElement = document.createElement("div");
-        actionsContainerElement.id = actionsContainerId;
-        actionsContainerElement.className = "mv-ignited--actions-container";
-        element.appendChild(actionsContainerElement);
-      }
-
-      const root = createRoot(actionsContainerElement);
-      root.render(<UserActionsInThread username={username!} />);
+    // Render tags under user @todo
+    post.querySelectorAll(".post-avatar").forEach(() => {
+      // const actionsContainerId = `mv-ignited--actions-container-${postNum}`;
+      // let actionsContainerElement = document.getElementById(actionsContainerId);
+      // if (!actionsContainerElement) {
+      //   actionsContainerElement = document.createElement("div");
+      //   actionsContainerElement.id = actionsContainerId;
+      //   actionsContainerElement.className = "mv-ignited--actions-container";
+      //   element.appendChild(actionsContainerElement);
+      // }
+      //
+      // const root = createRoot(actionsContainerElement);
+      // root.render(<UserActionsInThread username={username!} />);
     });
   });
 };

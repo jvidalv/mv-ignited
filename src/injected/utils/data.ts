@@ -44,7 +44,22 @@ export const getSearchUsers = async (
   );
 
   try {
-    return await response.json()?.then((d) => d?.suggestions);
+    const suggestions: SearchedUser[] = await response
+      .json()
+      ?.then((d) => d?.suggestions);
+
+    return suggestions.map((u) => {
+      const avatarSplit = u.data.avatar.split(".");
+      const avatar = `${avatarSplit[0]}_big.${avatarSplit[1]}`;
+
+      return {
+        ...u,
+        data: {
+          ...u.data,
+          avatar: avatar,
+        },
+      };
+    });
   } catch {
     return [];
   }
@@ -105,7 +120,7 @@ export const getFavorites = async (): Promise<Thread[]> => {
 
   const favorites: Thread[] = [];
 
-  Array.from(doc.querySelectorAll("li")).forEach((child) => {
+  doc.querySelectorAll("li").forEach((child) => {
     const forumSlug = child
       .querySelector(".fid")
       ?.getAttribute("href")
@@ -147,7 +162,7 @@ export const getForumLastThreads = async (): Promise<Thread[]> => {
 
   const threads: Thread[] = [];
 
-  Array.from(doc.querySelectorAll("#temas tr")).forEach((child) => {
+  doc.querySelectorAll("#temas tr").forEach((child) => {
     const tds = child.querySelectorAll("td");
     const forumSlug = tds
       .item(0)
@@ -204,7 +219,7 @@ export const getLastNews = async (): Promise<Thread[]> => {
 
   const lastNews: Thread[] = [];
 
-  Array.from(doc.querySelectorAll(".block .news-item")).forEach((child) => {
+  doc.querySelectorAll(".block .news-item").forEach((child) => {
     const url = child.querySelector(".news-media")?.getAttribute("href");
     const title = child.querySelector(".news-info h4")?.textContent;
     const forumSlug = url?.split("/")[2];
@@ -256,7 +271,7 @@ export const getUserLastPosts = async (
 
   const threads: Thread[] = [];
 
-  Array.from(doc.querySelectorAll("#temas tr")).forEach((child) => {
+  doc.querySelectorAll("#temas tr").forEach((child) => {
     const tds = child.querySelectorAll("td");
     const forumSlug = tds
       .item(0)

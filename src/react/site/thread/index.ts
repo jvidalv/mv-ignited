@@ -1,1 +1,1 @@
-export { UserActionsInThread } from "./user";
+export { UpvotesInPost, UpvotesLoadingInPost } from "./post";

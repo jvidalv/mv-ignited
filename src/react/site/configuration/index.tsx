@@ -5,12 +5,21 @@ import { Button } from "../components/ui";
 
 export const ConfigurationMenu = () => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
-  const { threadsIgnored, usersIgnored, customFont, update } = useStore();
+  const { threadsIgnored, users, customFont, update } = useStore();
 
   const onUnIgnoreUserClick = (username: string) => {
     update(
-      "usersIgnored",
-      usersIgnored.filter((i) => i !== username),
+      "users",
+      users.map((u) => {
+        if (u.username === username) {
+          return {
+            ...u,
+            isIgnored: false,
+          };
+        }
+
+        return u;
+      }),
     );
 
     window.ignite
@@ -70,20 +79,22 @@ export const ConfigurationMenu = () => {
         <div className="grid grid-cols-1 gap-2 mt-4">
           <label className="font-bold text-base">Usarios ignorados</label>
           <div className="flex flex-wrap gap-1">
-            {!usersIgnored?.length && (
+            {!users.some((u) => u.isIgnored) && (
               <div className="opacity-50 -mt-4">
-                No tienes ningun usuario ignorado.
+                No tienes ningún usuario ignorado.
               </div>
             )}
-            {usersIgnored?.map((username) => (
-              <button
-                key={username}
-                className="bg-surface shadow rounded hover:bg-opacity-50 px-2"
-                onClick={() => onUnIgnoreUserClick(username)}
-              >
-                {username} <i className="fa fa-trash"></i>
-              </button>
-            ))}
+            {users
+              ?.filter((u) => u.isIgnored)
+              .map((u) => (
+                <button
+                  key={u.username}
+                  className="bg-surface shadow rounded hover:bg-opacity-50 px-2"
+                  onClick={() => onUnIgnoreUserClick(u.username)}
+                >
+                  {u.username} <i className="fa fa-trash"></i>
+                </button>
+              ))}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-2 mt-4">
@@ -91,7 +102,7 @@ export const ConfigurationMenu = () => {
           <div className="grid grid-cols-1 gap-1">
             {!threadsIgnored?.length && (
               <div className="opacity-50 -mt-4">
-                No tienes ningun hilo ignorado.
+                No tienes ningún hilo ignorado.
               </div>
             )}
             {threadsIgnored?.map((thread) => (

@@ -17,7 +17,7 @@ export const injectHomepage = () => {
         persistOptions={{ persister: asyncStoragePersister }}
       >
         <Home onLoad={showContent} />
-      </PersistQueryClientProvider>
+      </PersistQueryClientProvider>,
     );
   }
 };
