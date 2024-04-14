@@ -21,6 +21,7 @@ import { parseUsersInPage } from "../domains/user";
 import { useStore } from "../utils/store";
 import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
+import { parsePostsInPage } from "../domains/post";
 
 // Fills the store before the rendering pipe
 useStore.getState();
@@ -63,6 +64,7 @@ window.ignite = {
 
     if (isThread()) {
       injectThread();
+      parsePostsInPage();
     }
 
     if (window.ignite.isFirstRender) {

@@ -100,6 +100,17 @@ const User = ({ user }: { user: SearchedUser }) => {
               placeholder="Para que funcione tiene que ser una url, recomiendo imgur!"
             />
           </div>
+          <div className="grid gap-1">
+            <Label>Color del borde en mensajes</Label>
+            <Input
+              type="color"
+              className="p-0 w-16 h-10"
+              value={userInStore?.postBorderColour}
+              onChange={(e) =>
+                onUpdateUserInStore("postBorderColour", e.target.value)
+              }
+            />
+          </div>
           <div className="flex items-center justify-start gap-2">
             <Label>Ignorado</Label>
             <input

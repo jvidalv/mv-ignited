@@ -11,6 +11,7 @@ export type MVIgnitedStoreUser = {
   isIgnored?: boolean;
   avatar: string;
   avatarCustom?: string;
+  postBorderColour?: string;
 };
 
 export type MVIgnitedStore = {

@@ -349,6 +349,7 @@ export const parseUsersInPage = () => {
       });
     };
     parsePosts();
+
     if (isThreadLive()) {
       setInterval(parsePosts, 150);
     }
