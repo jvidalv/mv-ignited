@@ -23,7 +23,7 @@ export const parseUsersInPage = () => {
 
     if (userInfoElement && username && userInStore) {
       if (userInStore.usernameCustom) {
-        userInfoElement.textContent = userInStore.usernameCustom;
+        userInfoElement.innerHTML = `${userInStore.usernameCustom} <span style="opacity:0.5;font-size:14px;">${username}</span>`;
       }
       if (userInStore.usernameColour) {
         userInfoElement.setAttribute(

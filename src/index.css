@@ -92,3 +92,7 @@ a {
 .post-contents div.embed.twitter iframe {
   @apply !m-0;
 }
+
+.cf.post {
+  @apply p-3
+}
