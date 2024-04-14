@@ -1,16 +1,13 @@
-import { useStore } from "../../utils/store";
+import { setLatestVisitedForums } from "../../domains/forum";
 
 export const trackForumVisits = () => {
   const splitUrl = window.location.href.split("/");
-  const { forumsLastVisited, update } = useStore.getState();
 
   if (
     splitUrl[3] === "foro" &&
     !!splitUrl[4] &&
     !["spy", "top", "unread", "featured", "new"].includes(splitUrl[4])
   ) {
-    update("forumsLastVisited", [
-      ...new Set([splitUrl[4].split("?")[0], ...(forumsLastVisited ?? [])]),
-    ]);
+    setLatestVisitedForums(splitUrl[4].split("?")[0]);
   }
 };

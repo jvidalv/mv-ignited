@@ -14,7 +14,6 @@ export type MVIgnitedStoreUser = {
 };
 
 export type MVIgnitedStore = {
-  forumsLastVisited: string[];
   usersIgnored: string[];
   threadsIgnored: string[];
   customFont?: string;
@@ -30,7 +29,11 @@ export const storeSet = (data: MVIgnitedStore) => {
 export const storeGet = (): MVIgnitedStore | void => {
   const saved = localStorage.getItem(MV_IGNITED_STORE_KEY);
   if (saved) {
-    return JSON.parse(saved);
+    const store = JSON.parse(saved);
+    // Migration 2.0.0
+    delete store?.forumsLastVisited;
+
+    return store;
   }
 };
 
@@ -45,7 +48,6 @@ export const useStore = create(
   subscribeWithSelector<MVIgnitedStoreState>((set) => ({
     usersIgnored: [],
     threadsIgnored: [],
-    forumsLastVisited: [],
     users: [],
     ...(storeGet() ?? {}),
     update: (key, data) =>
