@@ -91,8 +91,8 @@ const User = ({ user }: { user: SearchedUser }) => {
       </div>
       <div className="mt-4">
         <div className="grid gap-2.5">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="grid gap-1 col-span-2">
+          <div className="grid grid-cols-4 gap-2">
+            <div className="grid gap-1 col-span-3">
               <Label>Username custom</Label>
               <Input
                 value={userInStore?.usernameCustom}
@@ -101,7 +101,7 @@ const User = ({ user }: { user: SearchedUser }) => {
               />
             </div>
             <div className="grid gap-1">
-              <Label>Color de nick</Label>
+              <Label>Color</Label>
               <Input
                 type="color"
                 className="p-0 w-16 h-10"
@@ -118,11 +118,10 @@ const User = ({ user }: { user: SearchedUser }) => {
               placeholder="Para que funcione tiene que ser una url, recomiendo imgur!"
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-start gap-2">
             <Label>Ignorado</Label>
-            <Input
+            <input
               type="checkbox"
-              className="w-fit"
               checked={!!userInStore?.isIgnored}
               onChange={() => updateUser("isIgnored", !userInStore?.isIgnored)}
             />
@@ -176,20 +175,18 @@ function Ignited() {
             }
             className="text-primary hover:underline text-sm"
           >
-            Volver a Mediavida
+            Volver a Mediavida ⬅️
           </button>
         </div>
       </header>
       <main className="container p-4 mx-auto">
         <div className="grid grid-cols-3 gap-8">
           <div className="col-span-2">
-            <div>
-              <label className="text-white">Busqueda de usuarios</label>
-            </div>
-            <input
+            <h2 className="font-medium text-white">Busqueda de usuarios</h2>
+            <Input
               onChange={(e) => setUsername(e.target.value)}
-              className="mt-4 rounded px-3 py-2"
-              placeholder="Escribe el nombre"
+              className="mt-4"
+              placeholder="Escribe el nombre 🔍"
             />
             <div className="grid grid-cols-2 gap-4 mt-4">
               {!data &&
