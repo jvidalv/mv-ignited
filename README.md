@@ -17,7 +17,7 @@ pnpm install
 ## Build
 
 ```
-pnpm build:chrome
+pnpm build
 ```
 
 ## Build in watch mode

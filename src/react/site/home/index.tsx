@@ -18,6 +18,8 @@ const MAX_NEWS = 5;
 const MAX_THREADS = 40;
 const MAX_USER_LAST_POSTS = 6;
 const MAX_FAVORITES = 6;
+const THREADS_REFETCH_INTERVAL = 30 * 1000; // 30 seconds
+const NEWS_REFETCH_INTERVAL = 60 * 10 * 1000; // 10 mins
 
 function Home({ onLoad }: { onLoad: () => void }) {
   const lastVisitedForums = getLatestVisitedForums();
@@ -25,21 +27,25 @@ function Home({ onLoad }: { onLoad: () => void }) {
   const { data: lastThreads, isPending: lastThreadsPending } = useQuery({
     queryKey: ["lastThreads"],
     queryFn: () => getForumLastThreads(),
+    refetchInterval: THREADS_REFETCH_INTERVAL,
   });
 
   const { data: userLastPosts, isPending: userLastPostsPending } = useQuery({
     queryKey: ["userLastPosts"],
     queryFn: () => getUserLastPosts(getUsername()),
+    refetchInterval: THREADS_REFETCH_INTERVAL,
   });
 
   const { data: favorites, isPending: favoritesPending } = useQuery({
     queryKey: ["favorites"],
     queryFn: () => getFavorites(),
+    refetchInterval: THREADS_REFETCH_INTERVAL,
   });
 
   const { data: lastNews, isPending: lastNewsPending } = useQuery({
     queryKey: ["lastNews"],
     queryFn: () => getLastNews(),
+    refetchInterval: NEWS_REFETCH_INTERVAL,
   });
 
   useEffect(() => {
