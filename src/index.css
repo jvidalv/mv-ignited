@@ -74,11 +74,13 @@ a {
 }
 
 #title {
-  @apply bg-inherit border-t-0 border-b-0;
+  @apply !bg-inherit border-t-0 border-b-0;
+  background: unset !important;
+  border: unset !important;
 }
 
 #title h1 {
-  text-shadow: unset;
+  text-shadow: unset !important;
 }
 
 .brand > .section > a {
@@ -95,4 +97,20 @@ a {
 
 .cf.post {
   @apply p-3
+}
+
+.btnmola {
+  @apply pl-0 !block !opacity-0 transition;
+}
+
+.post-controls {
+  @apply flex items-center justify-between
+}
+
+.post-controls > * {
+  @apply !block
+}
+
+.post-controls::after {
+  content: unset;
 }

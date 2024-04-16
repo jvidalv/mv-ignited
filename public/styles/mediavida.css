@@ -9,20 +9,6 @@ body {
 /*
 * Fixes
  */
-a.post-btn.btnmola i {
-  width: 16px;
-  height: 16px;
-  margin: 0 3px 0 0;
-  padding: 1px 0 0;
-}
-
-.btnmola.btnmola.btnmola {
-  flex: 1;
-  padding-left: 0;
-  display: block !important;
-  opacity: 0 !important;
-  transition: opacity 0.2s ease-in;
-}
 
 .post-controls.post-controls {
   height: 40px;
