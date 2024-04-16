@@ -14,9 +14,14 @@ export type MVIgnitedStoreUser = {
   postBorderColour?: string;
 };
 
+export enum Features {
+  NewHomepage = "newHomepage",
+}
+
 export type MVIgnitedStore = {
   threadsIgnored: string[];
   customFont?: string;
+  features: Features[];
   users: MVIgnitedStoreUser[];
 };
 
@@ -141,6 +146,7 @@ export const useUpdateUserInStore = <
 export const useStore = create(
   subscribeWithSelector<MVIgnitedStoreState>((set) => ({
     threadsIgnored: [],
+    features: [],
     users: [],
     ...(storeGet() ?? {}),
     update: (key, data) =>

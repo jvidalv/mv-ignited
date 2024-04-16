@@ -18,7 +18,7 @@ import {
 import { injectThreads } from "./threads";
 import { parseThreadsInPage } from "../domains/thread";
 import { parseUsersInPage } from "../domains/user";
-import { useStore } from "../utils/store";
+import { Features, useStore } from "../utils/store";
 import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
 import { parsePostsInPage } from "../domains/post";
@@ -29,6 +29,7 @@ useStore.getState();
 window.ignite = {
   isFirstRender: true,
   render: async () => {
+    const state = useStore.getState();
     injectFont().then((customFont) => {
       if (customFont) {
         console.log(`MV-Ignited loaded font: ${customFont}`);
@@ -49,7 +50,7 @@ window.ignite = {
       injectConfiguration();
     }
 
-    if (isHomepage()) {
+    if (state.features.includes(Features.NewHomepage) && isHomepage()) {
       injectHomepage();
     }
 
