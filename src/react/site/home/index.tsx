@@ -53,7 +53,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
   }, []);
 
   return (
-    <div className={clsx("py-2")}>
+    <div className="py-2">
       <div className="flex items-end justify-between">
         <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>
@@ -90,7 +90,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
                   ))}
             </div>
           </div>
-          <Threads.Root className="mt-3 h-screen">
+          <Threads.Root className="mt-3">
             <Threads.ThreadList
               threads={lastThreads}
               loading={lastThreadsPending}

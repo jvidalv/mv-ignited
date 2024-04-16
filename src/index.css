@@ -28,6 +28,10 @@ h3 {
   @apply text-base;
 }
 
+#content {
+  @apply min-h-screen;
+}
+
 .btn-primary {
   @apply bg-primary;
 }
