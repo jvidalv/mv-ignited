@@ -1,11 +1,18 @@
-import { useStore } from "../../../utils/store";
+import { Feature, useStore } from "../../../utils/store";
 import React, { useState } from "react";
 import { loadFont, removeFont } from "../../../utils/fonts";
 import { Button } from "../components/ui";
 
+const getFeatureName = (feature: Feature) => {
+  switch (feature) {
+    case Feature.NewHomepage:
+      return "Homepage rediseñada";
+  }
+};
+
 export const ConfigurationMenu = () => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
-  const { threadsIgnored, users, customFont, update } = useStore();
+  const { threadsIgnored, users, customFont, update, features } = useStore();
 
   const onUnIgnoreUserClick = (username: string) => {
     update(
@@ -74,6 +81,28 @@ export const ConfigurationMenu = () => {
             ) : (
               <Button onClick={onSelectFont}>Inject font</Button>
             )}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2">
+          <label className="font-bold text-base">Features</label>
+          <div>
+            {Object.values(Feature).map((f) => (
+              <div key={f} className="flex items-center gap-2">
+                <span>{getFeatureName(f)}</span>
+                <input
+                  type="checkbox"
+                  checked={features.includes(f)}
+                  onChange={() =>
+                    update(
+                      "features",
+                      features.includes(f)
+                        ? features.filter((f) => f !== f)
+                        : [...features, f],
+                    )
+                  }
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-2 mt-4">

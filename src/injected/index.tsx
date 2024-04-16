@@ -18,7 +18,7 @@ import {
 import { injectThreads } from "./threads";
 import { parseThreadsInPage } from "../domains/thread";
 import { parseUsersInPage } from "../domains/user";
-import { Features, useStore } from "../utils/store";
+import { Feature, useStore } from "../utils/store";
 import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
 import { parsePostsInPage } from "../domains/post";
@@ -50,7 +50,7 @@ window.ignite = {
       injectConfiguration();
     }
 
-    if (state.features.includes(Features.NewHomepage) && isHomepage()) {
+    if (state.features.includes(Feature.NewHomepage) && isHomepage()) {
       injectHomepage();
     }
 

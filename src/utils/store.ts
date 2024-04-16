@@ -14,14 +14,14 @@ export type MVIgnitedStoreUser = {
   postBorderColour?: string;
 };
 
-export enum Features {
+export enum Feature {
   NewHomepage = "newHomepage",
 }
 
 export type MVIgnitedStore = {
   threadsIgnored: string[];
   customFont?: string;
-  features: Features[];
+  features: Feature[];
   users: MVIgnitedStoreUser[];
 };
 
@@ -176,5 +176,13 @@ useStore.subscribe(
   (state) => JSON.stringify(state.users.map((u) => JSON.stringify(u))),
   () => {
     parseUsersInPage();
+  },
+);
+
+useStore.subscribe(
+  // Quick hack for changes to be detected, doesn't scale
+  (state) => state.features,
+  () => {
+    window.location.reload();
   },
 );
