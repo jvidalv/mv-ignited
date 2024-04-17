@@ -22,14 +22,17 @@ import { Feature, useStore } from "../utils/store";
 import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
 import { parsePostsInPage } from "../domains/post";
+import { useCustomTheme } from "../utils/custom-theme";
 
 // Fills the store before the rendering pipe
 useStore.getState();
+useCustomTheme.getState();
 
 window.ignite = {
   isFirstRender: true,
   render: async () => {
     const state = useStore.getState();
+
     injectFont().then((customFont) => {
       if (customFont) {
         console.log(`MV-Ignited loaded font: ${customFont}`);

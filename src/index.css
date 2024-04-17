@@ -16,6 +16,18 @@
  This block of code is opinionated for MV page code, and should not be shared with the popup
 */
 
+body {
+  @apply pt-0;
+}
+
+body > header:not([id="header"]){
+  @apply pt-12;
+}
+
+body > #header + #content {
+  @apply pt-12;
+}
+
 h1 {
   @apply text-xl;
 }
@@ -71,10 +83,15 @@ a {
 
 #brand-menu {
   @apply bg-inherit border-none;
+  background: unset;
 }
 
 #brand-menu a span {
   @apply text-white;
+}
+
+.brand {
+  @apply !pb-2 !pt-0 !px-0;
 }
 
 #title {

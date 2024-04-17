@@ -2,6 +2,10 @@ import { Feature, useStore } from "../../../utils/store";
 import React, { useState } from "react";
 import { loadFont, removeFont } from "../../../utils/fonts";
 import { Button } from "../components/ui";
+import {
+  MVIgnitedCustomTheme,
+  useCustomTheme,
+} from "../../../utils/custom-theme";
 
 const getFeatureName = (feature: Feature) => {
   switch (feature) {
@@ -10,9 +14,19 @@ const getFeatureName = (feature: Feature) => {
   }
 };
 
+const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
+  switch (property) {
+    case "headerColour":
+      return "Header";
+    case "pageBackground":
+      return "Fondo";
+  }
+};
+
 export const ConfigurationMenu = () => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
   const { threadsIgnored, users, customFont, update, features } = useStore();
+  const { update: updateCustomTheme, ...customTheme } = useCustomTheme();
 
   const onUnIgnoreUserClick = (username: string) => {
     update(
@@ -83,7 +97,7 @@ export const ConfigurationMenu = () => {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1">
           <label className="font-bold text-base">Features</label>
           <div>
             {Object.values(Feature).map((f) => (
@@ -101,6 +115,44 @@ export const ConfigurationMenu = () => {
                     )
                   }
                 />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2">
+          <label className="font-bold text-base">Custom theme</label>
+          <div>
+            {Object.keys(customTheme).map((key) => (
+              <div key={key} className="flex items-center gap-2 h-8">
+                <span className="flex-1">
+                  {getCustomThemePropName(key as keyof MVIgnitedCustomTheme)}
+                </span>
+                <div className="flex gap-1">
+                  <input
+                    type="color"
+                    className="rounded"
+                    value={
+                      customTheme[key as keyof MVIgnitedCustomTheme] ??
+                      "#ffff00"
+                    }
+                    onChange={(e) =>
+                      updateCustomTheme(
+                        key as keyof MVIgnitedCustomTheme,
+                        e.target.value,
+                      )
+                    }
+                  />
+                </div>
+                <button
+                  onClick={() =>
+                    updateCustomTheme(
+                      key as keyof MVIgnitedCustomTheme,
+                      undefined,
+                    )
+                  }
+                >
+                  🗑️
+                </button>
               </div>
             ))}
           </div>

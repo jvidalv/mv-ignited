@@ -53,7 +53,7 @@ function Home({ onLoad }: { onLoad: () => void }) {
   }, []);
 
   return (
-    <div className="py-2">
+    <div className="pb-4">
       <div className="flex items-end justify-between">
         <h1>Noticias</h1>
         <a href="/p2">Siguientes</a>

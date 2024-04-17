@@ -1,3 +1,5 @@
+import { MVIgnitedCustomTheme } from "./utils/custom-theme";
+
 chrome.tabs.onUpdated.addListener((tabId) => {
   // Check if the tab's URL is updated
   if (tabId) {
@@ -41,3 +43,58 @@ chrome.webNavigation.onCommitted.addListener(
   },
   { url: [{ urlMatches: "https://www.mediavida.com/*" }] },
 );
+
+let previousCSS: string;
+
+chrome.runtime.onMessage.addListener(function (
+  message: MVIgnitedCustomTheme,
+  sender,
+  sendResponse,
+) {
+  if (sender?.tab?.id) {
+    if (previousCSS) {
+      chrome.scripting.removeCSS({
+        target: { tabId: sender.tab.id },
+        css: previousCSS,
+      });
+    }
+
+    previousCSS = `
+    ${
+      message.headerColour &&
+      `
+      :root {
+        --custom-theme--header: ${message.headerColour};
+      }
+      
+      #header {
+        background: var(--custom-theme--header) !important;
+        border-color: var(--custom-theme--header) !important;
+      }
+      
+      #header #sections>li>a:hover {
+        background: var(--custom-theme--header) !important;
+      }
+      `
+    }
+     ${
+       message.pageBackground &&
+       `
+      :root {
+        --custom-theme--background: ${message.pageBackground};
+      }
+      
+      #content {
+        background-color: var(--custom-theme--background) !important;
+      }
+      `
+     }
+    `;
+
+    chrome.scripting.insertCSS({
+      target: { tabId: sender.tab.id },
+      css: previousCSS,
+    });
+  }
+  sendResponse({ response: "✅" });
+});
