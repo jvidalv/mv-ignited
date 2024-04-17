@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
 export type MVIgnitedCustomTheme = {
+  customWidth?: string;
   headerColour?: string;
   pageBackground?: string;
 };
@@ -17,7 +18,11 @@ export const storeGet = (): MVIgnitedCustomTheme | void => {
   if (saved) {
     const savedParsed = JSON.parse(saved);
     chrome.runtime.sendMessage(savedParsed, function (response) {
-      console.log("MV-Ignited🔥 Custom theme applied 🖼️", response);
+      console.log(
+        "MV-Ignited🔥 Custom theme applied 🖼️",
+        savedParsed,
+        response,
+      );
     });
     return savedParsed;
   }
@@ -32,6 +37,7 @@ export type MVIgnitedStoreState = MVIgnitedCustomTheme & {
 
 export const useCustomTheme = create(
   subscribeWithSelector<MVIgnitedStoreState>((set) => ({
+    customWidth: undefined,
     headerColour: undefined,
     pageBackground: undefined,
     ...(storeGet() ?? {}),
@@ -51,3 +57,14 @@ useCustomTheme.subscribe(
     });
   },
 );
+
+export const isValidCSSSize = (size: string) => {
+  const validSizeRegex = /^\d+(\.\d+)?(px|em|rem|vh|vw|%|in|cm|mm|pt|pc)$/i;
+  if (!validSizeRegex.test(size)) {
+    return false;
+  }
+
+  const numericValue = parseFloat(size);
+
+  return numericValue >= 800 && numericValue <= window.screen.availWidth;
+};

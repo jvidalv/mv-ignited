@@ -61,8 +61,26 @@ chrome.runtime.onMessage.addListener(function (
 
     previousCSS = `
     ${
-      message.headerColour &&
+      message.customWidth
+        ? `
+      @media only screen and (min-width: 1200px) {
+       .fullw {
+          max-width: ${message.customWidth} !important;
+       }
+       #main {
+          max-width: ${message.customWidth} !important;
+       } 
+       #topbar {
+          width: ${message.customWidth} !important;
+          max-width: ${message.customWidth} !important;
+       }
+      }
       `
+        : ""
+    }
+    ${
+      message.headerColour
+        ? `
       :root {
         --custom-theme--header: ${message.headerColour};
       }
@@ -76,10 +94,11 @@ chrome.runtime.onMessage.addListener(function (
         background: var(--custom-theme--header) !important;
       }
       `
+        : ""
     }
      ${
-       message.pageBackground &&
-       `
+       message.pageBackground
+         ? `
       :root {
         --custom-theme--background: ${message.pageBackground};
       }
@@ -88,6 +107,7 @@ chrome.runtime.onMessage.addListener(function (
         background-color: var(--custom-theme--background) !important;
       }
       `
+         : ""
      }
     `;
 

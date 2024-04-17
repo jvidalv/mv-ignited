@@ -1,11 +1,14 @@
 import { Feature, useStore } from "../../../utils/store";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loadFont, removeFont } from "../../../utils/fonts";
-import { Button } from "../components/ui";
+import { Button, Tooltip } from "../components/ui";
 import {
+  isValidCSSSize,
   MVIgnitedCustomTheme,
   useCustomTheme,
 } from "../../../utils/custom-theme";
+import clsx from "clsx";
+import { hasParentWithId } from "../../../utils/dom";
 
 const getFeatureName = (feature: Feature) => {
   switch (feature) {
@@ -16,6 +19,8 @@ const getFeatureName = (feature: Feature) => {
 
 const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
   switch (property) {
+    case "customWidth":
+      return "Ancho del contenido";
     case "headerColour":
       return "Header";
     case "pageBackground":
@@ -23,7 +28,9 @@ const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
   }
 };
 
-export const ConfigurationMenu = () => {
+const id = "mv-ignited--inner-configuration--container";
+
+export const ConfigurationMenu = ({ toggle }: { toggle: () => void }) => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
   const { threadsIgnored, users, customFont, update, features } = useStore();
   const { update: updateCustomTheme, ...customTheme } = useCustomTheme();
@@ -70,8 +77,27 @@ export const ConfigurationMenu = () => {
     removeFont();
   };
 
+  // This is to close the menu on outside click, is hacky rushed as heck, please improve
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      // Quick hack to not trigger it on menu open click
+      if (target.getAttribute("class") === "fa fa-cog") {
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      if (!hasParentWithId(e.target, id)) {
+        return toggle();
+      }
+    });
+  }, []);
+
   return (
-    <div className="float-right w-1/3 max-w-[420px] -mt-[0px] min-h-screen bg-surface-high shadow-lg">
+    <div
+      id={id}
+      className="float-right w-1/3 max-w-[420px] min-h-screen bg-surface-high shadow-lg -mt-[1px]"
+    >
       <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
         <h2 className="font-black">MV-Ignited 🔥</h2>
         <a href="/ignited" className="hover:underline">
@@ -122,39 +148,66 @@ export const ConfigurationMenu = () => {
         <div className="grid grid-cols-1 gap-2">
           <label className="font-bold text-base">Custom theme</label>
           <div>
-            {Object.keys(customTheme).map((key) => (
-              <div key={key} className="flex items-center gap-2 h-8">
-                <span className="flex-1">
-                  {getCustomThemePropName(key as keyof MVIgnitedCustomTheme)}
-                </span>
-                <div className="flex gap-1">
+            <div className="flex items-center gap-2 h-8">
+              <span className="flex-1">
+                {getCustomThemePropName("customWidth")}
+              </span>
+              <div className="flex gap-1">
+                <Tooltip content="Solo funciona si es CSS valido y mayor de 800 y menor del tamaño disponible de pantalla">
                   <input
-                    type="color"
-                    className="rounded"
-                    value={
-                      customTheme[key as keyof MVIgnitedCustomTheme] ??
-                      "#ffff00"
-                    }
-                    onChange={(e) =>
+                    type="text"
+                    defaultValue={customTheme.customWidth ?? ""}
+                    className="p-1 rounded h-5 w-full"
+                    placeholder="Ejemplo: 1300px"
+                    onChange={(e) => {
+                      if (!e.target.value || isValidCSSSize(e.target.value)) {
+                        updateCustomTheme("customWidth", e.target.value);
+                      }
+                    }}
+                  />
+                </Tooltip>
+              </div>
+            </div>
+
+            {Object.keys(customTheme)
+              .filter((k) => k !== "customWidth")
+              .map((key) => (
+                <div key={key} className="flex items-center gap-2 h-8">
+                  <span className="flex-1">
+                    {getCustomThemePropName(key as keyof MVIgnitedCustomTheme)}
+                  </span>
+                  <div className="flex gap-1">
+                    <input
+                      type={key === "customWidth" ? "text" : "color"}
+                      value={
+                        customTheme[key as keyof MVIgnitedCustomTheme] ?? ""
+                      }
+                      className={clsx(
+                        key === "customWidth" && "p-1 rounded h-5 w-full",
+                      )}
+                      placeholder={
+                        key === "customWidth" ? "Ejemplo: 1300px" : "color"
+                      }
+                      onChange={(e) =>
+                        updateCustomTheme(
+                          key as keyof MVIgnitedCustomTheme,
+                          e.target.value,
+                        )
+                      }
+                    />
+                  </div>
+                  <button
+                    onClick={() =>
                       updateCustomTheme(
                         key as keyof MVIgnitedCustomTheme,
-                        e.target.value,
+                        undefined,
                       )
                     }
-                  />
+                  >
+                    🗑️
+                  </button>
                 </div>
-                <button
-                  onClick={() =>
-                    updateCustomTheme(
-                      key as keyof MVIgnitedCustomTheme,
-                      undefined,
-                    )
-                  }
-                >
-                  🗑️
-                </button>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-2 mt-4">
@@ -202,27 +255,10 @@ export const ConfigurationMenu = () => {
   );
 };
 
-export const ConfigurationButton = ({
-  configurationMenuId,
-}: {
-  configurationMenuId: string;
-}) => {
-  const menuClosedStyle = "opacity:0; pointer-events: none";
-  const onClick = () => {
-    const menuElement = document.getElementById(configurationMenuId);
-
-    if (menuElement) {
-      if (menuElement.getAttribute("style") === menuClosedStyle) {
-        menuElement.setAttribute("style", "");
-      } else {
-        menuElement.setAttribute("style", menuClosedStyle);
-      }
-    }
-  };
-
+export const ConfigurationButton = ({ toggle }: { toggle: () => void }) => {
   return (
     <button
-      onClick={onClick}
+      onClick={toggle}
       className="text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
       title="MV-ignite configuracion"
     >
