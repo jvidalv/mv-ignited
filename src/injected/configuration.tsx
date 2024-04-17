@@ -37,7 +37,6 @@ export const injectConfiguration = () => {
 
   const menuClosedStyle =
     "transform: translateX(300px); opacity:0; pointer-events: none";
-
   const toggle = () => {
     const menuElement = document.getElementById(configurationMenuId);
 

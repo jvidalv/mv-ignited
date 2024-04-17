@@ -21,6 +21,8 @@ const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
   switch (property) {
     case "customWidth":
       return "Ancho del contenido";
+    case "primaryColour":
+      return "Color primario";
     case "headerColour":
       return "Header";
     case "pageBackground":

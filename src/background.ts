@@ -64,15 +64,11 @@ chrome.runtime.onMessage.addListener(function (
       message.customWidth
         ? `
       @media only screen and (min-width: 1200px) {
-       .fullw {
+       .fullw, #main, #topbar {
           max-width: ${message.customWidth} !important;
        }
-       #main {
-          max-width: ${message.customWidth} !important;
-       } 
        #topbar {
           width: ${message.customWidth} !important;
-          max-width: ${message.customWidth} !important;
        }
       }
       `
@@ -84,12 +80,10 @@ chrome.runtime.onMessage.addListener(function (
       :root {
         --custom-theme--header: ${message.headerColour};
       }
-      
       #header {
         background: var(--custom-theme--header) !important;
         border-color: var(--custom-theme--header) !important;
       }
-      
       #header #sections>li>a:hover {
         background: var(--custom-theme--header) !important;
       }
@@ -102,9 +96,38 @@ chrome.runtime.onMessage.addListener(function (
       :root {
         --custom-theme--background: ${message.pageBackground};
       }
-      
       #content {
         background-color: var(--custom-theme--background) !important;
+      }
+      `
+         : ""
+     }
+     ${
+       message.primaryColour
+         ? `
+      :root {
+        --custom-theme--primary-colour: ${message.primaryColour};
+      }
+      .btn-primary {
+        background-color: var(--custom-theme--primary-colour) !important;
+        border-color: #bb5b0700 !important;
+      }
+      .btn-primary:hover {
+        background-color: var(--custom-theme--primary-colour) !important;
+        border-color: #bb5b0700 !important;
+      }
+      .btn-primary .badge {
+        color: #ec7309;
+        background-color: var(--custom-theme--primary-colour) !important;
+      }
+      .label-primary {
+        background-color: var(--custom-theme--primary-colour) !important;
+      }
+      #perfil #temas .unread .title, .btn-link, a.quote{
+        color: var(--custom-theme--primary-colour) !important;
+      }
+      #foros_spy #tab_spy, #foros_spy #tab_spy:hover, #top #tab_top, #top #tab_top:hover, .actualidad #tab_act, .actualidad #tab_act:hover, .clanes #tab_cln, .clanes #tab_cln:hover, .foros #tab_for, .foros #tab_for:hover, .grupos #tab_grp, .grupos #tab_grp:hover, .psn #tab_psn, .psn #tab_psn:hover, .streams #tab_str, .streams #tab_str:hover, .usuarios #tab_usr, .usuarios #tab_usr:hover {
+        color: var(--custom-theme--primary-colour) !important;
       }
       `
          : ""

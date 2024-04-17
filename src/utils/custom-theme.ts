@@ -5,6 +5,7 @@ export type MVIgnitedCustomTheme = {
   customWidth?: string;
   headerColour?: string;
   pageBackground?: string;
+  primaryColour?: string;
 };
 
 const MV_IGNITED_STORE_KEY = "mv-ignited::custom-theme";
@@ -40,6 +41,7 @@ export const useCustomTheme = create(
     customWidth: undefined,
     headerColour: undefined,
     pageBackground: undefined,
+    primaryColour: undefined,
     ...(storeGet() ?? {}),
     update: (key, data) =>
       set(() => {
