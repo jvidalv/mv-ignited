@@ -32,7 +32,7 @@ const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
 
 const id = "mv-ignited--inner-configuration--container";
 
-export const ConfigurationMenu = ({ toggle }: { toggle: () => void }) => {
+export const ConfigurationMenu = ({ close }: { close: () => void }) => {
   const [inputCustomFont, setInputCustomFont] = useState<string>();
   const { threadsIgnored, users, customFont, update, features } = useStore();
   const { update: updateCustomTheme, ...customTheme } = useCustomTheme();
@@ -90,7 +90,7 @@ export const ConfigurationMenu = ({ toggle }: { toggle: () => void }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       if (!hasParentWithId(e.target, id)) {
-        return toggle();
+        return close();
       }
     });
   }, []);

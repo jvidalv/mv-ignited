@@ -37,9 +37,15 @@ export const injectConfiguration = () => {
 
   const menuClosedStyle =
     "transform: translateX(300px); opacity:0; pointer-events: none";
+  const close = () => {
+    const menuElement = document.getElementById(configurationMenuId);
+    if (menuElement && menuElement.getAttribute("style") === "") {
+      menuElement.setAttribute("style", menuClosedStyle);
+    }
+  };
+
   const toggle = () => {
     const menuElement = document.getElementById(configurationMenuId);
-
     if (menuElement) {
       if (menuElement.getAttribute("style") === menuClosedStyle) {
         menuElement.setAttribute("style", "");
@@ -67,6 +73,6 @@ export const injectConfiguration = () => {
     if (!configurationMenuRoot) {
       configurationMenuRoot = createRoot(configurationMenuElement);
     }
-    configurationMenuRoot.render(<ConfigurationMenu toggle={toggle} />);
+    configurationMenuRoot.render(<ConfigurationMenu close={close} />);
   }
 };
