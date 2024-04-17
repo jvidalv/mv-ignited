@@ -12,6 +12,7 @@ export type MVIgnitedStoreUser = {
   avatar: string;
   avatarCustom?: string;
   postBorderColour?: string;
+  note?: string;
 };
 
 export enum Feature {

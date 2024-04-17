@@ -55,7 +55,8 @@ export const injectThread = () => {
   observer.observe(document.body, {
     childList: true,
   });
-  // Thread ignore
+
+  // Ignore thread
   const buttonsContainer = document.querySelector("#more-actions");
   if (buttonsContainer) {
     const ignoreButton = document.createElement("button");
@@ -71,10 +72,24 @@ export const injectThread = () => {
     buttonsContainer.append(ignoreButton);
   }
 
+  const users = useStore.getState().users;
+
   document.querySelectorAll(".cf.post").forEach((post, index) => {
-    // const username = post.getAttribute("data-autor");
-    // const postNum = post.getAttribute("data-num");
+    const username = post.getAttribute("data-autor");
     const roots: Root[] = [];
+
+    // Notes
+    const user = users.find((u) => u.username === username);
+    const container = post.querySelector(".post-meta");
+    if (container && user?.note) {
+      const note = document.createElement("span");
+      note.setAttribute(
+        "class",
+        "ct ml-1 transition opacity-80 hover:opacity-100",
+      );
+      note.innerHTML = user.note;
+      container.append(note);
+    }
 
     // Up-vote counter
     const upvoteElement = post.querySelector(".btnmola.post-n");

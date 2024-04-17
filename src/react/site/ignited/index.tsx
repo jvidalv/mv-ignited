@@ -133,6 +133,17 @@ const User = ({ user }: { user: SearchedUser }) => {
               </Tooltip>
             </div>
           </div>
+          <div className="grid gap-1">
+            <div className="flex items-end gap-2">
+              <Label>Nota</Label>
+              <p className="text-xs text-gray-500">*Accepta HTML</p>
+            </div>
+            <Input
+              value={userInStore?.note ?? ""}
+              onChange={(e) => onUpdateUserInStore("note", e.target.value)}
+              placeholder="Un tonto util de <a href='https://forocoches.com'>forocoches</a>"
+            />
+          </div>
           <div className="flex items-center justify-start gap-2">
             <Label>Ignorado</Label>
             <input
