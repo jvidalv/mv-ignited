@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getSearchUsers, SearchedUser } from "../../../injected/utils/data";
 import { useQuery } from "@tanstack/react-query";
 import { storeSet, useStore, useUpdateUserInStore } from "../../../utils/store";
-import { Button, Input, Label } from "../components/ui";
+import { Button, Input, Label, Tooltip } from "../components/ui";
 import useClipboard from "../../hooks/use-clipboard";
 import toast from "react-hot-toast";
 import clsx from "clsx";
@@ -80,14 +80,25 @@ const User = ({ user }: { user: SearchedUser }) => {
             </div>
             <div className="grid gap-1">
               <Label>Color</Label>
-              <Input
-                type="color"
-                className="p-0 w-16 h-10"
-                value={userInStore?.usernameColour}
-                onChange={(e) =>
-                  onUpdateUserInStore("usernameColour", e.target.value)
-                }
-              />
+              <div className="flex gap-1">
+                <Input
+                  type="color"
+                  className="p-0 w-16 h-10"
+                  value={userInStore?.usernameColour ?? ""}
+                  onChange={(e) =>
+                    onUpdateUserInStore("usernameColour", e.target.value)
+                  }
+                />
+                <Tooltip content="Eliminar color">
+                  <button
+                    onClick={() =>
+                      onUpdateUserInStore("usernameColour", undefined)
+                    }
+                  >
+                    🗑️
+                  </button>
+                </Tooltip>
+              </div>
             </div>
           </div>
           <div className="grid gap-1">
@@ -102,14 +113,25 @@ const User = ({ user }: { user: SearchedUser }) => {
           </div>
           <div className="grid gap-1">
             <Label>Color del borde en mensajes</Label>
-            <Input
-              type="color"
-              className="p-0 w-16 h-10"
-              value={userInStore?.postBorderColour}
-              onChange={(e) =>
-                onUpdateUserInStore("postBorderColour", e.target.value)
-              }
-            />
+            <div className="flex gap-1">
+              <Input
+                type="color"
+                className="p-0 w-16 h-10"
+                value={userInStore?.postBorderColour ?? ""}
+                onChange={(e) =>
+                  onUpdateUserInStore("postBorderColour", e.target.value)
+                }
+              />
+              <Tooltip content="Eliminar color">
+                <button
+                  onClick={() =>
+                    onUpdateUserInStore("postBorderColour", undefined)
+                  }
+                >
+                  🗑️
+                </button>
+              </Tooltip>
+            </div>
           </div>
           <div className="flex items-center justify-start gap-2">
             <Label>Ignorado</Label>
