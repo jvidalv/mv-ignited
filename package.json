@@ -1,6 +1,6 @@
 {
   "name": "mv-ignited",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
+    "usehooks-ts": "^3.1.0",
     "webfontloader": "^1.6.28",
     "zustand": "^4.5.2"
   },
