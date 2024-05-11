@@ -135,3 +135,19 @@ a {
 .post-controls::after {
   content: unset;
 }
+
+.post.moderated {
+  @apply hidden;
+}
+
+.post.locked {
+  @apply block transition-none transform-none opacity-50 grayscale
+}
+
+.moderated-group .post.info {
+  @apply hidden;
+}
+
+select, select option {
+  @apply text-gray-600
+}
