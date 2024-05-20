@@ -28,7 +28,7 @@ import { useCustomTheme } from "../utils/custom-theme";
 useStore.getState();
 useCustomTheme.getState();
 
-window.ignite = {
+window.ignited = {
   isFirstRender: true,
   render: async () => {
     const state = useStore.getState();
@@ -43,7 +43,7 @@ window.ignite = {
       injectIgnited();
     }
 
-    if (window.ignite.isFirstRender) {
+    if (window.ignited.isFirstRender) {
       injectTheme();
       injectBrand();
       trackForumVisits();
@@ -71,7 +71,7 @@ window.ignite = {
       parsePostsInPage();
     }
 
-    if (window.ignite.isFirstRender) {
+    if (window.ignited.isFirstRender) {
       // After the first run they are triggered on state change
       parseThreadsInPage();
       parseUsersInPage();
@@ -82,10 +82,10 @@ window.ignite = {
   },
 };
 
-window.ignite
+window.ignited
   .render()
   .then(() => {
-    window.ignite.isFirstRender = false;
+    window.ignited.isFirstRender = false;
     console.log("MV-Ignited🔥 successfully rendered ✅");
   })
   .catch((error) => {

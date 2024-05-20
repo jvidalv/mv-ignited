@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    ignite: {
+    ignited: {
       isFirstRender: boolean;
       render: (configuration?: { refetchHomepage: boolean }) => Promise<void>;
       // roots : {
