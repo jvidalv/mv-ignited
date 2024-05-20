@@ -14,6 +14,8 @@ const getFeatureName = (feature: Feature) => {
   switch (feature) {
     case Feature.NewHomepage:
       return "Homepage rediseñada";
+    case Feature.WorkMode:
+      return "Modo trabajo";
   }
 };
 
@@ -53,7 +55,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
       }),
     );
 
-    window.ignite
+    window.ignited
       .render()
       .then(() => console.log("MV-Ignited: un-ignoring user"));
   };
@@ -127,7 +129,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
           <label className="font-bold text-base">Features</label>
           <div>
             {Object.values(Feature).map((f) => (
-              <div key={f} className="flex items-center gap-2">
+              <div key={f} className="flex items-center gap-2 h-7">
                 <span>{getFeatureName(f)}</span>
                 <input
                   type="checkbox"
@@ -145,7 +147,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-2 mt-2">
           <label className="font-bold text-base">Custom theme</label>
           <div>
             <div className="flex items-center gap-2 h-8">

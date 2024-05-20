@@ -125,7 +125,7 @@ a {
 }
 
 .post-controls {
-  @apply flex items-center justify-between
+  @apply flex items-center justify-between ml-0
 }
 
 .post-controls > * {
@@ -151,3 +151,20 @@ a {
 select, select option {
   @apply text-gray-600
 }
+
+.work-mode #logo {
+  @apply hidden;
+}
+
+.work-mode .post-avatar {
+  @apply hidden;
+}
+
+.work-mode .post-body {
+  @apply ml-0;
+}
+
+.work-mode .avatar-list {
+  @apply hidden;
+}
+
