@@ -152,19 +152,19 @@ select, select option {
   @apply text-gray-600
 }
 
-.work-mode #logo {
+.no-avatars #logo {
   @apply hidden;
 }
 
-.work-mode .post-avatar {
+.no-avatars .post-avatar {
   @apply hidden;
 }
 
-.work-mode .post-body {
+.no-avatars .post-body {
   @apply ml-0;
 }
 
-.work-mode .avatar-list {
+.no-avatars .avatar-list {
   @apply hidden;
 }
 

@@ -14,8 +14,8 @@ const getFeatureName = (feature: Feature) => {
   switch (feature) {
     case Feature.NewHomepage:
       return "Homepage rediseñada";
-    case Feature.WorkMode:
-      return "Modo trabajo";
+    case Feature.NoAvatars:
+      return "Sin avatares";
   }
 };
 

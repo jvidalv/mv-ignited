@@ -17,7 +17,7 @@ export type MVIgnitedStoreUser = {
 
 export enum Feature {
   NewHomepage = "newHomepage",
-  WorkMode = "workMode",
+  NoAvatars = "noAvatars",
 }
 
 export type MVIgnitedStore = {
