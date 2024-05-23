@@ -16,9 +16,22 @@ export const injectTheme = () => {
     html?.setAttribute("prefers-color-scheme", "dark");
   }
 
-  const hasNoAvatars = useStore.getState().features.includes(Feature.NoAvatars);
+  const features = useStore.getState().features;
+  const hasNoAvatars = features.includes(Feature.NoAvatars);
+  const hasNoLogo = features.includes(Feature.NoLogo);
+  const hasMonospace = features.includes(Feature.Monospace);
+  const hasBlackAndWhite = features.includes(Feature.BlackAndWhite);
   if (hasNoAvatars) {
     classes.push("no-avatars");
+  }
+  if (hasNoLogo) {
+    classes.push("no-logo");
+  }
+  if (hasMonospace) {
+    classes.push("monospace");
+  }
+  if (hasBlackAndWhite) {
+    classes.push("black-and-white");
   }
   html?.setAttribute("class", clsx(...classes));
 };

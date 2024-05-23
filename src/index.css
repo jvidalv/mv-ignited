@@ -21,11 +21,11 @@ body {
 }
 
 body > header:not([id="header"]){
-  @apply pt-12;
+  padding-top: 60px;
 }
 
 body > #header + #content {
-  @apply pt-12;
+  padding-top: 60px;
 }
 
 h1 {
@@ -38,6 +38,10 @@ h2 {
 
 h3 {
   @apply text-base;
+}
+
+#header {
+  height: 46px;
 }
 
 #content {
@@ -73,7 +77,7 @@ a {
 }
 
 #side-nav {
-  @apply ml-[-33px];
+  @apply ml-[-35px];
 }
 
 ._p-tp,
@@ -152,8 +156,12 @@ select, select option {
   @apply text-gray-600
 }
 
-.no-avatars #logo {
+.no-logo #logo {
   @apply hidden;
+}
+
+.no-logo .m-nav-pane {
+  @apply !ml-0;
 }
 
 .no-avatars .post-avatar {
@@ -165,6 +173,27 @@ select, select option {
 }
 
 .no-avatars .avatar-list {
-  @apply hidden;
+  @apply grayscale;
 }
 
+.monospace *:not(i) {
+  font-family: monospace;
+}
+
+.black-and-white:not(.dark) *:not(.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+  @apply border-gray-400;
+  background: white !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+.black-and-white:not(.dark) #header{
+  @apply border-b border-gray-200
+}
+
+
+.black-and-white.dark *:not(.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+  @apply border-gray-600;
+  background: black !important;
+  background-color: black !important;
+}

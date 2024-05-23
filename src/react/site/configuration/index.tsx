@@ -16,6 +16,12 @@ const getFeatureName = (feature: Feature) => {
       return "Homepage rediseñada";
     case Feature.NoAvatars:
       return "Sin avatares";
+    case Feature.NoLogo:
+      return "Sin logo";
+    case Feature.Monospace:
+      return "Fuente mono";
+    case Feature.BlackAndWhite:
+      return "Modo blanco/negro";
   }
 };
 
@@ -98,7 +104,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
     <div
       id={id}
       ref={ref}
-      className="float-right w-1/3 max-w-[420px] min-h-screen bg-surface-high shadow-lg -mt-[1px]"
+      className="float-right w-1/3 max-w-[420px] border-l border-solid border-l-transparent min-h-screen bg-surface-high shadow-lg"
     >
       <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
         <h2 className="font-black">MV-Ignited 🔥</h2>
@@ -138,7 +144,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
                     update(
                       "features",
                       features.includes(f)
-                        ? features.filter((f) => f !== f)
+                        ? features.filter((fe) => fe !== f)
                         : [...features, f],
                     )
                   }
