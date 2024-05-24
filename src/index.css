@@ -64,6 +64,10 @@ a {
   @apply opacity-100;
 }
 
+#settings #cover {
+  @apply hidden;
+}
+
 .tag-group span {
   line-height: 16px;
 }
@@ -83,6 +87,14 @@ a {
 ._p-tp,
 ._p-ft {
   @apply hidden;
+}
+
+.post.op{
+  background-image: none;
+}
+
+.post.op .post-meta .autor {
+  @apply text-primary
 }
 
 #brand-menu {
@@ -122,22 +134,6 @@ a {
 
 .cf.post {
   @apply p-3
-}
-
-.btnmola {
-  @apply pl-0 !block !opacity-0 transition;
-}
-
-.post-controls {
-  @apply flex items-center justify-between ml-0
-}
-
-.post-controls > * {
-  @apply !block
-}
-
-.post-controls::after {
-  content: unset;
 }
 
 .post.moderated {
@@ -180,7 +176,11 @@ select, select option {
   font-family: monospace;
 }
 
-.black-and-white:not(.dark) *:not(.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+input[type="file"] {
+  @apply min-h-8
+}
+
+.black-and-white:not(.dark) *:not(.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
   @apply border-gray-400;
   background: white !important;
   background-color: white !important;
@@ -192,8 +192,62 @@ select, select option {
 }
 
 
-.black-and-white.dark *:not(.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+.black-and-white.dark *:not(.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
   @apply border-gray-600;
   background: black !important;
   background-color: black !important;
+}
+
+.black-and-white select {
+  @apply text-gray-500 border
+}
+
+.black-and-white textarea {
+  @apply !border-gray-500 !border-solid !border
+}
+
+.black-and-white.dark i {
+  @apply text-white;
+}
+
+
+.black-and-white a {
+  @apply hover:underline
+}
+
+.improved-upvotes .btnmola {
+  @apply pl-0 !block !opacity-0 transition;
+}
+
+.improved-upvotes .post-controls {
+  @apply flex items-center justify-between ml-0
+}
+
+.improved-upvotes .post-controls > * {
+  @apply !block
+}
+
+.improved-upvotes .post-controls::after {
+  content: unset;
+}
+
+.improved-upvotes .post-controls.post-controls {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.improved-upvotes .post-controls .btnmola:hover {
+  background: none;
+}
+
+.improved-upvotes .post-controls .btnrep {
+  cursor: pointer;
+  flex: 3;
+  background-color: unset;
+}
+
+.improved-upvotes .post-controls .btnrep i {
+  opacity: 0.4;
+  font-size: 12px;
 }

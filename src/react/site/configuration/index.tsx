@@ -22,6 +22,8 @@ const getFeatureName = (feature: Feature) => {
       return "Fuente mono";
     case Feature.BlackAndWhite:
       return "Modo blanco/negro";
+    case Feature.ImprovedUpvotes:
+      return "Manitas mejoradas";
   }
 };
 

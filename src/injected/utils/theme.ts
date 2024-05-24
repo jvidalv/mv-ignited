@@ -21,6 +21,8 @@ export const injectTheme = () => {
   const hasNoLogo = features.includes(Feature.NoLogo);
   const hasMonospace = features.includes(Feature.Monospace);
   const hasBlackAndWhite = features.includes(Feature.BlackAndWhite);
+  const hasImprovedUpvotes = features.includes(Feature.ImprovedUpvotes);
+
   if (hasNoAvatars) {
     classes.push("no-avatars");
   }
@@ -32,6 +34,9 @@ export const injectTheme = () => {
   }
   if (hasBlackAndWhite) {
     classes.push("black-and-white");
+  }
+  if (hasImprovedUpvotes) {
+    classes.push("improved-upvotes");
   }
   html?.setAttribute("class", clsx(...classes));
 };

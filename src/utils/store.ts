@@ -21,6 +21,7 @@ export enum Feature {
   NoLogo = "noLogo",
   Monospace = "monospace",
   BlackAndWhite = "blackAndWhite",
+  ImprovedUpvotes = "improvedUpvotes",
 }
 
 export type MVIgnitedStore = {

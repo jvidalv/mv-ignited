@@ -44,7 +44,9 @@ window.ignited = {
     }
 
     if (window.ignited.isFirstRender) {
-      injectTheme();
+      if (!isIgnitedPage()) {
+        injectTheme();
+      }
       injectBrand();
       trackForumVisits();
     }
@@ -72,11 +74,11 @@ window.ignited = {
     }
 
     if (window.ignited.isFirstRender) {
-      // After the first run they are triggered on state change
+      // After the first run, they are triggered on state change
       parseThreadsInPage();
       parseUsersInPage();
 
-      // To prevent blink's the default CSS loads with opacity:0, we restore the opacity here.
+      // To prevent blink's the default CSS loads with opacity: 0, we restore the opacity here.
       showBody();
     }
   },
