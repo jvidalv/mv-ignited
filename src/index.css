@@ -251,3 +251,8 @@ input[type="file"] {
   opacity: 0.4;
   font-size: 12px;
 }
+
+html:not(.improved-upvotes ) .post-btn.btnmola i, .post-n.btnmola i {
+  width: 18px;
+  height: 18px;
+}
