@@ -1,7 +1,6 @@
 import { Feature, useStore } from "../../../utils/store";
-import React, { useRef, useState } from "react";
-import { loadFont, removeFont } from "../../../utils/fonts";
-import { Button, Tooltip } from "../components/ui";
+import React, { useRef } from "react";
+import { Tooltip } from "../components/ui";
 import {
   isValidCSSSize,
   MVIgnitedCustomTheme,
@@ -24,6 +23,16 @@ const getFeatureName = (feature: Feature) => {
       return "Modo blanco/negro";
     case Feature.ImprovedUpvotes:
       return "Manitas mejoradas";
+    case Feature.NoSideMenu:
+      return "Quitar menu lateral en hilos";
+    case Feature.ImagesInSpoiler:
+      return "Imagenes en spoiler";
+    case Feature.YoutubeInSpoiler:
+      return "Youtube en spoiler";
+    case Feature.TwitsInSpoiler:
+      return "Twits en spoiler";
+    case Feature.RandomMediaInSpoiler:
+      return "Otra media en spoiler (Reddit, Instagram...)";
   }
 };
 
@@ -43,9 +52,8 @@ const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
 const id = "mv-ignited--inner-configuration--container";
 
 export const ConfigurationMenu = ({ close }: { close: () => void }) => {
-  const [inputCustomFont, setInputCustomFont] = useState<string>();
   const ref = useRef<HTMLDivElement>(null);
-  const { threadsIgnored, users, customFont, update, features } = useStore();
+  const { threadsIgnored, users, update, features } = useStore();
   const { update: updateCustomTheme, ...customTheme } = useCustomTheme();
 
   const onUnIgnoreUserClick = (username: string) => {
@@ -76,20 +84,6 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
     console.log("MV-Ignited: un-ignoring thread");
   };
 
-  const onSelectFont = async () => {
-    if (!inputCustomFont) {
-      return alert("No es una font valida de Google Fonts!");
-    }
-
-    await loadFont(inputCustomFont);
-    update("customFont", inputCustomFont);
-  };
-
-  const onRemoveFont = () => {
-    update("customFont", undefined);
-    removeFont();
-  };
-
   const handleClickOutside = (event: MouseEvent | TouchEvent | FocusEvent) => {
     const target = event.target as HTMLElement;
     // Quick hack to not trigger it on menu open click
@@ -110,37 +104,23 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
     >
       <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
         <h2 className="font-black">MV-Ignited 🔥</h2>
-        <a href="/ignited" className="hover:underline">
-          Main Page ➡️
+        <a href="/ignited" className="hover:underline text-base">
+          Página de Ignited ➡️
         </a>
       </div>
       <div className="mt-2 px-4">
-        <div className="grid grid-cols-1 gap-2 hidden">
-          <label className="font-bold text-base">Custom font</label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              className="px-2 h-full col-span-2 text-black rounded disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              placeholder="Google font"
-              defaultValue={customFont ?? ""}
-              disabled={!!customFont}
-              onChange={(e) => setInputCustomFont(e.target.value)}
-            />
-            {customFont ? (
-              <Button onClick={onRemoveFont}>Remove font</Button>
-            ) : (
-              <Button onClick={onSelectFont}>Inject font</Button>
-            )}
-          </div>
-        </div>
         <div className="grid grid-cols-1">
           <label className="font-bold text-base">Features</label>
-          <div>
+          <div className="grid gap-2 mt-2">
             {Object.values(Feature).map((f) => (
-              <div key={f} className="flex items-center gap-2 h-7">
-                <span>{getFeatureName(f)}</span>
+              <label
+                key={f}
+                htmlFor={f}
+                className="inline-flex items-center cursor-pointer"
+              >
                 <input
                   type="checkbox"
+                  id={f}
                   checked={features.includes(f)}
                   onChange={() =>
                     update(
@@ -150,13 +130,20 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
                         : [...features, f],
                     )
                   }
+                  className="sr-only peer"
                 />
-              </div>
+                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {getFeatureName(f)}
+                </span>
+              </label>
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-2 mt-2">
-          <label className="font-bold text-base">Custom theme</label>
+        <div className="grid grid-cols-1 mt-4">
+          <label className="font-bold text-base">
+            Customizar colores y ancho
+          </label>
           <div>
             <div className="flex items-center gap-2 h-8">
               <span className="flex-1">
@@ -167,11 +154,14 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
                   <input
                     type="text"
                     defaultValue={customTheme.customWidth ?? ""}
-                    className="p-1 rounded h-5 w-full"
+                    className="px-1 py-2 rounded h-5 w-full text-gray-500"
                     placeholder="Ejemplo: 1300px"
                     onChange={(e) => {
                       if (!e.target.value || isValidCSSSize(e.target.value)) {
-                        updateCustomTheme("customWidth", e.target.value);
+                        updateCustomTheme(
+                          "customWidth",
+                          e.target.value || undefined,
+                        );
                       }
                     }}
                   />
@@ -266,15 +256,30 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
   );
 };
 
+const latestUpdate = "5";
+
 export const ConfigurationButton = ({ toggle }: { toggle: () => void }) => {
+  const latestUpdateViewed = useStore((s) => s.latestUpdateViewed);
+  const update = useStore((s) => s.update);
+
+  const onClick = () => {
+    toggle();
+    setTimeout(() => update("latestUpdateViewed", latestUpdate), 1500);
+  };
+
   return (
-    <button
-      onClick={toggle}
-      className="text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
-      title="MV-ignite configuracion"
-    >
-      <i className="fa fa-cog"></i>
-      <span className="title">Configuración MV-Ignited</span>
-    </button>
+    <>
+      <a
+        onClick={onClick}
+        className="hl cursor-pointer text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
+        title="MV-ignite configuracion"
+      >
+        <i className="fa fa-cog"></i>
+        <span className="title">Configuración MV-Ignited</span>
+        {latestUpdateViewed !== latestUpdate && (
+          <span className="bubble">New</span>
+        )}
+      </a>
+    </>
   );
 };

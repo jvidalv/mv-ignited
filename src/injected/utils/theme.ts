@@ -22,6 +22,7 @@ export const injectTheme = () => {
   const hasMonospace = features.includes(Feature.Monospace);
   const hasBlackAndWhite = features.includes(Feature.BlackAndWhite);
   const hasImprovedUpvotes = features.includes(Feature.ImprovedUpvotes);
+  const hasNoSideMenu = features.includes(Feature.NoSideMenu);
 
   if (hasNoAvatars) {
     classes.push("no-avatars");
@@ -38,5 +39,9 @@ export const injectTheme = () => {
   if (hasImprovedUpvotes) {
     classes.push("improved-upvotes");
   }
+  if (hasNoSideMenu) {
+    classes.push("no-side-menu");
+  }
+
   html?.setAttribute("class", clsx(...classes));
 };

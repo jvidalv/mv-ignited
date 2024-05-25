@@ -18,13 +18,7 @@ export const storeGet = (): MVIgnitedCustomTheme | void => {
   const saved = localStorage.getItem(MV_IGNITED_STORE_KEY);
   if (saved) {
     const savedParsed = JSON.parse(saved);
-    chrome.runtime.sendMessage(savedParsed, function (response) {
-      console.log(
-        "MV-Ignited🔥 Custom theme applied 🖼️",
-        savedParsed,
-        response,
-      );
-    });
+    chrome.runtime.sendMessage(savedParsed);
     return savedParsed;
   }
 };

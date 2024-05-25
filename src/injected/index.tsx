@@ -1,7 +1,7 @@
 import "../index.css";
 import { injectTheme } from "./utils/theme";
 import { trackForumVisits } from "./utils/tracking";
-import { injectBrand, injectFont } from "./utils/brand";
+import { injectBrand } from "./utils/brand";
 import { injectConfiguration } from "./configuration";
 import { injectThread } from "./thread";
 import { injectHomepage } from "./homepage";
@@ -32,12 +32,6 @@ window.ignited = {
   isFirstRender: true,
   render: async () => {
     const state = useStore.getState();
-
-    injectFont().then((customFont) => {
-      if (customFont) {
-        console.log(`MV-Ignited loaded font: ${customFont}`);
-      }
-    });
 
     if (isIgnitedPage()) {
       injectIgnited();

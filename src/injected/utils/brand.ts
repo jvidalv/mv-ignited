@@ -1,6 +1,3 @@
-// import { useStore } from "../../utils/store";
-// import { loadFont } from "../../utils/fonts";
-
 export const injectBrand = () => {
   const logo = document.getElementById("logo");
   if (logo) {
@@ -9,13 +6,4 @@ export const injectBrand = () => {
   }
 
   window.document.title = `${window.document.title}🔥`;
-};
-
-export const injectFont = async (): Promise<string | void> => {
-  // const customFont = useStore.getState()?.customFont;
-  //
-  // if (customFont) {
-  //   await loadFont(customFont);
-  //   return customFont;
-  // }
 };

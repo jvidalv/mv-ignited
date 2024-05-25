@@ -1,4 +1,4 @@
-import { useStore } from "../utils/store";
+import { Feature, useStore } from "../utils/store";
 import { isThreadLive } from "../injected/utils/loader";
 
 export const parsePostsInPage = () => {
@@ -34,6 +34,46 @@ export const parsePostsInPage = () => {
             );
           }
         }
+      }
+
+      // Stuff in spoiler
+      const wrapInSpoiler = (element: Element, type: string) => {
+        const wrapper = document.createElement("div");
+        wrapper.setAttribute("class", "spoiler-wrap");
+        wrapper.innerHTML = `<a href="#" title="Click para desplegar" class="spoiler">${type}</a><div class="spoiler animated" style="display:none">${element?.outerHTML}</div>`;
+        element.replaceWith(wrapper);
+      };
+
+      const features = useStore.getState().features;
+
+      if (features.includes(Feature.TwitsInSpoiler)) {
+        const twits = postElement.querySelectorAll(".embed.twitter");
+        twits.forEach((element) => wrapInSpoiler(element, " Ver twit 🐥"));
+      }
+
+      if (features.includes(Feature.YoutubeInSpoiler)) {
+        const videos = postElement.querySelectorAll(".embed.yt");
+        videos.forEach((element) => wrapInSpoiler(element, " Ver video 📹"));
+      }
+
+      if (features.includes(Feature.ImagesInSpoiler)) {
+        const images = postElement.querySelectorAll(
+          ".post-contents p img:not(.emoji)",
+        );
+        images.forEach((element) => {
+          if (element.parentElement) {
+            wrapInSpoiler(element.parentElement, " Ver imagen 🏞️");
+          }
+        });
+      }
+
+      if (features.includes(Feature.RandomMediaInSpoiler)) {
+        const embeds = postElement.querySelectorAll(
+          ".embed:not(.twitter,.yt,[data-s9e-mediaembed='streamable'])",
+        );
+        embeds.forEach((element) =>
+          wrapInSpoiler(element, " Ver contenido insertado 🎲"),
+        );
       }
     });
   };

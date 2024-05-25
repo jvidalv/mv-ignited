@@ -22,6 +22,11 @@ export enum Feature {
   Monospace = "monospace",
   BlackAndWhite = "blackAndWhite",
   ImprovedUpvotes = "improvedUpvotes",
+  NoSideMenu = "noSideMenu",
+  ImagesInSpoiler = "imagesInSpoiler",
+  YoutubeInSpoiler = "youtubeInSpoiler",
+  TwitsInSpoiler = "twitsInSpoiler",
+  RandomMediaInSpoiler = "randomMediaInSpoiler",
 }
 
 export type MVIgnitedStore = {
@@ -29,6 +34,7 @@ export type MVIgnitedStore = {
   customFont?: string;
   features: Feature[];
   users: MVIgnitedStoreUser[];
+  latestUpdateViewed: string;
 };
 
 const MV_IGNITED_STORE_KEY = "mv-ignited::store";
@@ -154,6 +160,7 @@ export const useStore = create(
     threadsIgnored: [],
     features: [],
     users: [],
+    latestUpdateViewed: "",
     ...(storeGet() ?? {}),
     update: (key, data) =>
       set(() => {

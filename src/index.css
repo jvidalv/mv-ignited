@@ -148,6 +148,14 @@ a {
   @apply hidden;
 }
 
+#splash-3 {
+  height: 400px;
+}
+
+.splash-1 {
+  height: 250px;
+}
+
 select, select option {
   @apply text-gray-600
 }
@@ -255,4 +263,17 @@ input[type="file"] {
 html:not(.improved-upvotes ) .post-btn.btnmola i, .post-n.btnmola i {
   width: 18px;
   height: 18px;
+}
+
+.no-side-menu .foros #content #main .c-main {
+  @apply pr-0;
+}
+
+
+.no-side-menu .foros #content #main .c-side {
+  @apply float-none
+}
+
+.no-side-menu .foros #content #main .c-side #thread-companion.fixed {
+  position: initial;
 }

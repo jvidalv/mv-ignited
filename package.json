@@ -1,6 +1,6 @@
 {
   "name": "mv-ignited",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
   "main": "index.js",
   "scripts": {
