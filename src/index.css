@@ -188,7 +188,7 @@ input[type="file"] {
   @apply min-h-8
 }
 
-.black-and-white:not(.dark) *:not(.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+.black-and-white:not(.dark) *:not(.checkbox,.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
   @apply border-gray-400;
   background: white !important;
   background-color: white !important;
@@ -200,7 +200,7 @@ input[type="file"] {
 }
 
 
-.black-and-white.dark *:not(.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
+.black-and-white.dark *:not(.checkbox,.unread-num,.badge,.fid,.bubble,.thread-live,.thread-new,.pulsate,.unseen-num,.quote,#cover,.cover-content,#splash-3 a,.splash) {
   @apply border-gray-600;
   background: black !important;
   background-color: black !important;
