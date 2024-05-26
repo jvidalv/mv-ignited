@@ -29,8 +29,8 @@ const getFeatureName = (feature: Feature) => {
       return "Imagenes en spoiler";
     case Feature.YoutubeInSpoiler:
       return "Youtube en spoiler";
-    case Feature.TwitsInSpoiler:
-      return "Twits en spoiler";
+    case Feature.TwitterInSpoiler:
+      return "Twitter en spoiler";
     case Feature.RandomMediaInSpoiler:
       return "Otra media en spoiler (Reddit, Instagram...)";
   }

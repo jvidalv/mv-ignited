@@ -25,7 +25,7 @@ export enum Feature {
   NoSideMenu = "noSideMenu",
   ImagesInSpoiler = "imagesInSpoiler",
   YoutubeInSpoiler = "youtubeInSpoiler",
-  TwitsInSpoiler = "twitsInSpoiler",
+  TwitterInSpoiler = "twitterInSpoiler",
   RandomMediaInSpoiler = "randomMediaInSpoiler",
 }
 

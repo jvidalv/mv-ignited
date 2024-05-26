@@ -46,9 +46,9 @@ export const parsePostsInPage = () => {
 
       const features = useStore.getState().features;
 
-      if (features.includes(Feature.TwitsInSpoiler)) {
-        const twits = postElement.querySelectorAll(".embed.twitter");
-        twits.forEach((element) => wrapInSpoiler(element, " Ver twit 🐥"));
+      if (features.includes(Feature.TwitterInSpoiler)) {
+        const twitts = postElement.querySelectorAll(".embed.twitter");
+        twitts.forEach((element) => wrapInSpoiler(element, " Ver twit 🐥"));
       }
 
       if (features.includes(Feature.YoutubeInSpoiler)) {
@@ -58,7 +58,7 @@ export const parsePostsInPage = () => {
 
       if (features.includes(Feature.ImagesInSpoiler)) {
         const images = postElement.querySelectorAll(
-          ".post-contents p img:not(.emoji)",
+          ".post-contents > p img:not(.emoji)",
         );
         images.forEach((element) => {
           if (element.parentElement) {
