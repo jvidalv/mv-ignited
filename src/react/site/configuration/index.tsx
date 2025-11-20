@@ -94,7 +94,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
     }
   };
 
-  useOnClickOutside(ref, handleClickOutside);
+  useOnClickOutside(ref as React.RefObject<HTMLElement>, handleClickOutside);
 
   return (
     <div
