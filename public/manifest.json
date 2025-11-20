@@ -25,6 +25,15 @@
     "128": "icons/logo-128.png"
   },
 
+  "content_scripts": [
+    {
+      "matches": ["https://www.mediavida.com/*"],
+      "css": ["styles/mediavida.css", "styles/vendor.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+
   "background": {
     "service_worker": "background.js"
   },

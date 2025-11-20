@@ -30,7 +30,8 @@ async function updateIcon(tabId: number) {
 // Track tabs to avoid double-injection
 const injectedTabs = new Set<number>();
 
-// Inject as early as possible when navigation is committed
+// Inject scripts on navigation
+// CSS is already loaded via manifest content_scripts at document_start
 chrome.webNavigation.onCommitted.addListener(
   (details) => {
     // Check if it's the main frame, not an iframe
@@ -41,21 +42,15 @@ chrome.webNavigation.onCommitted.addListener(
       }
       injectedTabs.add(details.tabId);
 
-      // Inject all CSS files at once for faster loading
+      // CSS already loaded via manifest content_scripts
+      // Only inject JavaScript
       chrome.scripting
-        .insertCSS({
+        .executeScript({
           target: { tabId: details.tabId },
-          files: ["/styles/mediavida.css", "/styles/vendor.css"],
-        })
-        .then(() => {
-          // Only inject scripts after CSS is loaded
-          chrome.scripting.executeScript({
-            target: { tabId: details.tabId },
-            files: ["/vendor.js", "/mediavida-extension.js"],
-          });
+          files: ["/vendor.js", "/mediavida-extension.js"],
         })
         .catch((error) => {
-          console.error("MV-Ignited: CSS injection failed", error);
+          console.error("MV-Ignited: Script injection failed", error);
           injectedTabs.delete(details.tabId);
         });
     }
