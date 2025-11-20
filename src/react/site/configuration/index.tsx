@@ -271,10 +271,10 @@ export const ConfigurationButton = ({ toggle }: { toggle: () => void }) => {
     <>
       <a
         onClick={onClick}
-        className="hl cursor-pointer text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200  flex items-center justify-center"
+        className="hl cursor-pointer text-[1.35rem] h-full pl-1 text-[rgba(255,255,255,.5)] mt-[1px] hover:text-gray-200 transition duration-200 flex items-center justify-center"
         title="MV-ignite configuracion"
       >
-        <i className="fa fa-cog"></i>
+          🔥
         <span className="title">Configuración MV-Ignited</span>
         {latestUpdateViewed !== latestUpdate && (
           <span className="bubble">New</span>

@@ -1,12 +1,4 @@
 /*
-* Fixes
- */
-
-@media screen and (min-width: 996px) .post .buttons {
-  opacity: 0.2 !important;
-}
-
-/*
 * New features
  */
 .mv-ignited--actions-container {
