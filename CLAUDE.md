@@ -9,19 +9,19 @@ MV-Ignited is a Chrome/Firefox browser extension (Manifest v3) that enhances the
 ## Development Commands
 
 ```bash
-pnpm install           # Install dependencies
-pnpm watch            # Development build with watch mode (use this while developing)
-pnpm build            # Production build for Chrome
-pnpm build:firefox    # Production build for Firefox (includes manifest transformation)
-pnpm style            # Format code with Prettier
-pnpm test             # Run E2E tests with Playwright
-pnpm test:ui          # Run E2E tests with Playwright UI
-pnpm test:snapshots   # Fetch mediavida.com HTML for selector development
-pnpm clean            # Remove dist/ directory
+yarn install           # Install dependencies
+yarn watch            # Development build with watch mode (use this while developing)
+yarn build            # Production build for Chrome
+yarn build:firefox    # Production build for Firefox (includes manifest transformation)
+yarn style            # Format code with Prettier
+yarn test             # Run E2E tests with Playwright
+yarn test:ui          # Run E2E tests with Playwright UI
+yarn test:snapshots   # Fetch mediavida.com HTML for selector development
+yarn clean            # Remove dist/ directory
 ```
 
 **Testing the extension:**
-1. Run `pnpm watch` to build in development mode
+1. Run `yarn watch` to build in development mode
 2. Load the `dist/` folder as an unpacked extension in Chrome/Firefox
 3. Changes will rebuild automatically; reload the extension to see updates
 
@@ -171,11 +171,11 @@ The project uses Playwright for end-to-end testing. Tests run with the extension
 
 **Test Commands:**
 ```bash
-pnpm test              # Run all E2E tests
-pnpm test:ui           # Run tests with Playwright UI
-pnpm test:headed       # Run tests in headed mode (see browser)
-pnpm test:debug        # Debug tests step-by-step
-pnpm test:snapshots    # Fetch fresh HTML from mediavida.com for development
+yarn test              # Run all E2E tests
+yarn test:ui           # Run tests with Playwright UI
+yarn test:headed       # Run tests in headed mode (see browser)
+yarn test:debug        # Debug tests step-by-step
+yarn test:snapshots    # Fetch fresh HTML from mediavida.com for development
 ```
 
 **Test Structure:**
@@ -194,10 +194,10 @@ tests/
 
 **HTML Snapshot Tool:**
 
-The `pnpm test:snapshots` command fetches and saves HTML from different mediavida.com pages for offline selector development:
+The `yarn test:snapshots` command fetches and saves HTML from different mediavida.com pages for offline selector development:
 
 ```bash
-pnpm test:snapshots  # Fetches homepage, forums, threads, profiles, etc.
+yarn test:snapshots  # Fetches homepage, forums, threads, profiles, etc.
 ```
 
 This allows you to:
@@ -224,6 +224,6 @@ test('my test', async ({ context }) => {
 ```
 
 **Before Running Tests:**
-1. Build the extension: `pnpm build`
+1. Build the extension: `yarn build`
 2. Tests will automatically build if needed (configured in playwright.config.ts)
 3. Extension loads from `dist/` directory

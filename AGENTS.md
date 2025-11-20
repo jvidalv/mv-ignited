@@ -9,8 +9,8 @@ MV-Ignited is a browser extension that enhances the mediavida.com forum. It inje
 ## Quick Start
 
 ```bash
-pnpm install           # Install dependencies
-pnpm watch            # Start development mode
+yarn install           # Install dependencies
+yarn watch            # Start development mode
 # Load dist/ as unpacked extension in Chrome
 ```
 
@@ -85,11 +85,11 @@ Changes to feature toggles trigger `window.location.reload()`.
 ## Testing
 
 Load the extension:
-1. Build with `pnpm watch` or `pnpm build`
+1. Build with `yarn watch` or `yarn build`
 2. Chrome → Extensions → Load unpacked → Select `dist/`
 3. Navigate to mediavida.com to see changes
 
-For Firefox: Use `pnpm build:firefox` which transforms the manifest.
+For Firefox: Use `yarn build:firefox` which transforms the manifest.
 
 ## Common Tasks
 
@@ -131,16 +131,16 @@ Tests use Playwright to load the extension in a real browser and test against th
 
 **Running Tests:**
 ```bash
-pnpm build         # Build extension first
-pnpm test          # Run all E2E tests
-pnpm test:ui       # Run with Playwright UI (recommended for development)
-pnpm test:headed   # See the browser while tests run
-pnpm test:debug    # Debug step-by-step
+yarn build         # Build extension first
+yarn test          # Run all E2E tests
+yarn test:ui       # Run with Playwright UI (recommended for development)
+yarn test:headed   # See the browser while tests run
+yarn test:debug    # Debug step-by-step
 ```
 
 **HTML Snapshot Tool:**
 ```bash
-pnpm test:snapshots  # Fetch fresh HTML from mediavida.com
+yarn test:snapshots  # Fetch fresh HTML from mediavida.com
 ```
 
 This fetches and saves HTML from different mediavida.com pages to `tests/fixtures/dom-snapshots/`. Use these snapshots to:

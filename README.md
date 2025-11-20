@@ -17,8 +17,8 @@ A browser extension that re-imagines the mediavida.com forum experience with enh
 ### Manual Installation (Development)
 
 1. Clone this repository
-2. Install dependencies: `pnpm install`
-3. Build the extension: `pnpm build`
+2. Install dependencies: `yarn install`
+3. Build the extension: `yarn build`
 4. Load the extension in your browser:
    - **Chrome:** Go to `chrome://extensions/`, enable "Developer mode", click "Load unpacked", select the `dist/` folder
    - **Firefox:** Go to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", select any file in the `dist/` folder
@@ -68,7 +68,7 @@ A browser extension that re-imagines the mediavida.com forum experience with enh
 
 ### Prerequisites
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and yarn
 - TypeScript 5.3+
 
 ### Tech Stack
@@ -84,28 +84,28 @@ A browser extension that re-imagines the mediavida.com forum experience with enh
 
 ```bash
 # Install dependencies
-pnpm install
+yarn install
 
 # Development build with watch mode
-pnpm watch
+yarn watch
 
 # Production build for Chrome
-pnpm build
+yarn build
 
 # Production build for Firefox
-pnpm build:firefox
+yarn build:firefox
 
 # Run E2E tests
-pnpm test
+yarn test
 
 # Run tests with UI
-pnpm test:ui
+yarn test:ui
 
 # Format code
-pnpm style
+yarn style
 
 # Fetch HTML snapshots from mediavida.com for development
-pnpm test:snapshots
+yarn test:snapshots
 ```
 
 ### Project Structure
@@ -140,16 +140,16 @@ The project uses Playwright for E2E testing with the extension loaded in a real 
 
 ```bash
 # Run all tests
-pnpm test
+yarn test
 
 # Run with Playwright UI (recommended for development)
-pnpm test:ui
+yarn test:ui
 
 # Run in headed mode (see browser)
-pnpm test:headed
+yarn test:headed
 
 # Debug tests
-pnpm test:debug
+yarn test:debug
 ```
 
 **Note:** Extension tests require headed mode (extensions don't work in headless browsers).
@@ -159,7 +159,7 @@ pnpm test:debug
 Fetch and save HTML from mediavida.com for offline selector development:
 
 ```bash
-pnpm test:snapshots
+yarn test:snapshots
 ```
 
 This saves HTML to `tests/fixtures/dom-snapshots/` from various pages (homepage, forums, threads, profiles). Use these snapshots to build and test CSS selectors without constant navigation.
