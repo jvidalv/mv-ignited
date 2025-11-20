@@ -1,4 +1,12 @@
 /*
+* Required to prevent blinking, it is restored once the extension loads the JS
+* It can't be moved to the index.css file
+*/
+body {
+  opacity: 0 !important;
+}
+
+/*
 * New features
  */
 .mv-ignited--actions-container {

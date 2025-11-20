@@ -29,7 +29,7 @@ const User = ({ user }: { user: SearchedUser }) => {
       return user.data.avatar;
     }
 
-    return `https://mediavida.b-cdn.net/img/users/avatar/${user.data.avatar}`;
+    return `https://mediavida.b-cdn.net${user.data.avatar}`;
   }, [userInStore]);
 
   return (

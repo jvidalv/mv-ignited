@@ -11,6 +11,7 @@ import {
   isSubForumThreads,
   isThread,
   isUserProfile,
+  showBody,
   showContent,
 } from "./utils/loader";
 import { injectThreads } from "./threads";
@@ -70,6 +71,9 @@ window.ignited = {
       // After the first run, they are triggered on state change
       parseThreadsInPage();
       parseUsersInPage();
+
+      // To prevent blink's the default CSS loads with opacity: 0, we restore the opacity here.
+      showBody();
     }
   },
 };

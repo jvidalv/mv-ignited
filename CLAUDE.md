@@ -45,16 +45,22 @@ This ensures:
 
 ## Architecture
 
-### Three Entry Points (Webpack)
+### Four Entry Points (Webpack)
 
-1. **`src/background.ts`** - Service worker that handles:
+1. **`src/theme-loader.ts`** - Zero-flash theme injection (runs at `document_start`):
+   - Reads custom theme from localStorage synchronously
+   - Generates and injects theme CSS before ANY page rendering
+   - Prevents flash of default theme (FOUC prevention)
+   - Standalone bundle (no dependencies) for maximum speed
+
+2. **`src/background.ts`** - Service worker that handles:
    - Extension icon updates based on current tab
-   - CSS/JS injection into forum pages via `chrome.scripting`
-   - Theme updates via Chrome messaging API
+   - JS injection into forum pages via `chrome.scripting`
+   - Dynamic theme updates via Chrome messaging API (when user changes settings)
 
-2. **`src/popup.tsx`** - Extension popup UI for quick settings access
+3. **`src/popup.tsx`** - Extension popup UI for quick settings access
 
-3. **`src/injected/index.tsx`** - Main content script that:
+4. **`src/injected/index.tsx`** - Main content script that:
    - Detects page type (thread list, single thread, user profile, etc.)
    - Orchestrates injection of React components into forum pages
    - Initializes `window.ignited` global for lifecycle management
@@ -63,6 +69,10 @@ This ensures:
 
 ```
 src/
+├── theme-loader.ts       # Zero-flash theme CSS injection at document_start
+├── background.ts         # Service worker (extension lifecycle)
+├── popup.tsx             # Extension popup UI
+│
 ├── domains/              # DOM parsing & data extraction logic
 │   ├── forum.ts          # Parse forum-level data
 │   ├── thread.ts         # Parse thread listings, filter ignored threads
@@ -114,12 +124,17 @@ State updates for feature toggles trigger `window.location.reload()` to apply ch
 
 ### Key Patterns
 
-**Injection Flow:**
-1. Background service worker detects navigation to mediavida.com
-2. Injects CSS first (with `opacity: 0` to prevent flash)
-3. Injects `mediavida-extension.js` content script
-4. Content script detects page type via URL patterns
-5. Renders appropriate React components into DOM
+**Zero-Flash Injection Flow:**
+1. **`document_start`** timing (earliest possible):
+   - Static CSS files (`mediavida.css`, `vendor.css`) injected via manifest
+   - `theme-loader.js` reads localStorage and injects custom theme CSS
+   - All CSS applied BEFORE any page rendering (zero FOUC)
+2. **Navigation detection**:
+   - Background service worker detects navigation to mediavida.com
+   - Injects `mediavida-extension.js` and `vendor.js` content scripts
+3. **Content script execution**:
+   - Content script detects page type via URL patterns
+   - Renders appropriate React components into DOM
 
 **Page Type Detection:**
 - Uses URL path matching in `src/injected/utils/loader.ts`
@@ -134,7 +149,10 @@ State updates for feature toggles trigger `window.location.reload()` to apply ch
 **Styling:**
 - Tailwind CSS with dark mode (`selector` strategy)
 - Custom CSS variables for theming
-- Dynamic CSS injection from background worker for user themes
+- Zero-flash architecture:
+  - Static CSS injected via manifest at `document_start`
+  - Custom theme CSS injected synchronously from localStorage at `document_start`
+  - Dynamic theme updates still use background worker for live preview
 
 ## Important Conventions
 
@@ -168,18 +186,21 @@ State updates for feature toggles trigger `window.location.reload()` to apply ch
 ## Build System
 
 Webpack configuration in `webpack/`:
-- `webpack.common.js` - Shared config with 3 entry points
+- `webpack.common.js` - Shared config with 4 entry points
 - `webpack.dev.js` - Development mode with source maps
 - `webpack.prod.js` - Production optimizations
 
 **Output:** `dist/` contains bundled extension files:
+- `theme-loader.js` - Standalone theme CSS injector (~2.5KB)
 - `popup.js`, `background.js`, `mediavida-extension.js`
 - `vendor.js` - Shared dependencies (React, Zustand, etc.)
+- `styles/vendor.css`, `styles/mediavida.css` - Extracted CSS
 - Manifest and assets copied from `public/`
 
 **Code Splitting:**
-- Background worker isolated (no vendor chunk sharing)
-- Popup and injected scripts share vendor chunk for size optimization
+- `theme-loader` and `background` isolated (no vendor chunk sharing)
+- `popup` and `mediavida-extension` share vendor chunk for size optimization
+- CSS extracted to static files via `mini-css-extract-plugin` for zero-flash loading
 
 ## Testing
 
