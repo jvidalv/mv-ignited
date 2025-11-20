@@ -1,9 +1,32 @@
 /*
 * Required to prevent blinking, it is restored once the extension spits the JS
-* It can't be moved to the index.css file
+* Keep body hidden until extension is ready
 */
 body {
   opacity: 0 !important;
+  transition: opacity 0.15s ease-in;
+}
+
+/* Pre-hide elements that will be modified by the extension to prevent flashing */
+#logo,
+#usermenu,
+#mv-ignited--configuration-button,
+#mv-ignited--configuration-menu {
+  will-change: transform;
+}
+
+/* Smooth transitions for injected elements */
+.mv-ignited-brand {
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /*

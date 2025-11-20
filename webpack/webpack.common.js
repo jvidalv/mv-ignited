@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 
 module.exports = {
@@ -31,12 +32,7 @@ module.exports = {
 
       {
         use: [
-          {
-            loader: "style-loader",
-            options: {
-              insert: "html",
-            },
-          },
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
@@ -59,6 +55,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: ".", to: "./", context: "public" }],
       options: {},
+    }),
+    new MiniCssExtractPlugin({
+      filename: "styles/[name].css",
     }),
   ],
 };

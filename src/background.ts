@@ -27,22 +27,46 @@ async function updateIcon(tabId: number) {
   });
 }
 
+// Track tabs to avoid double-injection
+const injectedTabs = new Set<number>();
+
+// Inject as early as possible when navigation is committed
 chrome.webNavigation.onCommitted.addListener(
   (details) => {
     // Check if it's the main frame, not an iframe
     if (details.frameId === 0) {
-      chrome.scripting.insertCSS({
-        target: { tabId: details.tabId },
-        files: ["/styles/mediavida.css"],
-      });
-      chrome.scripting.executeScript({
-        target: { tabId: details.tabId },
-        files: ["/vendor.js", "/mediavida-extension.js"],
-      });
+      // Prevent double injection for the same navigation
+      if (injectedTabs.has(details.tabId)) {
+        injectedTabs.delete(details.tabId);
+      }
+      injectedTabs.add(details.tabId);
+
+      // Inject all CSS files at once for faster loading
+      chrome.scripting
+        .insertCSS({
+          target: { tabId: details.tabId },
+          files: ["/styles/mediavida.css", "/styles/vendor.css"],
+        })
+        .then(() => {
+          // Only inject scripts after CSS is loaded
+          chrome.scripting.executeScript({
+            target: { tabId: details.tabId },
+            files: ["/vendor.js", "/mediavida-extension.js"],
+          });
+        })
+        .catch((error) => {
+          console.error("MV-Ignited: CSS injection failed", error);
+          injectedTabs.delete(details.tabId);
+        });
     }
   },
   { url: [{ urlMatches: "https://www.mediavida.com/*" }] },
 );
+
+// Clean up tracking when tab is closed
+chrome.tabs.onRemoved.addListener((tabId) => {
+  injectedTabs.delete(tabId);
+});
 
 let previousCSS: string;
 
