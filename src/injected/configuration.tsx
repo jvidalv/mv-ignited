@@ -21,10 +21,10 @@ export const injectConfiguration = () => {
     // Set positioning context for absolute positioning
     usermenuElement.style.position = "relative";
 
-    // Inject as absolutely positioned element to prevent layout shifts
+    // Inject inside #usermenu as absolutely positioned element to prevent layout shifts
     usermenuElement.insertAdjacentHTML(
-      "afterend",
-      `<div id='${configurationButtonId}' style='position: absolute; left: 0; top: 0; height: 100%; display: flex; align-items: center; z-index: 1000; pointer-events: auto;'></div>`,
+      "beforeend",
+      `<div id='${configurationButtonId}' style='position: absolute; right: -60px; top: 0; height: 100%; display: flex; align-items: center; z-index: 1000; pointer-events: auto;'></div>`,
     );
     const configurationButtonElement = document.getElementById(
       configurationButtonId,
