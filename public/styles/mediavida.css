@@ -1,32 +1,9 @@
 /*
 * Required to prevent blinking, it is restored once the extension spits the JS
-* Keep body hidden until extension is ready
+* It can't be moved to the index.css file
 */
 body {
   opacity: 0 !important;
-  transition: opacity 0.15s ease-in;
-}
-
-/* Pre-hide elements that will be modified by the extension to prevent flashing */
-#logo,
-#usermenu,
-#mv-ignited--configuration-button,
-#mv-ignited--configuration-menu {
-  will-change: transform;
-}
-
-/* Smooth transitions for injected elements */
-.mv-ignited-brand {
-  animation: fadeIn 0.2s ease-in;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 /*
@@ -65,10 +42,6 @@ body {
 .col-av.col-av.col-av a img {
   width: 26px;
   height: 26px;
-}
-
-#logo#logo {
-  margin-left: 0;
 }
 
 #foros_spy#foros_spy #temas td {
@@ -132,21 +105,4 @@ body {
 
 #perfil#perfil .firmas > div {
   margin-bottom: 0;
-}
-
-#usermenu#usermenu {
-  min-width: 220.52px;
-  background: unset;
-}
-
-#user-data#user-data {
-  margin-right: 0;
-}
-
-#user-data#user-data > img {
-  margin-right: 0;
-}
-
-#user-data#user-data span {
-  display: none;
 }

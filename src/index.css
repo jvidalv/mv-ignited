@@ -12,42 +12,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
- This block of code is opinionated for MV page code, and should not be shared with the popup
-*/
-
-body {
-  @apply pt-0;
-}
-
-body > header:not([id="header"]){
-  padding-top: 60px;
-}
-
-body > #header + #content {
-  padding-top: 60px;
-}
-
-h1 {
-  @apply text-xl;
-}
-
-h2 {
-  @apply text-lg;
-}
-
-h3 {
-  @apply text-base;
-}
-
-#header {
-  height: 46px;
-}
-
-#content {
-  @apply min-h-screen;
-}
-
 .btn-primary {
   @apply bg-primary;
 }
@@ -64,10 +28,6 @@ a {
   @apply opacity-100;
 }
 
-#settings #cover {
-  @apply hidden;
-}
-
 .tag-group span {
   line-height: 16px;
 }
@@ -76,13 +36,6 @@ a {
   @apply !flex items-center justify-center w-full h-[60px];
 }
 
-.c-main {
-  @apply pl-0 pr-[300px];
-}
-
-#side-nav {
-  @apply ml-[-35px];
-}
 
 ._p-tp,
 ._p-ft {
