@@ -2,7 +2,6 @@ import "../index.css";
 import { injectTheme } from "./utils/theme";
 import { trackForumVisits } from "./utils/tracking";
 import { injectBrand } from "./utils/brand";
-import { injectConfiguration } from "./configuration";
 import { injectThread } from "./thread";
 import { injectHomepage } from "./homepage";
 import {
@@ -12,7 +11,6 @@ import {
   isSubForumThreads,
   isThread,
   isUserProfile,
-  showBody,
   showContent,
 } from "./utils/loader";
 import { injectThreads } from "./threads";
@@ -46,7 +44,7 @@ window.ignited = {
     }
 
     if (document.getElementById("usermenu")) {
-      injectConfiguration();
+      // injectConfiguration();
     }
 
     if (state.features.includes(Feature.NewHomepage) && isHomepage()) {
@@ -71,9 +69,6 @@ window.ignited = {
       // After the first run, they are triggered on state change
       parseThreadsInPage();
       parseUsersInPage();
-
-      // To prevent blink's the default CSS loads with opacity: 0, we restore the opacity here.
-      showBody();
     }
   },
 };

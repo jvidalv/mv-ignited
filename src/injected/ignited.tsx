@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 import Ignited from "../react/site/ignited";
-import { showBody } from "./utils/loader";
 import { queryClient } from "../utils/query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
@@ -12,7 +11,6 @@ export const injectIgnited = () => {
 
   html?.setAttribute("class", "dark");
   html?.setAttribute("prefers-color-scheme", "dark");
-  showBody();
   const body = document.getElementsByTagName("body").item(0);
 
   if (body) {

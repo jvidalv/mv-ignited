@@ -1,8 +1,3 @@
-export const showBody = () => {
-  const body = document.getElementsByTagName("body").item(0);
-  body?.setAttribute("style", "opacity: 1 !important;");
-};
-
 export const showContent = () => {
   const content = document.getElementById("content");
   content?.setAttribute("style", "opacity: 1 !important;");
