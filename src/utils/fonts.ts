@@ -8,7 +8,8 @@ const FONT_STYLESHEET_ID = "mv-ignited--font";
 // }
 
 // export const loadFont = async (customFont: string) => {
-export const loadFont = async (customFont: string) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const loadFont = async (_customFont: string) => {
   return alert("Coming soon!");
   // WebFont.load({
   //   google: {

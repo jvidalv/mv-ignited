@@ -14,6 +14,18 @@ yarn watch            # Start development mode
 # Load dist/ as unpacked extension in Chrome
 ```
 
+## Code Quality Validation
+
+**CRITICAL: After completing EVERY task, you MUST run these three commands:**
+
+```bash
+yarn tsc --noEmit                  # Type checking
+yarn eslint src --ext .ts,.tsx     # Linting
+yarn style                         # Formatting
+```
+
+Never skip this validation step. All three commands must pass before committing any changes.
+
 ## Architecture Overview
 
 **Three-Part System:**

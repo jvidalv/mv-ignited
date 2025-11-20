@@ -25,6 +25,24 @@ yarn clean            # Remove dist/ directory
 2. Load the `dist/` folder as an unpacked extension in Chrome/Firefox
 3. Changes will rebuild automatically; reload the extension to see updates
 
+## Code Quality Validation
+
+**CRITICAL: After completing EVERY task, you MUST run these three commands in sequence:**
+
+```bash
+yarn tsc --noEmit     # Type checking - must pass with no errors
+yarn eslint src --ext .ts,.tsx  # Linting - must pass with no errors
+yarn style            # Code formatting with Prettier
+```
+
+This ensures:
+- Type safety is maintained across the codebase
+- Code follows consistent style guidelines
+- No lint errors are introduced
+- All code is properly formatted
+
+**Never skip this step.** Always run all three commands after making any changes to TypeScript/TSX files, even for minor edits. If any command fails, fix the issues before committing.
+
 ## Architecture
 
 ### Three Entry Points (Webpack)

@@ -241,7 +241,9 @@ function Ignited() {
                   No hay ningún usuario que coincida con ese nombre!
                 </div>
               )}
-              {data?.map((user) => <User key={user.value} user={user} />)}
+              {data?.map((user) => (
+                <User key={user.value} user={user} />
+              ))}
             </div>
           </div>
           <div>

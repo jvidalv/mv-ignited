@@ -19,10 +19,27 @@ This file provides guidance for debugging and troubleshooting MV-Ignited browser
 
 **Build errors:**
 ```bash
-pnpm clean    # Clear old build
-pnpm install  # Reinstall dependencies
-pnpm build    # Rebuild
+yarn clean    # Clear old build
+yarn install  # Reinstall dependencies
+yarn build    # Rebuild
 ```
+
+## Code Quality Validation
+
+**CRITICAL: After completing EVERY task, run these validation commands:**
+
+```bash
+yarn tsc --noEmit                  # Type checking - must pass
+yarn eslint src --ext .ts,.tsx     # Linting - must pass
+yarn style                         # Code formatting
+```
+
+This catches:
+- Type errors before runtime
+- Lint violations and code style issues
+- Formatting inconsistencies
+
+**Never commit without running all three.** If any command fails, fix the issues immediately.
 
 ## Common Issues
 
