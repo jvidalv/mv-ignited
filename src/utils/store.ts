@@ -101,7 +101,7 @@ export const updateUserInStore = <K extends keyof MVIgnitedStoreUser>(
       username: userInformation.username,
       avatar: userInformation.avatar.startsWith("https")
         ? userInformation.avatar
-        : `https://mediavida.b-cdn.net/img/users/avatar/${userInformation.avatar}`,
+        : `https://mediavida.com/img/users/avatar/${userInformation.avatar}`,
       [key]: data,
     },
   ]);
@@ -144,7 +144,7 @@ export const useUpdateUserInStore = <
       {
         uid: userInformation.uid,
         username: userInformation.username,
-        avatar: `https://mediavida.b-cdn.net/img/users/avatar/${userInformation.avatar}`,
+        avatar: `https://mediavida.com/img/users/avatar/${userInformation.avatar}`,
         [key]: data,
       },
     ]);

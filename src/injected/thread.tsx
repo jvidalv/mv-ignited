@@ -18,7 +18,7 @@ export const injectThread = () => {
         const uid = muteButton?.getAttribute("data-uid");
         const avatar =
           divElement.querySelector(".user-avatar img")?.getAttribute("src") ??
-          "https://mediavida.b-cdn.net/img/users/avatar/default_big.png";
+          "https://mediavida.com/img/users/avatar/default_big.png";
 
         // Ignore button
         if (username && uid && avatar) {
