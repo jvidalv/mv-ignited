@@ -14,19 +14,17 @@ export const injectConfiguration = () => {
     return;
   }
 
-  // Cog button in navbar
-  const messagesElement = usermenuElement.getElementsByClassName("f3").item(0);
-  if (!messagesElement) {
-    return;
-  }
-
   const configurationButtonId = "mv-ignited--configuration-button";
   const configurationMenuId = "mv-ignited--configuration-menu";
 
   if (!configurationButtonRoot) {
-    messagesElement.insertAdjacentHTML(
+    // Set positioning context for absolute positioning
+    usermenuElement.style.position = "relative";
+
+    // Inject as absolutely positioned element to prevent layout shifts
+    usermenuElement.insertAdjacentHTML(
       "afterend",
-      `<li class='f4' id='${configurationButtonId}' style='height:100%'></li>`,
+      `<div id='${configurationButtonId}' style='position: absolute; left: 0; top: 0; height: 100%; display: flex; align-items: center; z-index: 1000; pointer-events: auto;'></div>`,
     );
     const configurationButtonElement = document.getElementById(
       configurationButtonId,

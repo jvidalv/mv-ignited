@@ -21,6 +21,7 @@ import { injectUser } from "./user";
 import { injectIgnited } from "./ignited";
 import { parsePostsInPage } from "../domains/post";
 import { useCustomTheme } from "../utils/custom-theme";
+import { injectConfiguration } from "./configuration";
 
 // Fills the store before the rendering pipe
 useStore.getState();
@@ -44,7 +45,7 @@ window.ignited = {
     }
 
     if (document.getElementById("usermenu")) {
-      // injectConfiguration();
+      injectConfiguration();
     }
 
     if (state.features.includes(Feature.NewHomepage) && isHomepage()) {
