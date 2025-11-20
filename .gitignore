@@ -5,3 +5,9 @@ tmp/
 .vscode
 .DS_Store
 public/.DS_Store
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+tests/fixtures/dom-snapshots/

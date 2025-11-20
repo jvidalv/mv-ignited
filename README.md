@@ -1,27 +1,232 @@
 # MV-Ignited
 
-A browser extension which re-imagines mediavida-forum experience.
+![MV-Ignited Banner](https://i.imgur.com/0PxobPt.png)
 
-## Project Structure
+A browser extension that re-imagines the mediavida.com forum experience with enhanced features, customization options, and quality-of-life improvements.
 
-- public: Public files bundled with the extension
-- src: Typescript files bundled with the extension after being build with webpack.
-  - src/injected: Main file that gets injected into the forum to generate the functionality, it imports file from `/src/react` etc...
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Install-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/mv-ignited/eajomfdkpghamhpfkoemijokpomnohef)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Install-orange?logo=firefox)](https://addons.mozilla.org/en-US/firefox/addon/mv-ignited/versions/)
 
-## Setup
+## 🚀 Installation
 
-```
+### From Official Stores
+
+- **Chrome/Edge/Brave:** [Install from Chrome Web Store](https://chromewebstore.google.com/detail/mv-ignited/eajomfdkpghamhpfkoemijokpomnohef)
+- **Firefox:** [Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/mv-ignited/versions/)
+
+### Manual Installation (Development)
+
+1. Clone this repository
+2. Install dependencies: `pnpm install`
+3. Build the extension: `pnpm build`
+4. Load the extension in your browser:
+   - **Chrome:** Go to `chrome://extensions/`, enable "Developer mode", click "Load unpacked", select the `dist/` folder
+   - **Firefox:** Go to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", select any file in the `dist/` folder
+
+## ✨ Features
+
+### 🎨 Visual Customization
+
+- **New Homepage** - Custom homepage with quick access to forums, latest news, and featured threads
+- **Custom Themes** - Personalize colors, page width, header, and background
+- **Dark Mode** - Full dark mode support with customizable colors
+- **No Avatars** - Hide all user avatars for a cleaner interface
+- **No Logo** - Remove the site logo for more screen space
+- **No Side Menu** - Hide the sidebar for a focused reading experience
+- **Monospace Font** - Switch to a monospace font for code-like viewing
+- **Black & White Mode** - High contrast black and white display
+
+### 🧵 Thread Management
+
+- **Thread Ignoring** - Hide threads you're not interested in
+- **Improved Upvotes** - Enhanced upvote display and positioning
+- **Thread Filtering** - Easily manage and filter your thread list
+
+### 👤 User Customization
+
+- **Custom Usernames** - Set custom display names for any user
+- **Custom Avatars** - Replace user avatars with your own images
+- **Username Colors** - Assign custom colors to usernames
+- **User Notes** - Add private notes to user profiles
+- **Post Border Colors** - Highlight specific users' posts with colored borders
+- **Ignore Users** - Hide posts from specific users
+
+### 🖼️ Media Management
+
+- **Images in Spoiler** - Automatically wrap images in spoiler tags
+- **YouTube in Spoiler** - Auto-spoiler YouTube embeds
+- **Twitter in Spoiler** - Auto-spoiler Twitter/X embeds
+- **Random Media in Spoiler** - Auto-spoiler other embedded media
+
+### ⚙️ Other Features
+
+- **Custom Fonts** - Choose your preferred font family
+- **Settings Sync** - All settings persist across sessions via localStorage
+- **Fast Performance** - Optimized with React 18 and efficient state management
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js 18+ and pnpm
+- TypeScript 5.3+
+
+### Tech Stack
+
+- **Framework:** React 18 with TypeScript
+- **State Management:** Zustand with localStorage persistence
+- **Data Fetching:** TanStack Query (React Query)
+- **Styling:** Tailwind CSS with dark mode support
+- **Build Tool:** Webpack 5
+- **Testing:** Playwright for E2E tests
+
+### Commands
+
+```bash
+# Install dependencies
 pnpm install
-```
 
-## Build
-
-```
-pnpm build
-```
-
-## Build in watch mode
-
-```
+# Development build with watch mode
 pnpm watch
+
+# Production build for Chrome
+pnpm build
+
+# Production build for Firefox
+pnpm build:firefox
+
+# Run E2E tests
+pnpm test
+
+# Run tests with UI
+pnpm test:ui
+
+# Format code
+pnpm style
+
+# Fetch HTML snapshots from mediavida.com for development
+pnpm test:snapshots
 ```
+
+### Project Structure
+
+```
+src/
+├── background.ts          # Service worker (extension lifecycle)
+├── popup.tsx             # Extension popup UI
+├── injected/             # Content scripts injected into mediavida.com
+│   ├── index.tsx         # Main orchestrator
+│   ├── threads.tsx       # Thread listing enhancements
+│   ├── thread.tsx        # Single thread enhancements
+│   ├── user.tsx          # User profile enhancements
+│   ├── homepage.tsx      # Custom homepage
+│   └── utils/            # Utilities (data fetching, page detection)
+├── domains/              # Business logic (DOM parsing)
+│   ├── forum.ts
+│   ├── thread.ts
+│   ├── user.ts
+│   └── post.ts
+├── react/                # React components
+│   ├── popup/            # Popup components
+│   └── site/             # Forum enhancement components
+└── utils/
+    ├── store.ts          # Zustand store with persistence
+    └── custom-theme.ts   # Theme management
+```
+
+### Testing
+
+The project uses Playwright for E2E testing with the extension loaded in a real browser on mediavida.com.
+
+```bash
+# Run all tests
+pnpm test
+
+# Run with Playwright UI (recommended for development)
+pnpm test:ui
+
+# Run in headed mode (see browser)
+pnpm test:headed
+
+# Debug tests
+pnpm test:debug
+```
+
+**Note:** Extension tests require headed mode (extensions don't work in headless browsers).
+
+### HTML Snapshot Tool
+
+Fetch and save HTML from mediavida.com for offline selector development:
+
+```bash
+pnpm test:snapshots
+```
+
+This saves HTML to `tests/fixtures/dom-snapshots/` from various pages (homepage, forums, threads, profiles). Use these snapshots to build and test CSS selectors without constant navigation.
+
+## 🏗️ Architecture
+
+### Extension Entry Points
+
+1. **Background Service Worker** (`src/background.ts`)
+   - Manages extension lifecycle
+   - Injects CSS and JavaScript into forum pages
+   - Updates extension icon based on current tab
+
+2. **Popup UI** (`src/popup.tsx`)
+   - Quick access to settings
+   - Toggle features on/off
+
+3. **Content Scripts** (`src/injected/`)
+   - Detects page type (homepage, threads, profiles)
+   - Injects React components into existing DOM
+   - Applies customizations and features
+
+### State Management
+
+Uses Zustand with localStorage persistence:
+
+- **Main Store:** Thread ignoring, feature toggles, user customizations
+- **Theme Store:** Custom colors, width, fonts
+- All state changes sync immediately to localStorage
+- Feature toggles trigger page reload to apply changes
+
+### Build Output
+
+Webpack bundles the extension into:
+
+- `popup.js` - Extension popup
+- `background.js` - Service worker
+- `mediavida-extension.js` - Main content script
+- `vendor.js` - Shared dependencies (React, Zustand, etc.)
+
+## 📖 Documentation
+
+- **[CLAUDE.md](./CLAUDE.md)** - Detailed architecture and development guide for AI assistants
+- **[AGENTS.md](./AGENTS.md)** - Quick reference for AI agents
+- **[BUGBOT.md](./BUGBOT.md)** - Debugging and troubleshooting guide
+- **[tests/README.md](./tests/README.md)** - Testing documentation
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+### Commit Guidelines
+
+- Commit after every individual piece of work
+- Write detailed commit messages suitable for release notes
+- Focus on what changed and why it matters to users
+
+## 📝 License
+
+MIT License - see [LICENSE](./LICENSE) file for details
+
+## 👤 Author
+
+Josep Vidal
+
+## 🔗 Links
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/mv-ignited/eajomfdkpghamhpfkoemijokpomnohef)
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/mv-ignited/versions/)
+- [Report Issues](https://github.com/your-username/mv-ignited/issues) <!-- Update with actual repo URL -->
