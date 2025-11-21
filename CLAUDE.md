@@ -9,21 +9,28 @@ MV-Ignited is a Chrome/Firefox browser extension (Manifest v3) that enhances the
 ## Development Commands
 
 ```bash
-yarn install           # Install dependencies
-yarn watch            # Development build with watch mode (use this while developing)
-yarn build            # Production build for Chrome
-yarn build:firefox    # Production build for Firefox (includes manifest transformation)
-yarn style            # Format code with Prettier
-yarn test             # Run E2E tests with Playwright
-yarn test:ui          # Run E2E tests with Playwright UI
-yarn test:snapshots   # Fetch mediavida.com HTML for selector development
-yarn clean            # Remove dist/ directory
+yarn install             # Install dependencies
+yarn watch              # Development build with watch mode (use this while developing)
+yarn build              # Production build (legacy, outputs to dist/)
+yarn build:chrome       # Production build for Chrome → dist-chrome/
+yarn build:chrome:zip   # Build Chrome + create zip for store upload
+yarn build:firefox      # Production build for Firefox → dist-firefox/
+yarn build:firefox:zip  # Build Firefox + create zip for store upload
+yarn style              # Format code with Prettier
+yarn test               # Run E2E tests with Playwright
+yarn test:ui            # Run E2E tests with Playwright UI
+yarn test:snapshots     # Fetch mediavida.com HTML for selector development
+yarn clean              # Remove all dist folders and zip files
 ```
 
 **Testing the extension:**
 1. Run `yarn watch` to build in development mode
 2. Load the `dist/` folder as an unpacked extension in Chrome/Firefox
 3. Changes will rebuild automatically; reload the extension to see updates
+
+**Store deployment:**
+1. Run `yarn build:chrome:zip` or `yarn build:firefox:zip`
+2. Upload the generated `mv-ignited-chrome.zip` or `mv-ignited-firefox.zip` to respective stores
 
 ## Code Quality Validation
 
@@ -124,17 +131,34 @@ State updates for feature toggles trigger `window.location.reload()` to apply ch
 
 ### Key Patterns
 
-**Zero-Flash Injection Flow:**
-1. **`document_start`** timing (earliest possible):
+**Zero-Flash Injection Flow (Comprehensive FOUC Prevention):**
+
+This extension uses a **dual-layer approach** to prevent all flash of unstyled content:
+
+1. **Layer 1: `document_start` timing** (earliest possible):
    - Static CSS files (`mediavida.css`, `vendor.css`) injected via manifest
-   - `theme-loader.js` reads localStorage and injects custom theme CSS
-   - All CSS applied BEFORE any page rendering (zero FOUC)
-2. **Navigation detection**:
+   - **Body opacity shield**: `body { opacity: 0 !important; }` hides entire page immediately
+   - `theme-loader.js` reads localStorage and injects custom theme CSS synchronously
+   - All CSS applied BEFORE any page rendering
+
+2. **Layer 2: Content processing** (while page is hidden):
    - Background service worker detects navigation to mediavida.com
    - Injects `mediavida-extension.js` and `vendor.js` content scripts
-3. **Content script execution**:
-   - Content script detects page type via URL patterns
-   - Renders appropriate React components into DOM
+   - Extension processes all features:
+     - Parse and hide ignored threads
+     - Apply user customizations
+     - Filter content based on settings
+     - Inject React components
+
+3. **Page reveal**:
+   - After all processing completes, `showBody()` sets `opacity: 1`
+   - User sees fully processed page instantly
+   - **Zero flash** for all extension features (themes, filters, customizations)
+
+**Why this approach?**
+- `theme-loader.js` alone only prevents theme flash
+- Opacity shield prevents flash of **all** unprocessed content
+- Combined approach = comprehensive zero-FOUC experience
 
 **Page Type Detection:**
 - Uses URL path matching in `src/injected/utils/loader.ts`

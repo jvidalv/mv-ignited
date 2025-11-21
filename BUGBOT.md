@@ -19,9 +19,10 @@ This file provides guidance for debugging and troubleshooting MV-Ignited browser
 
 **Build errors:**
 ```bash
-yarn clean    # Clear old build
-yarn install  # Reinstall dependencies
-yarn build    # Rebuild
+yarn clean          # Clear all build folders and zips
+yarn install        # Reinstall dependencies
+yarn build:chrome   # Rebuild for Chrome → dist-chrome/
+yarn build:firefox  # Rebuild for Firefox → dist-firefox/
 ```
 
 ## Code Quality Validation
@@ -99,6 +100,43 @@ localStorage.getItem('mv-ignited-store'); // Check stored state
 - Verify `dark` class on target element
 - Check CSS variable definitions
 - Review `src/injected/utils/theme.ts`
+
+### Flash of Unstyled Content (FOUC)
+
+**Symptoms:** Page flashes/blinks when loading, showing unstyled or unprocessed content briefly
+
+**This extension uses dual-layer FOUC prevention:**
+1. **Layer 1:** Static CSS at `document_start` (via manifest)
+   - `mediavida.css` includes `body { opacity: 0 !important; }`
+   - `theme-loader.js` injects custom theme CSS synchronously
+2. **Layer 2:** Content processing while page hidden
+   - Extension processes all features (filters, customizations)
+   - `showBody()` reveals page only after completion
+
+**Debug FOUC issues:**
+```javascript
+// Check if body is hidden
+getComputedStyle(document.body).opacity // Should be "0" initially
+
+// Check if theme-loader ran
+document.getElementById('mv-ignited-theme') // Should exist
+
+// Check if showBody was called
+// Look for opacity: 1 inline style on body after load
+document.body.style.opacity // Should be "1" after processing
+```
+
+**Common causes:**
+- Theme-loader not running (check manifest content_scripts)
+- showBody() not being called (check injection logic)
+- CSS not loaded at document_start (check manifest)
+- Race condition in processing (add timing logs)
+
+**Fix:**
+- Verify `public/styles/mediavida.css` has opacity shield
+- Ensure `showBody()` is called in `src/injected/index.tsx` after first render
+- Check `theme-loader.js` exists in build output
+- Verify manifest.json has content_scripts with `run_at: "document_start"`
 
 ### Performance Issues
 

@@ -9,9 +9,13 @@ MV-Ignited is a browser extension that enhances the mediavida.com forum. It inje
 ## Quick Start
 
 ```bash
-yarn install           # Install dependencies
-yarn watch            # Start development mode
-# Load dist/ as unpacked extension in Chrome
+yarn install             # Install dependencies
+yarn watch              # Start development mode (outputs to dist/)
+yarn build:chrome       # Production build for Chrome → dist-chrome/
+yarn build:chrome:zip   # Build Chrome + create store-ready zip
+yarn build:firefox      # Production build for Firefox → dist-firefox/
+yarn build:firefox:zip  # Build Firefox + create store-ready zip
+# Load dist/ (dev) or dist-chrome/ (prod) as unpacked extension in Chrome
 ```
 
 ## Code Quality Validation
@@ -28,10 +32,11 @@ Never skip this validation step. All three commands must pass before committing 
 
 ## Architecture Overview
 
-**Three-Part System:**
-1. **Background Service Worker** (`src/background.ts`) - Handles extension lifecycle, icon updates, and script/CSS injection
-2. **Popup UI** (`src/popup.tsx`) - Quick access settings interface
-3. **Content Scripts** (`src/injected/`) - Main functionality injected into forum pages
+**Four Entry Points:**
+1. **Theme Loader** (`src/theme-loader.ts`) - Runs at `document_start` to inject custom theme CSS before any rendering
+2. **Background Service Worker** (`src/background.ts`) - Handles extension lifecycle, icon updates, and script injection
+3. **Popup UI** (`src/popup.tsx`) - Quick access settings interface
+4. **Content Scripts** (`src/injected/`) - Main functionality injected into forum pages
 
 **Key Directories:**
 - `src/domains/` - Data parsing from forum DOM (pure functions)
@@ -76,11 +81,21 @@ Changes to feature toggles trigger `window.location.reload()`.
 
 ## Important Patterns
 
-**Content Injection:**
-- Background worker injects CSS first (with `opacity: 0`)
-- Then injects main script `mediavida-extension.js`
-- Script detects page type and renders components
-- `window.ignited` flag prevents double-injection
+**Zero-FOUC Content Injection (Dual-Layer Approach):**
+1. **`document_start` timing** (via manifest content_scripts):
+   - Static CSS injected (`mediavida.css` with `body { opacity: 0 }`)
+   - `theme-loader.js` reads localStorage and injects custom theme CSS
+   - Page is hidden until all processing completes
+2. **Content processing** (while page hidden):
+   - Background worker injects `mediavida-extension.js`
+   - Script detects page type, parses content, applies filters
+   - React components rendered
+3. **Page reveal**:
+   - `showBody()` sets `opacity: 1` after processing
+   - User sees fully processed page with zero flash
+   - `window.ignited` flag prevents double-injection
+
+**Why this approach?** Theme-loader alone only prevents theme flash. The opacity shield prevents flash of ALL unprocessed content (ignored threads, user customizations, etc.).
 
 **Data Flow:**
 - DOM parsing → `src/domains/` functions
@@ -130,12 +145,22 @@ For Firefox: Use `yarn build:firefox` which transforms the manifest.
 
 ## Build Output
 
-Webpack bundles into `dist/`:
+**Development:** Webpack bundles into `dist/`
+**Production Chrome:** Webpack bundles into `dist-chrome/`
+**Production Firefox:** Webpack bundles into `dist-firefox/` (with manifest transformation)
+
+All builds contain:
+- `theme-loader.js` - Zero-flash theme CSS injector (~2.5KB, standalone)
 - `popup.js` - Extension popup
 - `background.js` - Service worker
 - `mediavida-extension.js` - Main content script
-- `vendor.js` - Shared dependencies (React, etc.)
+- `vendor.js` - Shared dependencies (React, Zustand, etc.)
+- `styles/vendor.css`, `styles/mediavida.css` - Extracted CSS
 - `manifest.json`, assets from `public/`
+
+**Store deployment:**
+- `yarn build:chrome:zip` → `mv-ignited-chrome.zip` (~156KB)
+- `yarn build:firefox:zip` → `mv-ignited-firefox.zip` (~156KB)
 
 ## E2E Testing
 

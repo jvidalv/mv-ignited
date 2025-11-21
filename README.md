@@ -18,10 +18,12 @@ A browser extension that re-imagines the mediavida.com forum experience with enh
 
 1. Clone this repository
 2. Install dependencies: `yarn install`
-3. Build the extension: `yarn build`
+3. Build the extension:
+   - For Chrome: `yarn build:chrome` → outputs to `dist-chrome/`
+   - For Firefox: `yarn build:firefox` → outputs to `dist-firefox/`
 4. Load the extension in your browser:
-   - **Chrome:** Go to `chrome://extensions/`, enable "Developer mode", click "Load unpacked", select the `dist/` folder
-   - **Firefox:** Go to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", select any file in the `dist/` folder
+   - **Chrome:** Go to `chrome://extensions/`, enable "Developer mode", click "Load unpacked", select the `dist-chrome/` folder
+   - **Firefox:** Go to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", select any file in the `dist-firefox/` folder
 
 ## ✨ Features
 
@@ -86,14 +88,17 @@ A browser extension that re-imagines the mediavida.com forum experience with enh
 # Install dependencies
 yarn install
 
-# Development build with watch mode
+# Development build with watch mode (outputs to dist/)
 yarn watch
 
-# Production build for Chrome
-yarn build
+# Production builds
+yarn build:chrome           # Build for Chrome → dist-chrome/
+yarn build:chrome:zip       # Build Chrome + create store-ready zip
+yarn build:firefox          # Build for Firefox → dist-firefox/
+yarn build:firefox:zip      # Build Firefox + create store-ready zip
 
-# Production build for Firefox
-yarn build:firefox
+# Clean all build outputs
+yarn clean
 
 # Run E2E tests
 yarn test
@@ -112,6 +117,7 @@ yarn test:snapshots
 
 ```
 src/
+├── theme-loader.ts        # Zero-flash theme CSS injector (runs at document_start)
 ├── background.ts          # Service worker (extension lifecycle)
 ├── popup.tsx             # Extension popup UI
 ├── injected/             # Content scripts injected into mediavida.com
@@ -168,19 +174,27 @@ This saves HTML to `tests/fixtures/dom-snapshots/` from various pages (homepage,
 
 ### Extension Entry Points
 
-1. **Background Service Worker** (`src/background.ts`)
-   - Manages extension lifecycle
-   - Injects CSS and JavaScript into forum pages
-   - Updates extension icon based on current tab
+1. **Theme Loader** (`src/theme-loader.ts`)
+   - Runs at `document_start` (earliest possible timing)
+   - Reads custom theme from localStorage synchronously
+   - Injects theme CSS before any page rendering
+   - Prevents flash of default theme (FOUC prevention)
 
-2. **Popup UI** (`src/popup.tsx`)
+2. **Background Service Worker** (`src/background.ts`)
+   - Manages extension lifecycle
+   - Injects JavaScript content scripts into forum pages
+   - Updates extension icon based on current tab
+   - Handles dynamic theme updates
+
+3. **Popup UI** (`src/popup.tsx`)
    - Quick access to settings
    - Toggle features on/off
 
-3. **Content Scripts** (`src/injected/`)
+4. **Content Scripts** (`src/injected/`)
    - Detects page type (homepage, threads, profiles)
    - Injects React components into existing DOM
    - Applies customizations and features
+   - Uses `showBody()` to reveal page after processing (FOUC prevention)
 
 ### State Management
 
@@ -193,12 +207,23 @@ Uses Zustand with localStorage persistence:
 
 ### Build Output
 
-Webpack bundles the extension into:
+Webpack bundles the extension into separate folders for each browser:
 
+**Chrome build** (`dist-chrome/`):
+- `theme-loader.js` - Zero-flash theme CSS injector (~2.5KB)
 - `popup.js` - Extension popup
-- `background.js` - Service worker
+- `background.js` - Service worker (Manifest v3 format)
 - `mediavida-extension.js` - Main content script
 - `vendor.js` - Shared dependencies (React, Zustand, etc.)
+- `styles/vendor.css`, `styles/mediavida.css` - Extracted CSS
+
+**Firefox build** (`dist-firefox/`):
+- Same as Chrome, but with manifest transformed for Firefox compatibility
+- `background.js` uses scripts array instead of service_worker
+
+**Store-ready zips:**
+- `yarn build:chrome:zip` → `mv-ignited-chrome.zip` (~156KB)
+- `yarn build:firefox:zip` → `mv-ignited-firefox.zip` (~156KB)
 
 ## 📖 Documentation
 
