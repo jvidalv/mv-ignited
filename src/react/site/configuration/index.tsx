@@ -256,7 +256,7 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
   );
 };
 
-const latestUpdate = "5";
+const latestUpdate = "6";
 
 export const ConfigurationButton = ({ toggle }: { toggle: () => void }) => {
   const latestUpdateViewed = useStore((s) => s.latestUpdateViewed);

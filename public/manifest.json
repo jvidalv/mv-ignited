@@ -3,7 +3,7 @@
 
   "name": "MV-Ignited",
   "description": "Extensión de navegador para el foro de mediavida.com que enriquece la experiencia de usuario añadiendo y mejorando funcionalidades.",
-  "version": "5.0.0",
+  "version": "6.0.0",
 
   "browser_specific_settings": {
     "gecko": {
