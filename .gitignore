@@ -3,6 +3,8 @@ dist/
 dist-chrome/
 dist-firefox/
 tmp/
+mv-ignited-chrome.zip
+mv-ignited-firefox.zip
 .idea
 .vscode
 .DS_Store
