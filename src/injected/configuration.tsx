@@ -31,29 +31,8 @@ export const injectConfiguration = () => {
     )!;
 
     configurationButtonRoot = createRoot(configurationButtonElement);
+    configurationButtonRoot.render(<ConfigurationButton />);
   }
-
-  const menuClosedStyle =
-    "transform: translateX(300px); opacity:0; pointer-events: none";
-  const close = () => {
-    const menuElement = document.getElementById(configurationMenuId);
-    if (menuElement && menuElement.getAttribute("style") === "") {
-      menuElement.setAttribute("style", menuClosedStyle);
-    }
-  };
-
-  const toggle = () => {
-    const menuElement = document.getElementById(configurationMenuId);
-    if (menuElement) {
-      if (menuElement.getAttribute("style") === menuClosedStyle) {
-        menuElement.setAttribute("style", "");
-      } else {
-        menuElement.setAttribute("style", menuClosedStyle);
-      }
-    }
-  };
-
-  configurationButtonRoot.render(<ConfigurationButton toggle={toggle} />);
 
   // Floating menu under navbar
   const containerMenuConfiguration = document.getElementById("topbar");
@@ -62,15 +41,13 @@ export const injectConfiguration = () => {
   if (!configurationMenuElement) {
     containerMenuConfiguration?.insertAdjacentHTML(
       "afterend",
-      `<div id='${configurationMenuId}' class="transition" style="${menuClosedStyle}"></div>`,
+      `<div id='${configurationMenuId}'></div>`,
     );
   }
 
   configurationMenuElement = document.getElementById(configurationMenuId);
-  if (configurationMenuElement) {
-    if (!configurationMenuRoot) {
-      configurationMenuRoot = createRoot(configurationMenuElement);
-    }
-    configurationMenuRoot.render(<ConfigurationMenu close={close} />);
+  if (configurationMenuElement && !configurationMenuRoot) {
+    configurationMenuRoot = createRoot(configurationMenuElement);
+    configurationMenuRoot.render(<ConfigurationMenu />);
   }
 };

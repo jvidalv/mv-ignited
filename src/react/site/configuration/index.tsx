@@ -8,6 +8,7 @@ import {
 } from "../../../utils/custom-theme";
 import clsx from "clsx";
 import { useOnClickOutside } from "usehooks-ts";
+import { useUIStore } from "../../../utils/ui-store";
 
 const getFeatureName = (feature: Feature) => {
   switch (feature) {
@@ -51,10 +52,14 @@ const getCustomThemePropName = (property: keyof MVIgnitedCustomTheme) => {
 
 const id = "mv-ignited--inner-configuration--container";
 
-export const ConfigurationMenu = ({ close }: { close: () => void }) => {
+export const ConfigurationMenu = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { threadsIgnored, users, update, features } = useStore();
   const { update: updateCustomTheme, ...customTheme } = useCustomTheme();
+
+  // Get state and actions from UI store
+  const isOpen = useUIStore((s) => s.isConfigMenuOpen);
+  const setConfigMenuOpen = useUIStore((s) => s.setConfigMenuOpen);
 
   const onUnIgnoreUserClick = (username: string) => {
     update(
@@ -86,12 +91,16 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
 
   const handleClickOutside = (event: MouseEvent | TouchEvent | FocusEvent) => {
     const target = event.target as HTMLElement;
-    // Quick hack to not trigger it on menu open click
-    if (target.getAttribute("class") === "fa fa-cog") {
+    const buttonContainer = document.getElementById(
+      "mv-ignited--configuration-button",
+    );
+
+    // Don't close if clicking the button
+    if (buttonContainer?.contains(target)) {
       return;
-    } else {
-      close();
     }
+
+    setConfigMenuOpen(false);
   };
 
   useOnClickOutside(ref as React.RefObject<HTMLElement>, handleClickOutside);
@@ -100,7 +109,12 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
     <div
       id={id}
       ref={ref}
-      className="float-right w-1/3 max-w-[420px] border-l border-solid border-l-transparent min-h-screen bg-surface-high shadow-lg"
+      className={clsx(
+        "float-right w-1/3 max-w-[420px] border-l border-solid border-l-transparent min-h-screen bg-surface-high shadow-lg transition-all duration-300",
+        isOpen
+          ? "translate-x-0 opacity-100"
+          : "translate-x-[300px] opacity-0 pointer-events-none",
+      )}
     >
       <div className="bg-surface flex justify-between items-center px-4 py-2 shadow">
         <h2 className="font-black">MV-Ignited 🔥</h2>
@@ -258,12 +272,13 @@ export const ConfigurationMenu = ({ close }: { close: () => void }) => {
 
 const latestUpdate = "6";
 
-export const ConfigurationButton = ({ toggle }: { toggle: () => void }) => {
+export const ConfigurationButton = () => {
   const latestUpdateViewed = useStore((s) => s.latestUpdateViewed);
   const update = useStore((s) => s.update);
+  const toggleConfigMenu = useUIStore((s) => s.toggleConfigMenu);
 
   const onClick = () => {
-    toggle();
+    toggleConfigMenu();
     setTimeout(() => update("latestUpdateViewed", latestUpdate), 1500);
   };
 
