@@ -222,11 +222,26 @@ html:not(.improved-upvotes ) .post-btn.btnmola i, .post-n.btnmola i {
   @apply pr-0;
 }
 
-
-.no-side-menu .foros #content #main .c-side {
-  @apply float-none
-}
-
 .no-side-menu .foros #content #main .c-side #thread-companion.fixed {
   position: initial;
+}
+
+.no-side-menu .c-side {
+   @apply !w-full float-right;
+}
+
+.no-side-menu .fixed {
+   @apply !w-full
+}
+
+.no-side-menu #thread-companion {
+    @apply flex gap-3 items-center
+}
+
+.no-side-menu #more-actions {
+    @apply !mt-0
+}
+
+.no-side-menu #topic-nav {
+    @apply !mt-0
 }
