@@ -226,22 +226,22 @@ html:not(.improved-upvotes ) .post-btn.btnmola i, .post-n.btnmola i {
   position: initial;
 }
 
-.no-side-menu .c-side {
+.no-side-menu .foros .c-side {
    @apply !w-full float-right;
 }
 
-.no-side-menu .fixed {
+.no-side-menu .foros .fixed {
    @apply !w-full
 }
 
-.no-side-menu #thread-companion {
+.no-side-menu .foros #thread-companion {
     @apply flex gap-3 items-center
 }
 
-.no-side-menu #more-actions {
+.no-side-menu .foros #more-actions {
     @apply !mt-0
 }
 
-.no-side-menu #topic-nav {
+.no-side-menu .foros #topic-nav {
     @apply !mt-0
 }
